@@ -3,11 +3,11 @@
 # from odoo import models, fields, api
 
 
- class product(models.Model):
-    _name = 'eatman.product'
-    _description = 'eatman.product'
+# class eatman(models.Model):
+#     _name = 'eatman.eatman'
+#     _description = 'eatman.eatman'
 
-    name = fields.Char()
+#     name = fields.Char()
 #     value = fields.Integer()
 #     value2 = fields.Float(compute="_value_pc", store=True)
 #     description = fields.Text()
