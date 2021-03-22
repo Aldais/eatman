@@ -8,7 +8,6 @@
     _description = 'eatman.product'
 
     name = fields.Char()
-    product_sold = field.bool()
 #     value = fields.Integer()
 #     value2 = fields.Float(compute="_value_pc", store=True)
 #     description = fields.Text()
