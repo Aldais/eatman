@@ -1,7 +1,6 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-<
     <record model="ir.ui.view" id="eatman.list">
       <field name="name">product list</field>
       <field name="model">eatman.product</field>
@@ -12,10 +11,8 @@
         </tree>
       </field>
     </record>
--
 
     <!-- actions opening views on models -->
-<
     <record model="ir.actions.act_window" id="eatman.action_window">
       <field name="name">eatman window</field>
       <field name="res_model">eatman.product</field>
