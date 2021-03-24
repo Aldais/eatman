@@ -1,15 +1,6 @@
 <odoo>
   <data>
 
-    <record model="ir.ui.view" id="eatman.list">
-      <field name="name">product list</field>
-      <field name="model">eatman.product</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-        </tree>
-      </field>
-    </record>
 
   </data>
 </odoo>
