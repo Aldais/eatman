@@ -4,8 +4,8 @@ from odoo import models, fields, api
 
 
  class product(models.Model):
-    _name = 'eatman.product'
-    _description = 'eatman.product'
+    _name = "eatman.product"
+    _description = "Product"
 
     name = fields.Char()
 #     value = fields.Integer()
