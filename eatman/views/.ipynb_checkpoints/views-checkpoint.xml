@@ -1,6 +1,26 @@
 <odoo>
   <data>
 
+    <act_window id="eatman_product_action" name="Produits" res_model="eatman.product" />
+      
+    <menuitem
+        id="eatman_product_menu"
+        name="product"
+        action="eatman_product_action"
+        parent=""
+        sequence="5" />
+      
+      <record id="product_tree" model="ir.ui.view">
+        <field name="name">Liste des produit</field>
+        <field name="model">eatman.product</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+      
+
 
   </data>
 </odoo>
