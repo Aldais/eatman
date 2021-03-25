@@ -3,7 +3,7 @@
 from odoo import models, fields, api
 
 
- class product(models.Model):
+class product(models.Model):
     _name = "eatman.product"
     _description = "Product"
 
