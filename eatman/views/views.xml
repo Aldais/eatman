@@ -17,47 +17,51 @@
                 <xpath
                     expr="//field[@name='uom_po_id']"
                     position="after">
-                    <field name="unit_of_reference" attrs="{'required': [('id','!=',False)]}"/>
-                    <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}"/>
-                    <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}"/>
-                    <field name="unit_of_purchase" attrs="{'required': [('purchase_ok','=',True)]}"/>
+
+                    <field name="unit_of_reference"/>
+                    <field name="unit_of_sale"/>
+                    <field name="unit_of_cooking"/>
+                    <field name="unit_of_purchase"/>        
                     <field name="unit_of_inventory_3"/>
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_1"/>
                 </xpath>
             </data>
+	
             <notebook position="inside">
                 <page string="Conversion de quantité">
                     <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase">
                         <span>Conversion unité tarifaire d'achat : </span>
-                        <field name="conversion_purchase_source" class="oe_inline" colspan="6"/>
-                        <field name="unit_of_purchase" class="oe_inline" colspan="6" readonly = "1"/>
+                        <field name="conversion_purchase_source_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_purchase_source_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
-                        <field name="conversion_purchase_target"  class="oe_inline"/>
-                        <field name="unit_of_reference" readonly="1"/>
+                        <field name="conversion_purchase_target_quantity"  class="oe_inline"/>
+                        <field name="conversion_purchase_target_unit" readonly="1"/>
                     </div>
                     <newline/>
                     <div id="conversion_sale" class="o_row d-flex" name="conversion sale">
                         <span>Conversion unité de vente : </span>
-                        <field name="conversion_sale_source" class="oe_inline" colspan="6"/>
-                        <field name="unit_of_sale" class="oe_inline" colspan="6" readonly = "1"/>
+                        <field name="conversion_sale_source_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_sale_source_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
-                        <field name="conversion_sale_target"  class="oe_inline"/>
-                        <field name="unit_of_reference" readonly="1"/>
+                        <field name="conversion_sale_target_quantity"  class="oe_inline"/>
+                        <field name="conversion_sale_target_unit" readonly="1"/>
                     </div>
                     <newline/>
                     <div id="conversion_cook" class="o_row d-flex" name="conversion cook">
                         <span>Conversion unité de préparation : </span>
-                        <field name="conversion_cook_source" class="oe_inline" colspan="6"/>
-                        <field name="unit_of_cooking" class="oe_inline" colspan="6" readonly = "1"/>
+                        <field name="conversion_cook_source_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_cook_source_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
-                        <field name="conversion_cook_target"  class="oe_inline"/>
-                        <field name="unit_of_reference" readonly="1"/>
+                        <field name="conversion_cook_target_quantity"  class="oe_inline"/>
+                        <field name="conversion_cook_target_unit" readonly="1"/>
                     </div>
                     <newline/>
+                    <field name="ratio_sale"/>
                     
                 </page>
             </notebook>
+
         </field>
     </record>
  
