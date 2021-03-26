@@ -11,6 +11,7 @@ class receipe(models.Model):
     receipe_uom = fields.Many2one('uom.uom',
     'Unité de préparation', related='product_cooked.unit_of_cooking',
      readonly=True) 
+
     receipe_line_ids= fields.One2many('eatman.receipe.line', 'receipe')
 
 

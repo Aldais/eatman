@@ -20,9 +20,22 @@ class product(models.Model):
     unit_of_inventory_2 = fields.Many2one('uom.uom', 'unité d inventaire2')
     unit_of_inventory_3 = fields.Many2one('uom.uom', 'unité d inventaire3')
     
-    conversion_sale = fields.Float(digits="3")
-    conversion_supply= fields.Float(digits="3")
-    conversion_cook= fields.Float(digits="3")
+    
+    
+    #Conversion doit permettre de calculer facilement un ratio. Ex:
+    #6 bouteilles = 1 pack
+    #1 boite = 250 Grammes
+    
+    conversion_sale_source = fields.Float(digits="3")
+    conversion_sale_target = fields.Float(digits="3")
+    
+    conversion_purchase_source = fields.Float(digits="3")
+    conversion_purchase_target = fields.Float(digits="3")
+    
+    
+    conversion_cook_source = fields.Float(digits="3")
+    conversion_cook_target = fields.Float(digits="3")
+    
     conversion_inventory1 = fields.Float(digits="3")
     conversion_inventory2 = fields.Float(digits="3")
     conversion_inventory3 = fields.Float(digits="3")
