@@ -1,26 +1,110 @@
 <odoo>
   <data>
-
-    <act_window id="eatman_product_action" name="Produits" res_model="eatman.product" />
-      
-    <menuitem
-        id="eatman_product_menu"
-        name="product"
-        action="eatman_product_action"
-        parent=""
-        sequence="5" />
-      
-      <record id="product_tree" model="ir.ui.view">
-        <field name="name">Liste des produit</field>
-        <field name="model">eatman.product</field>
+    <record model="ir.ui.view" id="product_template_form_view_inherited">
+        <field name="name">product.template.common.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-            </tree>
+            <data>
+                <xpath
+                    expr="//div[@name='options']"
+                    position="inside">
+                        <div>
+                            <field name="product_cook"/>
+                            <label for="product_cook"/>
+                        </div>
+                </xpath>
+                <xpath
+                    expr="//field[@name='uom_po_id']"
+                    position="after">
+                    <field name="unit_of_reference" attrs="{'required': [('id','!=',False)]}"/>
+                    <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}"/>
+                    <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}"/>
+                    <field name="unit_of_purchase" attrs="{'required': [('purchase_ok','=',True)]}"/>
+                    <field name="unit_of_inventory_3"/>
+                    <field name="unit_of_inventory_2"/>
+                    <field name="unit_of_inventory_1"/>
+                </xpath>
+            </data>
+            <notebook position="inside">
+                <page string="Conversion de quantité">
+                    <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase">
+                        <span>Conversion unité tarifaire d'achat : </span>
+                        <field name="conversion_purchase_source" class="oe_inline" colspan="6"/>
+                        <field name="unit_of_purchase" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conversion_purchase_target"  class="oe_inline"/>
+                        <field name="unit_of_reference" readonly="1"/>
+                    </div>
+                    <newline/>
+                    <div id="conversion_sale" class="o_row d-flex" name="conversion sale">
+                        <span>Conversion unité de vente : </span>
+                        <field name="conversion_sale_source" class="oe_inline" colspan="6"/>
+                        <field name="unit_of_sale" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conversion_sale_target"  class="oe_inline"/>
+                        <field name="unit_of_reference" readonly="1"/>
+                    </div>
+                    <newline/>
+                    <div id="conversion_cook" class="o_row d-flex" name="conversion cook">
+                        <span>Conversion unité de préparation : </span>
+                        <field name="conversion_cook_source" class="oe_inline" colspan="6"/>
+                        <field name="unit_of_cooking" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conversion_cook_target"  class="oe_inline"/>
+                        <field name="unit_of_reference" readonly="1"/>
+                    </div>
+                    <newline/>
+                    
+                </page>
+            </notebook>
+        </field>
+    </record>
+ 
+    <act_window id="action_all_receipe"
+            name="Mes recettes"
+            res_model="eatman.receipe"
+            view_mode="tree,form"
+            limit="80" />
+        <act_window id="action_all_receipe_line"
+            name="Mes recettes"
+            res_model="eatman.receipe.line"
+            view_mode="tree,form"
+            limit="80" />
+      
+    <menuitem id="eatman_top"
+          name="Eatman" />
+    <menuitem id="menu_all_receipe"
+          parent="eatman_top"
+          action="action_all_receipe"
+          sequence="10"
+          groups="" />
+      <menuitem id="menu_all_receipe_line"
+          parent="eatman_top"
+          action="action_all_receipe_line"
+          sequence="10"
+          groups="" />
+      
+    <record id="form_all_receipe" model="ir.ui.view">
+        <field name="name">Mes recettes</field>
+        <field name="model">eatman.receipe</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name ="product_cooked"/>   
+                    <field name ="receipe_quantity"/>
+                    <field name ="receipe_uom"/>
+                    <field name ="receipe_line_ids" string="Ligne de recette">
+                        <tree string="Ligne de recette">
+                            <field name ="product_ingredient"/>
+                            <field name ="ingredient_quantity"/>
+                            <field name ="ingredient_uom"/>
+                        </tree>
+                    </field>
+                </group>
+            </form>
         </field>
     </record>
       
-
-
   </data>
 </odoo>
