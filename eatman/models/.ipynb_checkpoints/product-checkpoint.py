@@ -60,7 +60,8 @@ class product(models.Model):
     @api.depends('conversion_sale_source_quantity','conversion_sale_target_quantity')
     def _value_ratio_sale(self):
         for record in self:
-            record.ratio_sale = float(record.conversion_sale_source_quantity) / float(record.conversion_sale_target_quantity)
+            if (record.conversion_sale_target_quantity >0):
+                record.ratio_sale = float(record.conversion_sale_source_quantity) / float(record.conversion_sale_target_quantity)
     
     
     
