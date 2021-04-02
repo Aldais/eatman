@@ -5,6 +5,12 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="foodcost_calculation" string="Foodcost "/>   
+            </xpath>
+            
+
             <data>
                 <xpath
                     expr="//div[@name='options']"
@@ -17,45 +23,79 @@
                 <xpath
                     expr="//field[@name='uom_po_id']"
                     position="after">
-                    <field name="unit_of_reference" attrs="{'required': [('id','!=',False)]}"/>
-                    <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}"/>
-                    <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}"/>
-                    <field name="unit_of_purchase" attrs="{'required': [('purchase_ok','=',True)]}"/>
+
+                    
+
+                    <field name="unit_of_reference"/>
+                    <field name="unit_of_sale"/>
+                    <field name="unit_of_cooking"/>
                     <field name="unit_of_inventory_3"/>
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_1"/>
+                    <field name="foodcost"/>
+                    <field name="receipe_id"/>
+                    
                 </xpath>
             </data>
+	
+
             <notebook position="inside">
                 <page string="Conversion de quantité">
                     <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase">
                         <span>Conversion unité tarifaire d'achat : </span>
-                        <field name="conversion_purchase_source" class="oe_inline" colspan="6"/>
-                        <field name="unit_of_purchase" class="oe_inline" colspan="6" readonly = "1"/>
+
+                        <field name="conversion_purchase_purchase_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_purchase_purchase_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
-                        <field name="conversion_purchase_target"  class="oe_inline"/>
-                        <field name="unit_of_reference" readonly="1"/>
+                        <field name="conversion_purchase_reference_quantity"  class="oe_inline"/>
+                        <field name="conversion_purchase_reference_unit" readonly="1"/>
+
                     </div>
                     <newline/>
                     <div id="conversion_sale" class="o_row d-flex" name="conversion sale">
                         <span>Conversion unité de vente : </span>
-                        <field name="conversion_sale_source" class="oe_inline" colspan="6"/>
-                        <field name="unit_of_sale" class="oe_inline" colspan="6" readonly = "1"/>
+
+                        <field name="conversion_sale_sale_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_sale_reference_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
-                        <field name="conversion_sale_target"  class="oe_inline"/>
-                        <field name="unit_of_reference" readonly="1"/>
+                        <field name="conversion_sale_sale_quantity"  class="oe_inline"/>
+                        <field name="conversion_sale_reference_unit" readonly="1"/>
+
                     </div>
                     <newline/>
                     <div id="conversion_cook" class="o_row d-flex" name="conversion cook">
                         <span>Conversion unité de préparation : </span>
-                        <field name="conversion_cook_source" class="oe_inline" colspan="6"/>
-                        <field name="unit_of_cooking" class="oe_inline" colspan="6" readonly = "1"/>
+
+                        <field name="conversion_cook_cook_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_cook_cook_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
-                        <field name="conversion_cook_target"  class="oe_inline"/>
-                        <field name="unit_of_reference" readonly="1"/>
+                        <field name="conversion_cook_reference_quantity"  class="oe_inline"/>
+                        <field name="conversion_cook_reference_unit" readonly="1"/>
                     </div>
-                    <newline/>
-                    
+                    <div>
+                        <field name="ratio_sale"/>
+                        <field name="ratio_purchase"/>
+                        <field name="ratio_cook"/>
+                    </div>
+                </page>
+            </notebook>
+             <notebook position="inside">
+                <page string="Achat">
+                    <group>
+                        <field name="purchase_price"/>
+                        <field name="purchase_quantity"/>
+                        <field name="unit_of_purchase"/>
+                    </group>
+                </page>
+            </notebook>
+             <notebook position="inside">
+                <page string="Prix de revient">
+                    <div id="foodcost" class="o_row d-flex" name="foodcost explication">
+                            <field name="foodcost" readonly = "1" class="oe_inline" colspan="6"/>
+                            <span> € pour un 1 </span>
+                            <field name="unit_of_reference" readonly = "1" class="oe_inline" colspan="6"/>
+                    </div>
+
                 </page>
             </notebook>
         </field>
@@ -66,23 +106,37 @@
             res_model="eatman.receipe"
             view_mode="tree,form"
             limit="80" />
-        <act_window id="action_all_receipe_line"
-            name="Mes recettes"
+
+    <act_window id="action_all_receipe_line"
+            name="Ligne de recettes"
             res_model="eatman.receipe.line"
+            view_mode="tree,form"
+            limit="80" />
+    <act_window id="action_all_product"
+            name="Mes produits"
+            res_model="product.template"
             view_mode="tree,form"
             limit="80" />
       
     <menuitem id="eatman_top"
-          name="Eatman" />
-    <menuitem id="menu_all_receipe"
+        name="Foodcost" />
+        <menuitem id="menu_all_receipe"
+
           parent="eatman_top"
           action="action_all_receipe"
           sequence="10"
           groups="" />
-      <menuitem id="menu_all_receipe_line"
+
+        <menuitem id="menu_all_receipe_line"
           parent="eatman_top"
           action="action_all_receipe_line"
-          sequence="10"
+          sequence="20"
+          groups="" />
+        <menuitem id="menu_all_product"
+          parent="eatman_top"
+          action="action_all_product"
+          sequence="20"
+
           groups="" />
       
     <record id="form_all_receipe" model="ir.ui.view">
@@ -106,5 +160,16 @@
         </field>
     </record>
       
+
+    <record id="foodcost_action" model="ir.actions.server">
+	<field name="name">Foodcost calculationl</field>
+		<field name="type">ir.actions.server</field>
+		<field name="model_id" ref="model_product_template"/>
+		
+		<field name="state">code</field>
+		<field name="code">product.foodcost_calculation</field>
+</record>
+      
+
   </data>
 </odoo>

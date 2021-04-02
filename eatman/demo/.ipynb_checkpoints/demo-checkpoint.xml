@@ -1,6 +1,5 @@
 <odoo>
     <data>
-
         
           <record id="PRODUIT01" model="product.template">
             <field name="name">Poke bowl boeuf</field>
@@ -385,7 +384,6 @@
 
 
         Création de tous les produit recette et sous recette pour le produit pokeball boeuf
-
           <record id="object1" model="eatman.eatman">
             <field name="name">Object 1</field>
             <field name="value">10</field>
