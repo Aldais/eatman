@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+
 import logging
+
 
 
 class product(models.Model):
@@ -11,6 +13,7 @@ class product(models.Model):
     product_cook = fields.Boolean(default=False,string="Produit cuisiné")
     sale_ok = fields.Boolean(default=False,string="Produit vendu")
     purchase_ok = fields.Boolean(default=False,string="Produit acheté")
+
     receipe_id= fields.One2many('eatman.receipe', 'product_cooked')
 
     #Gestion des unités de mesure pour les différents process
@@ -28,11 +31,13 @@ class product(models.Model):
     unit_of_cooking = fields.Many2one('uom.uom', 'Unité de préparation')
     unit_of_sale = fields.Many2one('uom.uom', 'Unité de vente')
     unit_of_purchase = fields.Many2one('uom.uom', "Unité d'achat")
+
     
     #Conversion doit permettre de calculer facilement un ratio. Ex:
     #6 bouteilles = 1 pack
     #1 boite = 250 Grammes
     
+
     conversion_sale_sale_unit = fields.Char(related='unit_of_sale.name', string="Conversion unité vente/reference", store=True)
     conversion_sale_reference_unit = fields.Char(related='unit_of_reference.name', string="Conversion  unité reference/vente", store=True)
     
@@ -89,6 +94,7 @@ class product(models.Model):
     
     foodcost = fields.Float(digits=(3,3), string="Food cost")
 
+
     #     value = fields.Integer()
 #     value2 = fields.Float(compute="_value_pc", store=True)
 #     description = fields.Text()
@@ -97,6 +103,7 @@ class product(models.Model):
 #     def _value_pc(self):
 #         for record in self:
 #             record.value2 = float(record.value) / 100
+
 
     def foodcost_total(self):
         self.foodcost_calculation()
@@ -138,6 +145,7 @@ class product(models.Model):
 #Convert_purchase_to_reference()
 
 #Convert_reference_to_purchase()
+
 
 
 
