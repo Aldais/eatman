@@ -5,12 +5,6 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
-
-            <xpath expr="//header" position="inside">
-                <button name="foodcost_calculation" string="Foodcost "/>   
-            </xpath>
-            
-
             <data>
                 <xpath
                     expr="//div[@name='options']"
@@ -65,7 +59,13 @@
                     <newline/>
                     <div id="conversion_cook" class="o_row d-flex" name="conversion cook">
                         <span>Conversion unité de préparation : </span>
-
+                        <field name="conversion_cook_source" class="oe_inline" colspan="6"/>
+                        <field name="unit_of_cooking" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conversion_cook_target"  class="oe_inline"/>
+                        <field name="unit_of_reference" readonly="1"/>
+                    </div>
+                    <div>
                         <field name="conversion_cook_cook_quantity" class="oe_inline" colspan="6"/>
                         <field name="conversion_cook_cook_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
