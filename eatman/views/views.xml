@@ -161,14 +161,7 @@
     </record>
       
 
-    <record id="foodcost_action" model="ir.actions.server">
-	<field name="name">Foodcost calculationl</field>
-		<field name="type">ir.actions.server</field>
-		<field name="model_id" ref="model_product_template"/>
-		
-		<field name="state">code</field>
-		<field name="code">product.foodcost_calculation</field>
-</record>
+
       
 
   </data>
