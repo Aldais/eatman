@@ -17,9 +17,6 @@
                 <xpath
                     expr="//field[@name='uom_po_id']"
                     position="after">
-
-                    
-
                     <field name="unit_of_reference"/>
                     <field name="unit_of_sale"/>
                     <field name="unit_of_cooking"/>
@@ -28,7 +25,6 @@
                     <field name="unit_of_inventory_1"/>
                     <field name="foodcost"/>
                     <field name="receipe_id"/>
-                    
                 </xpath>
             </data>
 	
@@ -52,20 +48,13 @@
                         <field name="conversion_sale_sale_quantity" class="oe_inline" colspan="6"/>
                         <field name="conversion_sale_reference_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
-                        <field name="conversion_sale_sale_quantity"  class="oe_inline"/>
+                        <field name="conversion_sale_reference_quantity"  class="oe_inline"/>
                         <field name="conversion_sale_reference_unit" readonly="1"/>
 
                     </div>
                     <newline/>
                     <div id="conversion_cook" class="o_row d-flex" name="conversion cook">
                         <span>Conversion unité de préparation : </span>
-                        <field name="conversion_cook_source" class="oe_inline" colspan="6"/>
-                        <field name="unit_of_cooking" class="oe_inline" colspan="6" readonly = "1"/>
-                        <span>est égal à</span>
-                        <field name="conversion_cook_target"  class="oe_inline"/>
-                        <field name="unit_of_reference" readonly="1"/>
-                    </div>
-                    <div>
                         <field name="conversion_cook_cook_quantity" class="oe_inline" colspan="6"/>
                         <field name="conversion_cook_cook_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
@@ -95,7 +84,6 @@
                             <span> € pour un 1 </span>
                             <field name="unit_of_reference" readonly = "1" class="oe_inline" colspan="6"/>
                     </div>
-
                 </page>
             </notebook>
         </field>
@@ -159,10 +147,5 @@
             </form>
         </field>
     </record>
-      
-
-
-      
-
   </data>
 </odoo>
