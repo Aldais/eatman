@@ -5,7 +5,6 @@ from odoo import models, fields, api
 import logging
 
 
-
 class product(models.Model):
     
     _inherit = "product.template"
@@ -32,7 +31,6 @@ class product(models.Model):
     unit_of_sale = fields.Many2one('uom.uom', 'Unité de vente')
     unit_of_purchase = fields.Many2one('uom.uom', "Unité d'achat")
 
-    
     #Conversion doit permettre de calculer facilement un ratio. Ex:
     #6 bouteilles = 1 pack
     #1 boite = 250 Grammes
@@ -108,7 +106,6 @@ class product(models.Model):
     def foodcost_total(self):
         self.foodcost_calculation()
     
-    @api.model
     def foodcost_calculation(self):
         self.description = "OK4"
         foodcost_local = 0
@@ -117,7 +114,6 @@ class product(models.Model):
         # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
         if self.purchase_ok:
             self.foodcost = self.purchase_price*self.ratio_purchase
-            
             return self.foodcost
         else:
             for receipe_line in self.receipe_id.receipe_line_ids:

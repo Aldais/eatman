@@ -106,7 +106,6 @@ class product(models.Model):
     def foodcost_total(self):
         self.foodcost_calculation()
     
-    @api.model
     def foodcost_calculation(self):
         self.description = "OK4"
         foodcost_local = 0
@@ -115,7 +114,6 @@ class product(models.Model):
         # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
         if self.purchase_ok:
             self.foodcost = self.purchase_price*self.ratio_purchase
-            
             return self.foodcost
         else:
             for receipe_line in self.receipe_id.receipe_line_ids:
