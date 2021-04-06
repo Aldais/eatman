@@ -60,7 +60,7 @@ class product(models.Model):
     conversion_inventory2 = fields.Float(digits=(3,3))
     conversion_inventory3 = fields.Float(digits=(3,3))
     
-    foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="Conversion unité reference preparation", store=True)
+    foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="foodcost unité reference", store=True)
     
     ratio_sale = fields.Float(compute="_value_ratio_sale", store=True, digits=(3,3))
     @api.depends('conversion_sale_sale_quantity','conversion_sale_reference_quantity')
@@ -92,7 +92,7 @@ class product(models.Model):
     purchase_quantity = fields.Float(digits=(3,3), string="Quantité d'achat")
     purchase_rounding = fields.Float(digits=(3,3), string="Arrondi de commande")
     
-    foodcost = fields.Float(digits=(3,3), string="Food cost")
+    foodcost = fields.Float(digits=(3,3), string="foodcost")
 
 
     #     value = fields.Integer()
@@ -150,7 +150,7 @@ class foodcostwizard(models.TransientModel):
     _name = 'eatman.foodcostwizard'
     _description = 'Calcul global du cout de revient'
 
-    name = fields.Char(default="TEST")
+    name = fields.Char(default="TEST2")
     #product_calculated = fields.Many2many(
     #    'product.template', 'Produit avec coût de revient calculé',
     #    help="Ingrédient de la recette")
