@@ -60,6 +60,8 @@ class product(models.Model):
     conversion_inventory2 = fields.Float(digits=(3,3))
     conversion_inventory3 = fields.Float(digits=(3,3))
     
+    foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="Conversion unité reference preparation", store=True)
+    
     ratio_sale = fields.Float(compute="_value_ratio_sale", store=True, digits=(3,3))
     @api.depends('conversion_sale_sale_quantity','conversion_sale_reference_quantity')
     def _value_ratio_sale(self):
@@ -103,8 +105,7 @@ class product(models.Model):
 #             record.value2 = float(record.value) / 100
 
 
-    def foodcost_total(self):
-        self.foodcost_calculation()
+
     
     def foodcost_calculation(self):
         self.description = "OK4"
@@ -118,8 +119,10 @@ class product(models.Model):
         else:
             for receipe_line in self.receipe_id.receipe_line_ids:
                 foodcost_local += receipe_line.product_ingredient.foodcost_calculation()*receipe_line.ingredient_quantity
-            self.foodcost = foodcost_local / self.receipe_id.receipe_quantity/self.ratio_cook
-            return foodcost_local/self.receipe_id.receipe_quantity
+            if self.receipe_id.receipe_quantity >0:
+                if self.ratio_cook>0:
+                    self.foodcost = foodcost_local / self.receipe_id.receipe_quantity/self.ratio_cook
+                    return foodcost_local/self.receipe_id.receipe_quantity
 
 #si produit acheté on retourne le prix d'achat exprimé en unité de préparation
     # return = purchase price/purchase_quantity * ratio_purchase * ratio_cook
@@ -143,5 +146,17 @@ class product(models.Model):
 #Convert_reference_to_purchase()
 
 
+class foodcostwizard(models.TransientModel):
+    _name = 'eatman.foodcostwizard'
+    _description = 'Calcul global du cout de revient'
 
-
+    name = fields.Char(default="TEST")
+    #product_calculated = fields.Many2many(
+    #    'product.template', 'Produit avec coût de revient calculé',
+    #    help="Ingrédient de la recette")
+   
+    def foodcost_total(self):
+        produit_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True)])
+        for produit in produit_ids:
+            produit.foodcost_calculation()
+     #   product_calculated = produit_ids
