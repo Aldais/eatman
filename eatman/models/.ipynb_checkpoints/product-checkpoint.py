@@ -5,7 +5,6 @@ from odoo import models, fields, api
 import logging
 
 
-
 class product(models.Model):
     
     _inherit = "product.template"
@@ -32,7 +31,6 @@ class product(models.Model):
     unit_of_sale = fields.Many2one('uom.uom', 'Unité de vente')
     unit_of_purchase = fields.Many2one('uom.uom', "Unité d'achat")
 
-    
     #Conversion doit permettre de calculer facilement un ratio. Ex:
     #6 bouteilles = 1 pack
     #1 boite = 250 Grammes
@@ -61,6 +59,8 @@ class product(models.Model):
     conversion_inventory1 = fields.Float(digits=(3,3))
     conversion_inventory2 = fields.Float(digits=(3,3))
     conversion_inventory3 = fields.Float(digits=(3,3))
+    
+    foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="foodcost unité reference", store=True)
     
     ratio_sale = fields.Float(compute="_value_ratio_sale", store=True, digits=(3,3))
     @api.depends('conversion_sale_sale_quantity','conversion_sale_reference_quantity')
@@ -92,7 +92,7 @@ class product(models.Model):
     purchase_quantity = fields.Float(digits=(3,3), string="Quantité d'achat")
     purchase_rounding = fields.Float(digits=(3,3), string="Arrondi de commande")
     
-    foodcost = fields.Float(digits=(3,3), string="Food cost")
+    foodcost = fields.Float(digits=(3,3), string="foodcost")
 
 
     #     value = fields.Integer()
@@ -105,10 +105,8 @@ class product(models.Model):
 #             record.value2 = float(record.value) / 100
 
 
-    def foodcost_total(self):
-        self.foodcost_calculation()
+
     
-    @api.model
     def foodcost_calculation(self):
         self.description = "OK4"
         foodcost_local = 0
@@ -117,13 +115,14 @@ class product(models.Model):
         # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
         if self.purchase_ok:
             self.foodcost = self.purchase_price*self.ratio_purchase
-            
             return self.foodcost
         else:
             for receipe_line in self.receipe_id.receipe_line_ids:
                 foodcost_local += receipe_line.product_ingredient.foodcost_calculation()*receipe_line.ingredient_quantity
-            self.foodcost = foodcost_local / self.receipe_id.receipe_quantity/self.ratio_cook
-            return foodcost_local/self.receipe_id.receipe_quantity
+            if self.receipe_id.receipe_quantity >0:
+                if self.ratio_cook>0:
+                    self.foodcost = foodcost_local / self.receipe_id.receipe_quantity/self.ratio_cook
+                    return foodcost_local/self.receipe_id.receipe_quantity
 
 #si produit acheté on retourne le prix d'achat exprimé en unité de préparation
     # return = purchase price/purchase_quantity * ratio_purchase * ratio_cook
@@ -147,5 +146,17 @@ class product(models.Model):
 #Convert_reference_to_purchase()
 
 
+class foodcostwizard(models.TransientModel):
+    _name = 'eatman.foodcostwizard'
+    _description = 'Calcul global du cout de revient'
 
-
+    name = fields.Char(default="TEST2")
+    #product_calculated = fields.Many2many(
+    #    'product.template', 'Produit avec coût de revient calculé',
+    #    help="Ingrédient de la recette")
+   
+    def foodcost_total(self):
+        produit_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True)])
+        for produit in produit_ids:
+            produit.foodcost_calculation()
+     #   product_calculated = produit_ids

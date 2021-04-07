@@ -19,12 +19,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'product', 'uom'],
+    'depends': ['base', 'product', 'uom','stock'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',
+        'views/foodcostview_wizard.xml',
         'views/templates.xml',
 
         'demo/demo.xml',

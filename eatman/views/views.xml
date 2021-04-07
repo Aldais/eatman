@@ -7,6 +7,11 @@
         <field name="arch" type="xml">
             <data>
                 <xpath
+                    expr="//form//sheet" 
+                    position="before">
+                        <button type="object" name="foodcost_calculation" string="Calcul coût de revient"/>
+                </xpath>
+                <xpath
                     expr="//div[@name='options']"
                     position="inside">
                         <div>
@@ -17,9 +22,6 @@
                 <xpath
                     expr="//field[@name='uom_po_id']"
                     position="after">
-
-                    
-
                     <field name="unit_of_reference"/>
                     <field name="unit_of_sale"/>
                     <field name="unit_of_cooking"/>
@@ -28,7 +30,6 @@
                     <field name="unit_of_inventory_1"/>
                     <field name="foodcost"/>
                     <field name="receipe_id"/>
-                    
                 </xpath>
             </data>
 	
@@ -52,20 +53,13 @@
                         <field name="conversion_sale_sale_quantity" class="oe_inline" colspan="6"/>
                         <field name="conversion_sale_reference_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
-                        <field name="conversion_sale_sale_quantity"  class="oe_inline"/>
+                        <field name="conversion_sale_reference_quantity"  class="oe_inline"/>
                         <field name="conversion_sale_reference_unit" readonly="1"/>
 
                     </div>
                     <newline/>
                     <div id="conversion_cook" class="o_row d-flex" name="conversion cook">
                         <span>Conversion unité de préparation : </span>
-                        <field name="conversion_cook_cook_quantity" class="oe_inline" colspan="6"/>
-                        <field name="conversion_cook_cook_unit" class="oe_inline" colspan="6" readonly = "1"/>
-                        <span>est égal à</span>
-                        <field name="conversion_cook_reference_quantity"  class="oe_inline"/>
-                        <field name="conversion_cook_reference_unit" readonly="1"/>
-                    </div>
-                    <div>
                         <field name="conversion_cook_cook_quantity" class="oe_inline" colspan="6"/>
                         <field name="conversion_cook_cook_unit" class="oe_inline" colspan="6" readonly = "1"/>
                         <span>est égal à</span>
@@ -93,9 +87,8 @@
                     <div id="foodcost" class="o_row d-flex" name="foodcost explication">
                             <field name="foodcost" readonly = "1" class="oe_inline" colspan="6"/>
                             <span> € pour un 1 </span>
-                            <field name="unit_of_reference" readonly = "1" class="oe_inline" colspan="6"/>
+                            <field name="foodcost_unit_reference" readonly = "1" class="oe_inline" colspan="6"/>
                     </div>
-
                 </page>
             </notebook>
         </field>
@@ -117,6 +110,7 @@
             res_model="product.template"
             view_mode="tree,form"
             limit="80" />
+
       
     <menuitem id="eatman_top"
         name="Foodcost" />
@@ -136,40 +130,27 @@
           parent="eatman_top"
           action="action_all_product"
           sequence="20"
-
           groups="" />
-      
-    <record id="form_all_receipe" model="ir.ui.view">
-        <field name="name">Mes recettes</field>
-        <field name="model">eatman.receipe</field>
-        <field name="arch" type="xml">
-            <form>
-                <group>
-                    <field name ="product_cooked"/>   
-                    <field name ="receipe_quantity"/>
-                    <field name ="receipe_uom"/>
-                    <field name ="receipe_line_ids" string="Ligne de recette">
-                        <tree string="Ligne de recette">
-                            <field name ="product_ingredient"/>
-                            <field name ="ingredient_quantity"/>
-                            <field name ="ingredient_uom"/>
-                        </tree>
-                    </field>
-                </group>
-            </form>
-        </field>
-    </record>
-      
 
-    <record id="foodcost_action" model="ir.actions.server">
-	<field name="name">Foodcost calculationl</field>
-		<field name="type">ir.actions.server</field>
-		<field name="model_id" ref="model_product_template"/>
-		
-		<field name="state">code</field>
-		<field name="code">product.foodcost_calculation</field>
-</record>
-      
-
-  </data>
+        <record id="form_all_receipe" model="ir.ui.view">
+            <field name="name">Mes recettes</field>
+            <field name="model">eatman.receipe</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name ="product_cooked"/>   
+                        <field name ="receipe_quantity"/>
+                        <field name ="receipe_uom"/>
+                        <field name ="receipe_line_ids" string="Ligne de recette">
+                            <tree string="Ligne de recette">
+                                <field name ="product_ingredient"/>
+                                <field name ="ingredient_quantity"/>
+                                <field name ="ingredient_uom"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
 </odoo>
