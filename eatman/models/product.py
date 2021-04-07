@@ -146,17 +146,3 @@ class product(models.Model):
 #Convert_reference_to_purchase()
 
 
-class foodcostwizard(models.TransientModel):
-    _name = 'eatman.foodcostwizard'
-    _description = 'Calcul global du cout de revient'
-
-    name = fields.Char(default="TEST2")
-    #product_calculated = fields.Many2many(
-    #    'product.template', 'Produit avec coût de revient calculé',
-    #    help="Ingrédient de la recette")
-   
-    def foodcost_total(self):
-        produit_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True)])
-        for produit in produit_ids:
-            produit.foodcost_calculation()
-     #   product_calculated = produit_ids
