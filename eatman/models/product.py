@@ -95,54 +95,37 @@ class product(models.Model):
     foodcost = fields.Float(digits=(3,3), string="foodcost")
 
 
-    #     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
-
-
-
+############################################################Function##############################################################
     
+    #Assign automaticcaly the  company of the user connected to the product
+    @api.model
+    def automatic_company_assignement(self):
+        self.company_id = self.env.user.company_id
+        #self.description = self.env.user.company_id.name
+
+    #Override of the function create in order to automatically assigne the default company of the user as company of the product.
+    @api.model
+    def create(self, vals):
+        record = super(product, self).create(vals)
+        record.automatic_company_assignement()
+        return record
+    
+    #For a given product calculate his food cost based on purchase price and receipe
     def foodcost_calculation(self):
         self.description = "OK4"
-        foodcost_local = 0
-        _logger = logging.getLogger(__name__)
-        _logger.info('------------------------')
-        # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
-        if self.purchase_ok:
-            self.foodcost = self.purchase_price*self.ratio_purchase
-            return self.foodcost
-        else:
-            for receipe_line in self.receipe_id.receipe_line_ids:
-                foodcost_local += receipe_line.product_ingredient.foodcost_calculation()*receipe_line.ingredient_quantity
-            if self.receipe_id.receipe_quantity >0:
-                if self.ratio_cook>0:
-                    self.foodcost = foodcost_local / self.receipe_id.receipe_quantity/self.ratio_cook
-                    return foodcost_local/self.receipe_id.receipe_quantity
+        for record in self:
+            foodcost_local = 0
+            # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
+            if record.purchase_ok:
+                record.foodcost = record.purchase_price*record.ratio_purchase
+                return record.foodcost
+            else:
+                for receipe_line in record.receipe_id.receipe_line_ids:
+                    foodcost_local += receipe_line.product_ingredient.foodcost_calculation()*receipe_line.ingredient_quantity
+                if record.receipe_id.receipe_quantity >0:
+                    if record.ratio_cook>0:
+                        record.foodcost = foodcost_local / record.receipe_id.receipe_quantity/record.ratio_cook
+                        return foodcost_local/record.receipe_id.receipe_quantity
 
-#si produit acheté on retourne le prix d'achat exprimé en unité de préparation
-    # return = purchase price/purchase_quantity * ratio_purchase * ratio_cook
-#si recette associée : Récupérer la recette associée
-    #Pour tous les ingrédient de la recette
-        #foodcost_cook_unit += produit.foodcost()*ingredient_quantity
-
-    #product[foodcost]=foodcost_cook_unit/receipe_quantity/ratio_cook 
-    #return foodcost_cook_unit/receipe_quantity
-
-#Convert_purchase_to_cook()
-
-#Convert_cook_to_purchase()
-
-#Convert_cook_to_reference()
-
-#Convert_reference_to_cook()
-
-#Convert_purchase_to_reference()
-
-#Convert_reference_to_purchase()
 
 

@@ -17,11 +17,19 @@ class receipe(models.Model):
     receipe_line_ids= fields.One2many('eatman.receipe.line', 'receipe')
 
     
-    company_id = fields.Char(compute="_value_company", store=True)
-    @api.depends('product_cooked')
-    def _value_company(self):
-        self.company_id = self.product_cooked.company_id
+    company_id = fields.Many2one(
+        'res.company', 'Company', index=1)
+    
+    @api.model
+    def automatic_company_assignement(self):
+        self.company_id = self.env.user.company_id
+        #self.description = self.env.user.company_id.name
 
+    @api.model  
+    def create(self, vals):
+        record = super(receipe, self).create(vals)
+        record.automatic_company_assignement()
+        return record
 
 #
 #     @api.depends('value')
@@ -46,3 +54,4 @@ class receipeLine(models.Model):
     'Unité de préparation', related='product_ingredient.unit_of_cooking',
      readonly=True)
     ingredient_lost_rate =fields.Float(digits=(3,3), string="Perte en %")
+
