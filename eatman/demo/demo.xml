@@ -8,7 +8,7 @@
             <field name="purchase_ok">false</field>
             <field name="product_cook">true</field>
             <field name="type">product</field>
-              <!-- ID des unité des mesures : Kg: 3 Unité: 1-->
+            <!-- ID des unité des mesures : Kg: 3 Unité: 1-->
             <field name="unit_of_reference">1</field>
             <field name="unit_of_cooking">1</field>
             <field name="unit_of_sale">1</field>
