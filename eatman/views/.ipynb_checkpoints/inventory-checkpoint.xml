@@ -1,0 +1,45 @@
+<odoo>
+  <data>
+          <act_window id="action_all_inventory"
+            name="Inventaire"
+            res_model="eatman.inventory"
+            view_mode="tree,form"
+            limit="80" />
+
+    <act_window id="action_all_inventory_line"
+            name="Ligne d'inventaire"
+            res_model="eatman.inventory.line"
+            view_mode="tree,form"
+            limit="80" />
+
+      
+        <menuitem id="menu_all_inventory"
+          parent="eatman_top"
+          action="action_all_inventory"
+          sequence="20"
+          groups="" />
+
+        <record id="form_all_receipe" model="ir.ui.view">
+            <field name="name">Inventaire</field>
+            <field name="model">eatman.inventory</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name ="company_id"/>
+                        <field name ="inventory_line_ids" string="Inventaire">
+                            <tree string="Ligne de recette" editable="bottom">
+                                <field name ="product_inventory"/>   
+                                <field name ="product_quantity1"/>
+                                <field name ="inventory_uom1"/>
+                                <field name ="product_quantity2"/>
+                                <field name ="inventory_uom2"/>
+                                <field name ="product_quantity3"/>
+                                <field name ="inventory_uom3"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+  </data>
+</odoo>
