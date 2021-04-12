@@ -141,7 +141,7 @@
                         <field name ="product_cooked"/>   
                         <field name ="receipe_quantity"/>
                         <field name ="receipe_uom"/>
-                        <field name ="company_id"/>
+                        <field name ="company_id[1]"/>
                         <field name ="receipe_line_ids" string="Ligne de recette">
                             <tree string="Ligne de recette">
                                 <field name ="product_ingredient"/>
