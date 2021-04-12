@@ -25,7 +25,7 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
-                        <field name ="company_id"/>
+                        <field name ="date"/>
                         <field name ="inventory_line_ids" string="Inventaire">
                             <tree string="Ligne de recette" editable="bottom">
                                 <field name ="product_inventory"/>   
