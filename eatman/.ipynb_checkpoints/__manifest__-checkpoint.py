@@ -27,7 +27,7 @@
         'views/views.xml',
         'views/foodcostview_wizard.xml',
         'views/templates.xml',
-
+        'views/inventory.xml',
         'demo/demo.xml',
 
     ],
