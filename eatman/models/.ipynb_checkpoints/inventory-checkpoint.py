@@ -5,23 +5,44 @@ class inventory(models.Model):
     _name = 'eatman.inventory'
     _description = 'Inventaire'
 
-    name = fields.Char()
+    name = fields.Char(default="inventaire")
     date = fields.Date()
+    note = fields.Text()
+    state = fields.Selection(string='Status', selection=[
+        ('brouillon', 'Brouillon'),
+        ('confirmer', 'En cours'),
+        ('terminer', 'Terminé')],
+        copy=False, index=True, readonly=True, default = "brouillon")
     inventory_line_ids= fields.One2many('eatman.inventory.line', 'inventory')
-    
-    company_id = fields.Many2one(
-        'res.company', 'Company', index=1)
+
     
     @api.model
-    def automatic_company_assignement(self):
-        self.company_id = self.env.user.company_id
-        #self.description = self.env.user.company_id.name
+    def _automatic_company_assignement(self):
+        return self.env.user.company_id
+    
+    company_id = fields.Many2one('res.company', 'Company', index=1, default=_automatic_company_assignement)
+    
+    
+    
+    def inventory_line_assignement(self):
+        
+        for record in self:
+            if (record.state == 'brouillon'):
+                product_ids = self.env['product.template'].search([('company_id', '=', self.env.user.company_id.id)])
+                lines=[]
+                record.state = 'confirmer'
+                             
+                for product in product_ids:
+                    lines.append(self.env['eatman.inventory.line'].create({'product_inventory': product.id, 'inventory': self.id}))
 
-    @api.model  
-    def create(self, vals):
-        record = super(inventory, self).create(vals)
-        record.automatic_company_assignement()
-        return record
+    
+
+
+ #   @api.model  
+ #   def create(self, vals):
+ #       record = super(inventory, self).create(vals)
+ #       record.automatic_company_assignement()
+ #       return record
 
 #
 #     @api.depends('value')
@@ -54,3 +75,4 @@ class inventoryLine(models.Model):
         'res.company', 'Company', related='inventory.company_id')
 
 
+    
