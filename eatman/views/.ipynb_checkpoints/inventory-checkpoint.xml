@@ -24,8 +24,15 @@
             <field name="model">eatman.inventory</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button type="object" name="inventory_line_assignement" string="Démarrer"/>
+                    </header>
+
                     <group>
+                        <field name ="name"/>
+                        <field name ="state"/>
                         <field name ="date"/>
+                        <field name ="note"/>
                         <field name ="inventory_line_ids" string="Inventaire">
                             <tree string="Ligne de recette" editable="bottom">
                                 <field name ="product_inventory"/>   

@@ -112,7 +112,6 @@ class product(models.Model):
     
     #For a given product calculate his food cost based on purchase price and receipe
     def foodcost_calculation(self):
-        self.description = "OK4"
         for record in self:
             foodcost_local = 0
             # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
