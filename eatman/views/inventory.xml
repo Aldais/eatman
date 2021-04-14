@@ -26,6 +26,7 @@
                 <form>
                     <header>
                         <button type="object" name="inventory_line_assignement" string="Démarrer"/>
+                        <button type="object" name="validate_inventory" string="Valider"/>
                     </header>
 
                     <group>
@@ -35,13 +36,14 @@
                         <field name ="note"/>
                         <field name ="inventory_line_ids" string="Inventaire">
                             <tree string="Ligne de recette" editable="bottom">
-                                <field name ="product_inventory"/>   
-                                <field name ="product_quantity1"/>
+                                <field name ="product_inventory" readonly="1" />   
+                                <field name ="product_quantity1" attrs="{'readonly':[('inventory_uom1','=',False)]}"/>
                                 <field name ="inventory_uom1"/>
-                                <field name ="product_quantity2"/>
+                                <field name ="product_quantity2" attrs="{'readonly':[('inventory_uom2','=',False)]}"/>
                                 <field name ="inventory_uom2"/>
-                                <field name ="product_quantity3"/>
+                                <field name ="product_quantity3" attrs="{'readonly':[('inventory_uom3','=',False)]}"/>
                                 <field name ="inventory_uom3"/>
+                                <field name ="product_quantity_reference_uom"/>
                             </tree>
                         </field>
                     </group>

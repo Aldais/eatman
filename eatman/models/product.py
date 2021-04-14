@@ -15,13 +15,8 @@ class product(models.Model):
 
     receipe_id= fields.One2many('eatman.receipe', 'product_cooked')
 
-    #Gestion des unités de mesure pour les différents process
-    #inventaire
-    #cuisine
-    #vente
-    #achat
-    #unité pivot de référence pour les 
-                                      
+
+    #####Gestion des unités de mesure###########################################
     unit_of_inventory_1 = fields.Many2one('uom.uom', 'Unité d inventaire1')
     unit_of_inventory_2 = fields.Many2one('uom.uom', 'Unité d inventaire2')
     unit_of_inventory_3 = fields.Many2one('uom.uom', 'Unité d inventaire3')
@@ -30,11 +25,11 @@ class product(models.Model):
     unit_of_cooking = fields.Many2one('uom.uom', 'Unité de préparation')
     unit_of_sale = fields.Many2one('uom.uom', 'Unité de vente')
     unit_of_purchase = fields.Many2one('uom.uom', "Unité d'achat")
-
-    #Conversion doit permettre de calculer facilement un ratio. Ex:
-    #6 bouteilles = 1 pack
-    #1 boite = 250 Grammes
     
+    #####Gestion des stocks#####################################################
+    
+    stock_quantity = fields.Float(digits=(3,3), string ='Quantité en stock')
+
 
     conversion_sale_sale_unit = fields.Char(related='unit_of_sale.name', string="Conversion unité vente/reference", store=True)
     conversion_sale_reference_unit = fields.Char(related='unit_of_reference.name', string="Conversion  unité reference/vente", store=True)
@@ -46,47 +41,66 @@ class product(models.Model):
     conversion_cook_cook_unit = fields.Char(related='unit_of_cooking.name', string="Conversion unité preparation/reference", store=True)
     conversion_cook_reference_unit = fields.Char(related='unit_of_reference.name', string="Conversion unité reference preparation", store=True)
     
+    conversion_inventory1_inventory1_unit = fields.Char(related='unit_of_inventory_1.name', string="Conversion unité inventaire1/reference", store=True)
+    conversion_inventory1_reference_unit = fields.Char(related='unit_of_reference.name', string="Conversion unité reference unité/inventaire1", store=True)
+    conversion_inventory2_inventory2_unit = fields.Char(related='unit_of_inventory_2.name', string="Conversion unité inventaire2/reference", store=True)
+    conversion_inventory2_reference_unit = fields.Char(related='unit_of_reference.name', string="Conversion unité reference unité/inventaire2", store=True)
+    conversion_inventory3_inventory3_unit = fields.Char(related='unit_of_inventory_3.name', string="Conversion unité inventaire3/reference", store=True)
+    conversion_inventory3_reference_unit = fields.Char(related='unit_of_reference.name', string="Conversion unité reference unité/inventaire3", store=True)
+    
+    
     conversion_sale_sale_quantity = fields.Float(digits=(3,3))
     conversion_sale_reference_quantity = fields.Float(digits=(3,3))
     
     conversion_purchase_purchase_quantity = fields.Float(digits=(3,3))
     conversion_purchase_reference_quantity = fields.Float(digits=(3,3))
     
-    
     conversion_cook_cook_quantity = fields.Float(digits=(3,3))
     conversion_cook_reference_quantity = fields.Float(digits=(3,3))
     
-    conversion_inventory1 = fields.Float(digits=(3,3))
-    conversion_inventory2 = fields.Float(digits=(3,3))
-    conversion_inventory3 = fields.Float(digits=(3,3))
+    
+    conversion_inventory1_inventory1_quantity = fields.Float(digits=(3,3))
+    conversion_inventory1_reference_quantity = fields.Float(digits=(3,3))
+    conversion_inventory2_inventory2_quantity = fields.Float(digits=(3,3))
+    conversion_inventory2_reference_quantity = fields.Float(digits=(3,3))
+    conversion_inventory3_inventory3_quantity = fields.Float(digits=(3,3))
+    conversion_inventory3_reference_quantity = fields.Float(digits=(3,3))
     
     foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="foodcost unité reference", store=True)
     
-    ratio_sale = fields.Float(compute="_value_ratio_sale", store=True, digits=(3,3))
-    @api.depends('conversion_sale_sale_quantity','conversion_sale_reference_quantity')
-    def _value_ratio_sale(self):
-        for record in self:
-            if (record.conversion_sale_reference_quantity >0):
-                record.ratio_sale = float(record.conversion_sale_sale_quantity) / float(record.conversion_sale_reference_quantity)
+    ######### Fonction de Conversion #########
     
+    def conversion_inventory1_reference(self, quantity):
+        if self.conversion_inventory1_inventory1_quantity >0:
+            return quantity*self.conversion_inventory1_reference_quantity/self.conversion_inventory1_inventory1_quantity
+        return 0
     
+    def conversion_inventory2_reference(self, quantity):
+        if self.conversion_inventory2_inventory2_quantity >0:
+            return quantity*self.conversion_inventory2_reference_quantity/self.conversion_inventory2_inventory2_quantity
+        return 0
     
-    ratio_purchase = fields.Float(compute="_value_ratio_purchase", store=True, digits=(3,3))
-    @api.depends('conversion_purchase_purchase_quantity','conversion_purchase_purchase_quantity')
-    def _value_ratio_purchase(self):
-        for record in self:
-            if (record.conversion_purchase_reference_quantity >0):
-                record.ratio_purchase = float(record.conversion_purchase_purchase_quantity) / float(record.conversion_purchase_reference_quantity)
-                
-    ratio_cook = fields.Float(compute="_value_ratio_cook", store=True, digits=(3,3))
-    @api.depends('conversion_cook_cook_quantity','conversion_cook_reference_quantity')
-    def _value_ratio_cook(self):
-        for record in self:
-            if (record.conversion_cook_reference_quantity >0):
-                record.ratio_cook = float(record.conversion_cook_cook_quantity) / float(record.conversion_cook_reference_quantity)
-     
+    def conversion_inventory3_reference(self, quantity):
+        if self.conversion_inventory3_inventory3_quantity >0:
+            return quantity*self.conversion_inventory3_reference_quantity/self.conversion_inventory3_inventory3_quantity
+        return 0
+    
+    def conversion_purchase_reference(self, quantity):
+        if self.conversion_purchase_purchase_quantity >0:
+            return quantity*self.conversion_purchase_reference_quantity/self.conversion_purchase_purchase_quantity
+        return 0
+    
+    def conversion_sale_reference(self, quantity):
+        if self.conversion_sale_sale_quantity >0:
+            return quantity*self.conversion_sale_reference_quantity/self.conversion_sale_sale_quantity
+        return 0
+    
+    def conversion_cook_reference(self, quantity):
+        if self.conversion_cook_cook_quantity >0:
+            return quantity*self.conversion_cook_reference_quantity/self.conversion_cook_cook_quantity
+        return 0
+        
 
-    
     
     purchase_price = fields.Float(digits=(3,3), string="Prix d'achat")
     purchase_quantity = fields.Float(digits=(3,3), string="Quantité d'achat")
@@ -116,14 +130,14 @@ class product(models.Model):
             foodcost_local = 0
             # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
             if record.purchase_ok:
-                record.foodcost = record.purchase_price*record.ratio_purchase
+                record.foodcost = record.purchase_price*record.conversion_purchase_reference(1)
                 return record.foodcost
             else:
                 for receipe_line in record.receipe_id.receipe_line_ids:
                     foodcost_local += receipe_line.product_ingredient.foodcost_calculation()*receipe_line.ingredient_quantity
                 if record.receipe_id.receipe_quantity >0:
-                    if record.ratio_cook>0:
-                        record.foodcost = foodcost_local / record.receipe_id.receipe_quantity/record.ratio_cook
+                    if record.conversion_cook_reference(record.receipe_id.receipe_quantity)>0:
+                        record.foodcost = foodcost_local / record.conversion_cook_reference(record.receipe_id.receipe_quantity)
                         return foodcost_local/record.receipe_id.receipe_quantity
 
 
