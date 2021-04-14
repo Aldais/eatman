@@ -30,6 +30,7 @@
                     <field name="unit_of_inventory_1"/>
                     <field name="foodcost"/>
                     <field name="receipe_id"/>
+                    <field name="stock_quantity"/>
                 </xpath>
             </data>
 	
@@ -66,11 +67,34 @@
                         <field name="conversion_cook_reference_quantity"  class="oe_inline"/>
                         <field name="conversion_cook_reference_unit" readonly="1"/>
                     </div>
-                    <div>
-                        <field name="ratio_sale"/>
-                        <field name="ratio_purchase"/>
-                        <field name="ratio_cook"/>
+                    <newline/>
+                    <div id="conversion_inventory1" class="o_row d-flex" name="conversion inventory1">
+                        <span>Conversion unité d'inventaire 1 : </span>
+                        <field name="conversion_inventory1_inventory1_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_inventory1_inventory1_unit" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conversion_inventory1_reference_quantity"  class="oe_inline"/>
+                        <field name="conversion_inventory1_reference_unit" readonly="1"/>
                     </div>
+                    <newline/>
+                    <div id="conversion_inventory2" class="o_row d-flex" name="conversion inventory2">
+                        <span>Conversion unité d'inventaire 2  : </span>
+                        <field name="conversion_inventory2_inventory2_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_inventory2_inventory2_unit" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conversion_inventory2_reference_quantity"  class="oe_inline"/>
+                        <field name="conversion_inventory2_reference_unit" readonly="1"/>
+                    </div>
+                    <newline/>
+                    <div id="conversion_inventory3" class="o_row d-flex" name="conversion inventory3">
+                        <span>Conversion unité d'inventaire 3  : </span>
+                        <field name="conversion_inventory3_inventory3_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_inventory3_inventory3_unit" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conversion_inventory3_reference_quantity"  class="oe_inline"/>
+                        <field name="conversion_inventory3_reference_unit" readonly="1"/>
+                    </div>
+
                 </page>
             </notebook>
              <notebook position="inside">
@@ -141,7 +165,7 @@
                         <field name ="product_cooked"/>   
                         <field name ="receipe_quantity"/>
                         <field name ="receipe_uom"/>
-                        <field name ="company_id[1]"/>
+                        <field name ="company_id"/>
                         <field name ="receipe_line_ids" string="Ligne de recette">
                             <tree string="Ligne de recette">
                                 <field name ="product_ingredient"/>

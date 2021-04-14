@@ -22,9 +22,9 @@
             <field name="conversion_purchase_reference_quantity">0.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">1.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">1.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">1.0</field>
           </record>
         
           <record id="PRODUIT02" model="product.template">
@@ -47,9 +47,6 @@
             <field name="conversion_purchase_reference_quantity">1.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
           </record>
             
           <record id="PRODUIT03" model="product.template">
@@ -72,9 +69,9 @@
             <field name="conversion_purchase_reference_quantity">1.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
    
         <record id="PRODUIT04" model="product.template">
@@ -97,9 +94,9 @@
             <field name="conversion_purchase_reference_quantity">1.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
     
           <record id="PRODUIT05" model="product.template">
@@ -121,9 +118,9 @@
             <field name="conversion_purchase_reference_quantity">0.250</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
   
     
@@ -146,9 +143,9 @@
             <field name="conversion_purchase_reference_quantity">0.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
         
           <record id="PRODUIT07" model="product.template">
@@ -170,9 +167,9 @@
             <field name="conversion_purchase_reference_quantity">0.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
         
           <record id="PRODUIT08" model="product.template">
@@ -194,9 +191,9 @@
             <field name="conversion_purchase_reference_quantity">0.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
    
         <record id="PRODUIT09" model="product.template">
@@ -218,9 +215,9 @@
             <field name="conversion_purchase_reference_quantity">0.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
             
           <record id="PRODUIT10" model="product.template">
@@ -242,9 +239,9 @@
             <field name="conversion_purchase_reference_quantity">0.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
        
         <record id="PRODUIT11" model="product.template">
@@ -266,9 +263,9 @@
             <field name="conversion_purchase_reference_quantity">0.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
         
          <record id="PRODUIT12" model="product.template">
@@ -290,9 +287,9 @@
             <field name="conversion_purchase_reference_quantity">1.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
         
           <record id="PRODUIT13" model="product.template">
@@ -314,9 +311,9 @@
             <field name="conversion_purchase_reference_quantity">1.0</field>
             <field name="conversion_cook_cook_quantity">1.0</field>
             <field name="conversion_cook_reference_quantity">1.0</field>
-            <field name="conversion_inventory1">0.0</field>
-            <field name="conversion_inventory2">0.0</field>
-            <field name="conversion_inventory3">0.0</field>
+            <field name="conversion_inventory1_inventory1_quantity">0.0</field>
+            <field name="conversion_inventory2_inventory2_quantity">0.0</field>
+            <field name="conversion_inventory3_inventory3_quantity">0.0</field>
           </record>
 
           <record id="RECEIPE_01" model="eatman.receipe">
