@@ -1,14 +1,19 @@
 from odoo import models, fields, api
 
 
-class sale_sumup(models.Model):
-    _name = 'prevision.sale_sumup'
+class sumup(models.Model):
+    _name = 'prevision.sumup'
     _description = 'Intégration des ventes'
 
-    name = fieAlds.Char()
+    name = fields.Char()
     date = fields.Date()
+    state = fields.Selection(string='Status', selection=[
+        ('brouillon', 'Brouillon'),
+        ('confirmer', 'En cours'),
+        ('terminer', 'Terminé')],
+        copy=False, index=True, readonly=True, default = "brouillon")
 
-    sale_sumup_line_ids= fields.One2many('prevision.sale_sumup.line', 'sale_sumup')
+    sumup_line_ids= fields.One2many('prevision.sumup.line', 'sumup')
 
     company_id = fields.Many2one(
         'res.company', 'Company', index=1)
@@ -20,23 +25,33 @@ class sale_sumup(models.Model):
 
     @api.model  
     def create(self, vals):
-        record = super(receipe, self).create(vals)
+        record = super(sumup, self).create(vals)
         record.automatic_company_assignement()
         return record
 
+    
+    def sumup_line_assignement(self):
+        for record in self:
+            if (record.state == 'brouillon'):
+                product_ids = self.env['product.template'].search([('company_id', '=', self.env.user.company_id.id),('sale_ok','=',True)])
+                lines=[]
+                record.state = 'confirmer'
+                             
+                for product in product_ids:
+                    lines.append(self.env['prevision.sumup.line'].create({'product_sold': product.id, 'sumup': self.id}))
 #
 #     @api.depends('value')
 #     def _value_pc(self):
 #         for record in self:
 #             record.value2 = float(record.value) / 100
 
-class sale_sumupLine(models.Model):
-    _name = 'prevision.sale_sumup.line'
+class sumupLine(models.Model):
+    _name = 'prevision.sumup.line'
     _description = 'Lignes de vente'
 
     name = fields.Char()
-    sale_sumup = fields.Many2one(
-        'prevision.sale_sumup', 'Fichier de vente',
+    sumup = fields.Many2one(
+        'prevision.sumup', 'Fichier de vente',
         help="Fichier de vente")
     product_sold = fields.Many2one(
         'product.template', 'Produit vendu')
@@ -44,6 +59,4 @@ class sale_sumupLine(models.Model):
         'res.company', 'Company', index=1)
         
     quantity_sold = fields.Float(digits=(3,3), string="quantité vendue")
-    sale_uom = fields.Many2one('uom.uom',
-    'Unité de vente', related='product_ingredient.unit_of_sale',
-     readonly=True)
+    sale_uom = fields.Many2one('uom.uom','Unité de vente',readonly=True)

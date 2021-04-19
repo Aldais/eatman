@@ -2,7 +2,7 @@
     <data>
         <act_window id="action_all_sumup"
             name="Intégration des ventes"
-            res_model="prevision.sale_sumup"
+            res_model="prevision.sumup"
             view_mode="tree,form"
             limit="80" />
 
@@ -10,7 +10,7 @@
         <menuitem id="prevision_top"
             name="Prevision" />
 
-        <menuitem id="menu_sale_sumup"
+        <menuitem id="menu_sumup"
             parent="prevision_top"
             action="action_all_sumup"
             sequence="10"
@@ -21,12 +21,15 @@
             <field name="name">Intégration des ventes</field>
             <field name="model">prevision.sumup</field>
             <field name="arch" type="xml">
+                <header>
+                        <button type="object" name="sumup_line_assignement" string="Démarrer"/>
+                </header>
                 <form>
                     <group>
                         <field name ="date"/>
                         <field name ="company_id"/>
-                        <field name ="receipe_line_ids" string="Ligne de recette">
-                            <tree string="Ligne de recette">
+                        <field name ="sumup_line_ids" string="Ligne de vente">
+                            <tree string="Ligne de vente">
                                 <field name ="product_sold"/>   
                                 <field name ="quantity_sold"/>
                                 <field name ="sale_uom"/>
