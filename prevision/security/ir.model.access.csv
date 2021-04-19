@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_prevision_sumup,prevision.sumup,model_prevision_sumup,base.group_user,1,1,1,1
+access_prevision_sumup_line,prevision.sumup.line,model_prevision_sumup_line,base.group_user,1,1,1,1

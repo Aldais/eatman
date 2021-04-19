@@ -7,7 +7,9 @@
             <field name="sale_ok">true</field>
             <field name="purchase_ok">false</field>
             <field name="product_cook">true</field>
-            <field name="type">product</field>
+
+            <field name="type">consu</field>
+
             <!-- ID des unité des mesures : Kg: 3 Unité: 1-->
             <field name="unit_of_reference">1</field>
             <field name="unit_of_cooking">1</field>
@@ -32,7 +34,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">true</field>
             <field name="product_cook">false</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
               <!-- ID des unité des mesures : Kg: 3 Unité: 1-->
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
@@ -54,7 +56,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">true</field>
             <field name="product_cook">false</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
  
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
@@ -79,7 +81,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">true</field>
             <field name="product_cook">false</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
   
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
@@ -104,7 +106,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">true</field>
             <field name="product_cook"></field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
@@ -129,7 +131,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">false</field>
             <field name="product_cook">true</field>
-            <field name="type">product</field>
+            <field name="type">consu</field>
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
@@ -153,7 +155,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">false</field>
             <field name="product_cook">true</field>
-            <field name="type">product</field>  
+            <field name="type">consu</field>  
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
@@ -177,7 +179,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">false</field>
             <field name="product_cook">true</field>
-            <field name="type">product</field>  
+            <field name="type">consu</field>  
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
@@ -201,7 +203,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">false</field>
             <field name="product_cook">true</field>
-            <field name="type">product</field>  
+            <field name="type">consu</field>  
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
@@ -225,7 +227,7 @@
             <field name="sale_ok"></field>
             <field name="purchase_ok">false</field>
             <field name="product_cook">true</field>
-            <field name="type">product</field>  
+            <field name="type">consu</field>  
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
@@ -249,7 +251,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">true</field>
             <field name="product_cook">true</field>
-            <field name="type">product</field>  
+            <field name="type">consu</field>  
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
@@ -273,7 +275,7 @@
             <field name="sale_ok">false</field>
             <field name="purchase_ok">true</field>
             <field name="product_cook">false</field>
-            <field name="type">product</field>  
+            <field name="type">consu</field>  
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
@@ -297,7 +299,7 @@
             <field name="sale_ok"></field>
             <field name="purchase_ok">true</field>
             <field name="product_cook"></field>
-           <field name="type">product</field>   
+           <field name="type">consu</field>   
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
