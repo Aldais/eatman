@@ -1,12 +1,13 @@
 from odoo import models, fields, api
-
+from datetime import datetime
 
 class sumup(models.Model):
     _name = 'prevision.sumup'
     _description = 'Intégration des ventes'
 
     name = fields.Char()
-    date = fields.Date()
+    date = fields.Date( default=datetime.today(), string = "Date")
+    turnover = fields.Float(digits=(3,3), string="Chiffre d'affaire")
     state = fields.Selection(string='Status', selection=[
         ('brouillon', 'Brouillon'),
         ('confirmer', 'En cours'),
@@ -39,6 +40,13 @@ class sumup(models.Model):
                              
                 for product in product_ids:
                     lines.append(self.env['prevision.sumup.line'].create({'product_sold': product.id, 'sumup': self.id}))
+                    
+    def validate_sumup(self):
+        for record in self:
+            record.state = "terminer"
+            for line in record.sumup_line_ids:
+                line.product_sold.sale_ratio = line.quantity_sold/self.turnover
+        return {'type': 'ir.actions.act_window_close'}
 #
 #     @api.depends('value')
 #     def _value_pc(self):
@@ -59,4 +67,4 @@ class sumupLine(models.Model):
         'res.company', 'Company', index=1)
         
     quantity_sold = fields.Float(digits=(3,3), string="quantité vendue")
-    sale_uom = fields.Many2one('uom.uom','Unité de vente',readonly=True)
+    sale_uom = fields.Many2one('uom.uom',"Unité de vente", related='product_sold.unit_of_sale',readonly=True)

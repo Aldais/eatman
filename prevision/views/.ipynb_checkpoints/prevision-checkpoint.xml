@@ -23,11 +23,12 @@
             <field name="arch" type="xml">
                 <form>
                 <header>
-                        <button type="object" name="sumup_line_assignement" string="Démarrer"/>
+                    <button type="object" name="sumup_line_assignement" string="Démarrer"/>
+                    <button type="object" name="validate_sumup" string="Valider"/>
                 </header>
                     <group>
                         <field name ="date"/>
-                        <field name ="company_id"/>
+                        <field name ="turnover"/>
                         <field name ="sumup_line_ids" string="Ligne de vente">
                             <tree string="Ligne de vente">
                                 <field name ="product_sold"/>   
