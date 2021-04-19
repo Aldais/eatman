@@ -21,10 +21,10 @@
             <field name="name">Intégration des ventes</field>
             <field name="model">prevision.sumup</field>
             <field name="arch" type="xml">
+                <form>
                 <header>
                         <button type="object" name="sumup_line_assignement" string="Démarrer"/>
                 </header>
-                <form>
                     <group>
                         <field name ="date"/>
                         <field name ="company_id"/>
