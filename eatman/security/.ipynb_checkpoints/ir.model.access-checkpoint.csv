@@ -6,3 +6,4 @@ access_eatman_inventory_line,eatman.inventory.line,model_eatman_inventory_line,b
 access_eatman_sumup,eatman.sumup,model_eatman_sumup,base.group_user,1,1,1,1
 access_eatman_sumup_line,eatman.sumup.line,model_eatman_sumup_line,base.group_user,1,1,1,1
 access_eatman_requirement,eatman.requirement,model_eatman_requirement,base.group_user,1,1,1,1
+

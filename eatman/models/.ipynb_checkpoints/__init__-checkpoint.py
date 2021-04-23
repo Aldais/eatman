@@ -2,3 +2,4 @@
 
 from . import models
 from . import product, receipe, foodcostwizard, inventory, sumup, requirement, requirementwizard
+
