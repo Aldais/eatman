@@ -41,6 +41,6 @@ class requirementwizard(models.TransientModel):
             sold_quantity = product.sale_ratio*self.turnover
             reference_quantity = product.conversion_sale_reference(sold_quantity)
             cook_quantity = product.conversion_reference_cook(reference_quantity)
-            product.requirement_calculation(cook_quantity)
+            product.requirement_calculation(cook_quantity,"Prévision de vente")
         self.status = '2';
      #   product_calculated = produit_ids

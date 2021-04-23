@@ -19,7 +19,7 @@
           sequence="20"
           groups="" />
 
-        <record id="form_all_receipe" model="ir.ui.view">
+        <record id="form_all_inventory" model="ir.ui.view">
             <field name="name">Inventaire</field>
             <field name="model">eatman.inventory</field>
             <field name="arch" type="xml">
@@ -35,7 +35,7 @@
                         <field name ="date"/>
                         <field name ="note"/>
                         <field name ="inventory_line_ids" string="Inventaire">
-                            <tree string="Ligne de recette" editable="bottom">
+                            <tree string="Ligne d'inventaire" editable="bottom">
                                 <field name ="product_inventory" readonly="1" />   
                                 <field name ="product_quantity1" attrs="{'readonly':[('inventory_uom1','=',False)]}"/>
                                 <field name ="inventory_uom1"/>

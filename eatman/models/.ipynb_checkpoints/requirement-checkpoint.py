@@ -7,6 +7,7 @@ class requirement(models.Model):
     
     product_required = fields.Many2one('product.template', 'Produit demandé', help="Produit cuisiné")
     quantity_required = fields.Float(digits=(3,3), string="Quantité demandée")
+    requirement_father = fields.Char(string = "Besoin amont")
 
     receipe_uom = fields.Many2one('uom.uom',
     'Unité de préparation', related='product_required.unit_of_cooking',

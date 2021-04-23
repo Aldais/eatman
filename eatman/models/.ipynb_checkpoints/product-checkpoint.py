@@ -147,11 +147,12 @@ class product(models.Model):
                         return foodcost_local/record.receipe_id.receipe_quantity
 
 
-    def requirement_calculation(self, quantity):
+    def requirement_calculation(self, quantity, requirement_father):
         for record in self:
-            self.env['eatman.requirement'].create({'product_required': record.id, 'quantity_required': quantity})
+            self.env['eatman.requirement'].create({'product_required': record.id, 'quantity_required': quantity, 'requirement_father': requirement_father})
+
             if record.receipe_id != False:
                 for line in record.receipe_id.receipe_line_ids:
-                    quantity_ingredient = quantity/record.receipe_id.receipe_quantity*line.ingredient_quantity/(1-line.ingredient_lost_rate)
-                    line.product_ingredient.requirement_calculation(quantity_ingredient)
+                    quantity_ingredient = quantity/record.receipe_id.receipe_quantity*line.ingredient_quantity/((100-line.ingredient_lost_rate)/100)
+                    line.product_ingredient.requirement_calculation(quantity_ingredient, record.name)
             

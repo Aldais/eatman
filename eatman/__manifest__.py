@@ -27,11 +27,10 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/foodcostview_wizard.xml',
-        'views/requirement_wizard.xml',
         'views/templates.xml',
         'views/inventory.xml',
         'views/prevision.xml',
-        
+        'views/requirement_wizard.xml',
         'demo/demo.xml'
 
     ],

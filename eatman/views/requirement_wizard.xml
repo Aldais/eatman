@@ -32,6 +32,7 @@
                 <form>
                     <group>
                         <field name ="name"/>
+                        <field name ="turnover"/>
                         <field name ="status" readonly="1"/>
                     </group>
                     <footer>
@@ -51,6 +52,19 @@
                     
                         <field name ="name"/>
                         <field name ="status"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="tree_requirement" model="ir.ui.view">
+            <field name="name">Besoin</field>
+            <field name="model">eatman.requirement</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                        <field name ="product_required"/>
+                        <field name ="quantity_required"/>
+                        <field name ="requirement_father"/>
                 </tree>
             </field>
         </record>
