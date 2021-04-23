@@ -3,3 +3,5 @@ access_eatman_receipe,eatman.receipe,model_eatman_receipe,base.group_user,1,1,1,
 access_eatman_receipe_line,eatman.receipe.line,model_eatman_receipe_line,base.group_user,1,1,1,1
 access_eatman_inventory,eatman.inventory,model_eatman_inventory,base.group_user,1,1,1,1
 access_eatman_inventory_line,eatman.inventory.line,model_eatman_inventory_line,base.group_user,1,1,1,1
+access_eatman_sumup,eatman.sumup,model_eatman_sumup,base.group_user,1,1,1,1
+access_eatman_sumup_line,eatman.sumup.line,model_eatman_sumup_line,base.group_user,1,1,1,1

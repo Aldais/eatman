@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+        <act_window id="action_all_sumup"
+            name="Intégration des ventes"
+            res_model="eatman.sumup"
+            view_mode="tree,form"
+            limit="80" />
+
+
+        <menuitem id="eatman_prevision_top"
+            name="Prévision" />
+
+        <menuitem id="menu_sumup"
+            parent="eatman_prevision_top"
+            action="action_all_sumup"
+            sequence="10"
+            groups="" />
+
+        <record id="eatman_inventory_tree_view" model="ir.ui.view">
+            <field name="name">eatman.sumup.tree</field>
+            <field name="model">eatman.sumup</field>
+            <field eval="7" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Inventaires" multi_edit="1" duplicate="false">
+                        <field name ="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="form_all_sumup" model="ir.ui.view">
+            <field name="name">eatman.sumup.form</field>
+            <field name="model">eatman.sumup</field>
+            <field name="arch" type="xml">
+                <form>
+                <header>
+                    <button type="object" name="sumup_line_assignement" string="Démarrer"/>
+                    <button type="object" name="validate_sumup" string="Valider"/>
+                </header>
+                    <group>
+                        <field name ="date"/>
+                        <field name ="turnover"/>
+                        <field name ="sumup_line_ids" string="Ligne de vente">
+                            <tree string="Ligne de vente" editable="bottom">
+                                <field name ="product_sold"/>   
+                                <field name ="quantity_sold"/>
+                                <field name ="sale_uom"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

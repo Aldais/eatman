@@ -22,7 +22,6 @@
 
     'depends': ['base', 'product', 'uom'],
 
-
     # always loaded
     'data': [
         'security/ir.model.access.csv',
@@ -30,7 +29,8 @@
         'views/foodcostview_wizard.xml',
         'views/templates.xml',
         'views/inventory.xml',
-        'demo/demo.xml',
+        'views/prevision.xml',
+        'demo/demo.xml'
 
     ],
     # only loaded in demonstration mode
