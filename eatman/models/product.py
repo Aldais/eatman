@@ -28,7 +28,8 @@ class product(models.Model):
     
     #####Gestion des stocks#####################################################
     
-    stock_quantity = fields.Float(digits=(3,3), string ='Quantité en stock')
+    #Stock quantity are expressed in refernce UoM
+    stock_quantity = fields.Float(digits=(3,3), string ='Quantité en stock', store=True)
 
 
     conversion_sale_sale_unit = fields.Char(related='unit_of_sale.name', string="Conversion unité vente/reference", store=True)
@@ -68,6 +69,36 @@ class product(models.Model):
     
     foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="foodcost unité reference", store=True)
     
+    purchase_price = fields.Float(digits=(3,3), string="Prix d'achat")
+    purchase_quantity = fields.Float(digits=(3,3), string="Quantité d'achat")
+    purchase_rounding = fields.Float(digits=(3,3), string="Arrondi de commande")
+    
+    foodcost = fields.Float(digits=(3,3), string="foodcost")
+    
+    sale_ratio = fields.Float(digits=(3,3), string="Ratio de vente")
+    
+    
+    requirement_ids= fields.One2many('eatman.requirement', "product_required", string="Liste des besoins")
+    
+    #Gross requirement are expressed in reference UoM
+    gross_requirement = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin Total")
+    
+    
+    @api.depends('requirement_ids')
+    def requirement_aggregation(self):
+        for record in self:
+            record.gross_requirement = 0
+            for requirement in record.requirement_ids:
+                record.gross_requirement += record.conversion_cook_reference(requirement.quantity_required)
+                
+    net_requirement = fields.Float(compute="requirement_net_calculation", store=True, digits=(3,3), string="Besoin net")
+    @api.depends('gross_requirement', 'stock_quantity')
+    def requirement_net_calculation(self):
+        for record in self:
+            record.net_requirement = record.gross_requirement - record.stock_quantity
+            if record.net_requirement <0:
+                record.net_requirement = 0
+
     ######### Fonction de Conversion #########
     
     def conversion_inventory1_reference(self, quantity):
@@ -106,13 +137,7 @@ class product(models.Model):
         return 0
 
     
-    purchase_price = fields.Float(digits=(3,3), string="Prix d'achat")
-    purchase_quantity = fields.Float(digits=(3,3), string="Quantité d'achat")
-    purchase_rounding = fields.Float(digits=(3,3), string="Arrondi de commande")
-    
-    foodcost = fields.Float(digits=(3,3), string="foodcost")
-    
-    sale_ratio = fields.Float(digits=(3,3), string="Ratio de vente")
+
 
 
 ############################################################Function##############################################################

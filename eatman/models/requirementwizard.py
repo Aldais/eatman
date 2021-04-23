@@ -43,4 +43,3 @@ class requirementwizard(models.TransientModel):
             cook_quantity = product.conversion_reference_cook(reference_quantity)
             product.requirement_calculation(cook_quantity,"Prévision de vente")
         self.status = '2';
-     #   product_calculated = produit_ids
