@@ -19,6 +19,11 @@
                             <label for="product_cook"/>
                         </div>
                 </xpath>
+                <xpath expr="//field[@name='standard_price']"
+                position="replace">
+                <field name="foodcost" string="Foodcost"/>
+                
+                </xpath>
                 <xpath
                     expr="//field[@name='uom_po_id']"
                     position="after">
@@ -28,9 +33,8 @@
                     <field name="unit_of_inventory_3"/>
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_1"/>
-                    <field name="foodcost"/>
-                    <field name="receipe_id"/>
-                    <field name="stock_quantity"/>
+ 
+                    
                 </xpath>
             </data>
 	
@@ -115,6 +119,17 @@
                     </div>
                 </page>
             </notebook>
+            <notebook position="inside">
+                <page string="Calcul de besoin">
+                    <group>        
+                        <field name="gross_requirement" readonly = "1"/>
+                        <field name="stock_quantity" />
+                         <field name="net_requirement" readonly = "1"/>                
+                        <field name="requirement_ids"/>
+                    </group>
+                </page>
+            </notebook>
+            
         </field>
     </record>
  

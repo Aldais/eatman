@@ -30,6 +30,7 @@
         'views/templates.xml',
         'views/inventory.xml',
         'views/prevision.xml',
+        'views/requirement_wizard.xml',
         'demo/demo.xml'
 
     ],
