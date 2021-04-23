@@ -99,7 +99,11 @@ class product(models.Model):
         if self.conversion_cook_cook_quantity >0:
             return quantity*self.conversion_cook_reference_quantity/self.conversion_cook_cook_quantity
         return 0
-        
+    
+    def conversion_reference_cook(self,quantity):
+        if self.conversion_cook_reference_quantity >0:
+            return quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
+        return 0
 
     
     purchase_price = fields.Float(digits=(3,3), string="Prix d'achat")
@@ -107,6 +111,8 @@ class product(models.Model):
     purchase_rounding = fields.Float(digits=(3,3), string="Arrondi de commande")
     
     foodcost = fields.Float(digits=(3,3), string="foodcost")
+    
+    sale_ratio = fields.Float(digits=(3,3), string="Ratio de vente")
 
 
 ############################################################Function##############################################################
@@ -141,4 +147,11 @@ class product(models.Model):
                         return foodcost_local/record.receipe_id.receipe_quantity
 
 
-
+    def requirement_calculation(self, quantity):
+        for record in self:
+            self.env['eatman.requirement'].create({'product_required': record.id, 'quantity_required': quantity})
+            if record.receipe_id != False:
+                for line in record.receipe_id.receipe_line_ids:
+                    quantity_ingredient = quantity/record.receipe_id.receipe_quantity*line.ingredient_quantity/(1-line.ingredient_lost_rate)
+                    line.product_ingredient.requirement_calculation(quantity_ingredient)
+            

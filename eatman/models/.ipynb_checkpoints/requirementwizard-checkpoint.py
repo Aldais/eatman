@@ -1,9 +1,9 @@
 from datetime import datetime
 from odoo import models, fields, api
 
-class previsionwizard(models.TransientModel):
-    _name = 'eatman.previsionwizard'
-    _description = 'Lancement des prévision'
+class requirementwizard(models.TransientModel):
+    _name = 'eatman.requirementwizard'
+    _description = 'Lancement calcul des besoins'
 
     def _default_name(self):
         value = "Date: "+str(datetime.now())
@@ -14,6 +14,8 @@ class previsionwizard(models.TransientModel):
     company_id = fields.Many2one(
         'res.company', 'Company', index=1)
     
+    turnover = fields.Float(digits = (3,3), string="Chiffre d'affaire" )
+    
     @api.model
     def automatic_company_assignement(self):
         self.company_id = self.env.user.company_id
@@ -21,7 +23,7 @@ class previsionwizard(models.TransientModel):
 
     @api.model  
     def create(self, vals):
-        record = super(receipe, self).create(vals)
+        record = super(requirementwizard, self).create(vals)
         record.automatic_company_assignement()
         return record
     
@@ -33,9 +35,12 @@ class previsionwizard(models.TransientModel):
     #    'product.template', 'Produit avec coût de revient calculé',
     #    help="Ingrédient de la recette")
    
-    def foodcost_total(self):
-        produit_ids = self.env['product.template'].sudo().search([('product_cook', '=', True),('company_id','=', self.env.user.company_id)])
-        for produit in produit_ids:
-            produit.foodcost_calculation()
+    def requirement_total(self):
+        product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True),('company_id','=', self.env.user.company_id.id)])
+        for product in product_ids:
+            sold_quantity = product.sale_ratio*self.turnover
+            reference_quantity = product.conversion_sale_reference(sold_quantity)
+            cook_quantity = product.conversion_reference_cook(reference_quantity)
+            product.requirement_calculation(cook_quantity)
         self.status = '2';
      #   product_calculated = produit_ids
