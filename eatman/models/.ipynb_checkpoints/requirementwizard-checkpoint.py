@@ -35,7 +35,11 @@ class requirementwizard(models.TransientModel):
     #    'product.template', 'Produit avec coût de revient calculé',
     #    help="Ingrédient de la recette")
    
+    def requirement_delete(self):
+        self.env['eatman.requirement'].sudo().search([('company_id','=', self.company_id.id)]).unlink()
+
     def requirement_total(self):
+        self.requirement_delete()
         product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True),('company_id','=', self.env.user.company_id.id)])
         for product in product_ids:
             sold_quantity = product.sale_ratio*self.turnover
@@ -43,4 +47,3 @@ class requirementwizard(models.TransientModel):
             cook_quantity = product.conversion_reference_cook(reference_quantity)
             product.requirement_calculation(cook_quantity,"Prévision de vente")
         self.status = '2';
-     #   product_calculated = produit_ids
