@@ -174,7 +174,7 @@ class product(models.Model):
 
     def requirement_calculation(self, quantity, requirement_father):
         for record in self:
-            self.env['eatman.requirement'].create({'product_required': record.id, 'quantity_required': quantity, 'requirement_father': requirement_father})
+            self.env['eatman.requirement'].create({'product_required': record.id, 'quantity_required': quantity, 'requirement_father': requirement_father, 'company_id':record.company_id.id})
 
             if record.receipe_id != False:
                 for line in record.receipe_id.receipe_line_ids:
