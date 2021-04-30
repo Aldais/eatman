@@ -31,7 +31,7 @@
         'views/inventory.xml',
         'views/prevision.xml',
         'views/requirement_wizard.xml',
-
+        'views/preparationslip.xml',
         'demo/demo.xml'
 
     ],
