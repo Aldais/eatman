@@ -12,16 +12,6 @@
           action="action_all_preparation_slip"
           sequence="20"
           groups="" />
-      
-        <report 
-                id="action_report_preparation_slip"
-                string="Feuille de préparation"
-                model="eatman.preparationslip" 
-                report_type="qweb-pdf"
-                file="eatman.report_preparation_slip" 
-                name="eatman.report_preparation_slip"
-                menu="False"
-        />
 
         <record id="form_allpreparation_slip" model="ir.ui.view">
             <field name="name">Feuille de preparation</field>
@@ -29,8 +19,6 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button type="object" name="action_report_preparation_slip" string="Imprimer"/>
-                        <button type="object" name="" string="Valider"/>
                     </header>
                     <group>
                         <field name ="text"/>

@@ -19,8 +19,6 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button type="object" name="action_report_preparation_slip" string="Imprimer"/>
-                        <button type="object" name="" string="Valider"/>
                     </header>
                     <group>
                         <field name ="text"/>

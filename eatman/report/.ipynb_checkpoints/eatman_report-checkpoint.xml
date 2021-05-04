@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="action_report_preparation_slip" model ="ir.actions.report">
-            <field name="name">Feuille de préparation</field>
-            <field name="model">eatman.preparationslip</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">eatman.preparation_report</field>
 
-        </record>
-        <record id="account_invoices" model="ir.actions.report">
+        <record id="action_report_preparation_slip" model="ir.actions.report">
             <field name="name">Feuilles de préparation</field>
             <field name="model">eatman.preparationslip</field>
             <field name="report_type">qweb-pdf</field>
