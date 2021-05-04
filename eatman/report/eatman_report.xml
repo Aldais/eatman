@@ -1,13 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <report 
-            id="action_report_preparation_slip"
-            string="Feuille de préparation"
-            model="eatman.preparationslip" 
-            report_type="qweb-pdf"
-            file="eatman.report_preparation_slip" 
-            name="eatman.report_preparation_slip"
-        />
+        <record id="action_report_preparation_slip" model ="ir.actions.report">
+            <field name="name">Feuille de préparation</field>
+            <field name="model">eatman.preparationslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">eatman.preparation_report</field>
+
+        </record>
+        <record id="account_invoices" model="ir.actions.report">
+            <field name="name">Feuilles de préparation</field>
+            <field name="model">eatman.preparationslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">eatman.report_preparation_slip</field>
+            <field name="report_file">eatman.report_preparation_slip</field>
+            <!-- <field name="attachment_use" eval="True"/>
+            <field name="attachment">(object.state in ('open','paid')) and
+                ('INV'+(object.number or '').replace('/','')+'.pdf')</field>
+            -->
+            <field name="binding_model_id" ref="model_eatman_preparationslip"/>
+            <field name="binding_type">report</field>
+        </record>
+        
+        <!--Custom report.-->
+
+
+    <template id="report_preparation_slip">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        
+                        <h3>Attendees:</h3>
+                        
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+        
     </data>
 </odoo>
         
