@@ -1,0 +1,14 @@
+
+<odoo>
+    <data>
+        <report 
+            id="action_report_preparation_slip"
+            string="Feuille pde préparation"
+            model="eatman.preparationslip" 
+            report_type="qweb-pdf"
+            file="eatman.report_preparation_slip" 
+            name="eatman.report_preparation_slip"
+        />
+    </data>
+</odoo>
+        

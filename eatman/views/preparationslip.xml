@@ -23,18 +23,14 @@
                         <button type="object" name="" string="Valider"/>
                     </header>
                     <group>
-                        <field name ="date"/>
-                        <field name ="turnover"/>
                         <field name ="text"/>
                         <field name ="product_ids" string="Ligne de préparation">
                             <tree string="Ligne de préparation">
                                 <field name ="name"/>
                                 <field name ="stock_quantity"/>
                                 <field name ="net_requirement"/>
-                                
                             </tree>
                         </field>
-                    
                     </group>
                 </form>
             </field>

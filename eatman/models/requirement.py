@@ -16,10 +16,12 @@ class preparationslip(models.Model):
     _name = 'eatman.preparationslip'
     _description = 'Feuille de preparation'
     
+    name = fields.Char()
     date = fields.Date()
-    turnover = fields.Float(string = "Chiffre d'affaire")
+    
     text = fields.Text(string ='Indication')
     product_ids= fields.Many2many('product.template')
+    
     
 
 #class preparationslipline(models.Model):
