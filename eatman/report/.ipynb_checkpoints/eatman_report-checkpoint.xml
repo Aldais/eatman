@@ -24,17 +24,19 @@
         
         <!--Custom report.-->
 
-
+        <template id="report_preparation_slip_document">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                          <h3>Attendees:</h3>
+                    </div>
+                </t>
+        </template>
+                        
+    
     <template id="report_preparation_slip">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        
-                        <h3>Attendees:</h3>
-                        
-                    </div>
-                </t>
+                 <t t-call="eatman.report_preparation_slip_document"/>
             </t>
         </t>
     </template>
