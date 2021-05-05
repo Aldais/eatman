@@ -1,0 +1,37 @@
+<odoo>
+  <data>
+          <act_window id="action_all_preparation_slip"
+            name="Feuille de preparation"
+            res_model="eatman.preparationslip"
+            view_mode="tree,form"
+            limit="80" />
+
+      
+        <menuitem id="menu_all_preparation_slip"
+          parent="eatman_prevision_top"
+          action="action_all_preparation_slip"
+          sequence="20"
+          groups="" />
+
+        <record id="form_allpreparation_slip" model="ir.ui.view">
+            <field name="name">Feuille de preparation</field>
+            <field name="model">eatman.preparationslip</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <group>
+                        <field name ="text"/>
+                        <field name ="product_ids" string="Ligne de préparation">
+                            <tree string="Ligne de préparation">
+                                <field name ="name"/>
+                                <field name ="stock_quantity"/>
+                                <field name ="net_requirement"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+  </data>
+</odoo>

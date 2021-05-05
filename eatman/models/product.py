@@ -82,14 +82,16 @@ class product(models.Model):
     
     #Gross requirement are expressed in reference UoM
     gross_requirement = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin Total")
-    
+    gross_requirement_cooking_unit = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin unité de préparation")
     
     @api.depends('requirement_ids')
     def requirement_aggregation(self):
         for record in self:
             record.gross_requirement = 0
+            record.gross_requirement_cooking_unit = 0
             for requirement in record.requirement_ids:
                 record.gross_requirement += record.conversion_cook_reference(requirement.quantity_required)
+                record.gross_requirement_cooking_unit += requirement.quantity_required
                 
     net_requirement = fields.Float(compute="requirement_net_calculation", store=True, digits=(3,3), string="Besoin net")
     @api.depends('gross_requirement', 'stock_quantity')
