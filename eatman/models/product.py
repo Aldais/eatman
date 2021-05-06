@@ -167,7 +167,7 @@ class product(models.Model):
                 return record.foodcost
             else:
                 for receipe_line in record.receipe_id.receipe_line_ids:
-                    foodcost_local += receipe_line.product_ingredient.foodcost_calculation()*receipe_line.ingredient_quantity
+                    foodcost_local += receipe_line.product_ingredient.foodcost_calculation()*receipe_line.ingredient_quantity/((100-receipe_line.ingredient_lost_rate)/100)
                 if record.receipe_id.receipe_quantity >0:
                     if record.conversion_cook_reference(record.receipe_id.receipe_quantity)>0:
                         record.foodcost = foodcost_local / record.conversion_cook_reference(record.receipe_id.receipe_quantity)
