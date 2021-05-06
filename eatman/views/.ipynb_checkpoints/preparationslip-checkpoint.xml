@@ -21,6 +21,7 @@
                     <header>
                     </header>
                     <group>
+                        <field name ="name"/>
                         <field name ="text"/>
                         <field name ="product_ids" string="Ligne de préparation">
                             <tree string="Ligne de préparation">

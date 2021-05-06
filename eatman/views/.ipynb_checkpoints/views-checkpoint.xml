@@ -177,15 +177,17 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
+                        <field name ="name"/>   
                         <field name ="product_cooked"/>   
                         <field name ="receipe_quantity"/>
                         <field name ="receipe_uom"/>
                         <field name ="company_id"/>
-                        <field name ="receipe_line_ids" string="Ligne de recette">
-                            <tree string="Ligne de recette">
+                        <field name ="receipe_line_ids" string="Ligne de recette" >
+                            <tree string="Ligne de recette"  editable="bottom">
                                 <field name ="product_ingredient"/>
                                 <field name ="ingredient_quantity"/>
                                 <field name ="ingredient_uom"/>
+                                <field name ="ingredient_lost_rate"/>
                             </tree>
                         </field>
                     </group>
