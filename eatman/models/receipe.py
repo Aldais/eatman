@@ -29,6 +29,7 @@ class receipe(models.Model):
     def create(self, vals):
         record = super(receipe, self).create(vals)
         record.automatic_company_assignement()
+        record.name = record.product_cooked.name
         return record
 
 #
