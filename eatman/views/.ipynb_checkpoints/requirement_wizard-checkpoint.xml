@@ -33,6 +33,7 @@
                     <group>
                         <field name ="name"/>
                         <field name ="turnover"/>
+                        <field name ="test"/>
                         <field name ="status" readonly="1"/>
                     </group>
                     <footer>

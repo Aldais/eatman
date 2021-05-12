@@ -5,6 +5,8 @@ class requirementwizard(models.TransientModel):
     _name = 'eatman.requirementwizard'
     _description = 'Lancement calcul des besoins'
 
+    test = fields.Float()
+    
     def _default_name(self):
         value = "Date: "+str(datetime.now())
         return value
@@ -40,6 +42,9 @@ class requirementwizard(models.TransientModel):
 
     def requirement_total(self):
         self.requirement_delete()
+        self.env['ir.config_parameter'].sudo().set_param('turnover',self.turnover)
+        self.test =  self.env['ir.config_parameter'].sudo().get_param('turnover')
+        
         product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True),('company_id','=', self.env.user.company_id.id)])
         for product in product_ids:
             sold_quantity = product.sale_ratio*self.turnover
@@ -47,3 +52,6 @@ class requirementwizard(models.TransientModel):
             cook_quantity = product.conversion_reference_cook(reference_quantity)
             product.requirement_calculation(cook_quantity,"Prévision de vente")
         self.status = '2';
+        preparation_slip_ids = self.env['eatman.preparationslip'].sudo().search([('id', '!=', False),('company_id','=', self.env.user.company_id.id)])
+        for preparation_slip in preparation_slip_ids:
+            preparation_slip.turnover = self.env['ir.config_parameter'].sudo().get_param('turnover')
