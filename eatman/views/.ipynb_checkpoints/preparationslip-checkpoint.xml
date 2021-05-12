@@ -23,6 +23,8 @@
                     <group>
                         <field name ="name"/>
                         <field name ="text"/>
+                        <field name ="turnover" readonly="1"/>
+                        <field name ="company_id" readonly="1"/>
                         <field name ="product_ids" string="Ligne de préparation">
                             <tree string="Ligne de préparation">
                                 <field name ="name"/>
