@@ -22,6 +22,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                 <h2 name="title"><strong><t t-esc="doc.name"/></strong></h2>
+                <h2 name="Turnover"><strong><t t-esc="doc.turnover"/> €</strong></h2>
                 <div class="row mt42 mb42">
                         <div name="Produit" class="col-3"><strong>Produits</strong></div>
                          <div name="Quantite" class="col-3"><strong>Quantité à produire</strong></div>
