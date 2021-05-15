@@ -122,7 +122,7 @@ class product(models.Model):
         if self.conversion_purchase_purchase_quantity >0:
             return quantity*self.conversion_purchase_reference_quantity/self.conversion_purchase_purchase_quantity
         return 0
-    
+     
     def conversion_sale_reference(self, quantity):
         if self.conversion_sale_sale_quantity >0:
             return quantity*self.conversion_sale_reference_quantity/self.conversion_sale_sale_quantity
@@ -163,7 +163,7 @@ class product(models.Model):
             foodcost_local = 0
             # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
             if record.purchase_ok:
-                record.foodcost = record.purchase_price*record.conversion_purchase_reference(1)
+                record.foodcost = record.purchase_price/record.purchase_quantity/record.conversion_purchase_reference(1)
                 return record.foodcost
             else:
                 for receipe_line in record.receipe_id.receipe_line_ids:
