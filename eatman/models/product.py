@@ -172,6 +172,7 @@ class product(models.Model):
                     if record.conversion_cook_reference(record.receipe_id.receipe_quantity)>0:
                         record.foodcost = foodcost_local / record.conversion_cook_reference(record.receipe_id.receipe_quantity)
                         return foodcost_local/record.receipe_id.receipe_quantity
+            return 0
 
 
     def requirement_calculation(self, quantity, requirement_father):
