@@ -9,6 +9,7 @@ class product(models.Model):
     
     _inherit = "product.template"
     
+    debug = fields.Char()
     product_cook = fields.Boolean(default=False,string="Produit cuisiné")
     sale_ok = fields.Boolean(default=False,string="Produit vendu")
     purchase_ok = fields.Boolean(default=False,string="Produit acheté")
@@ -138,8 +139,14 @@ class product(models.Model):
             return quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
         return 0
 
-    
+    def foodcost_cook_unit(self):
+         self.debug += "---foodcost_cook_unit:" + str(self.foodcost)+ " * " + str(self.conversion_cook_reference_quantity) + " / "+ str(self.conversion_cook_cook_quantity)+ " ---"
+         return self.foodcost * self.conversion_cook_reference_quantity /self.conversion_cook_cook_quantity
 
+    def foodcost_cook_reference(self, foodcost_cook,quantity_receipe):
+        return foodcost_cook / quantity_receipe / self.conversion_cook_reference(quantity_receipe)
+        
+    
 
 
 ############################################################Function##############################################################
@@ -159,20 +166,31 @@ class product(models.Model):
     
     #For a given product calculate his food cost based on purchase price and receipe
     def foodcost_calculation(self):
+        self.debug = 1
         for record in self:
-            foodcost_local = 0
+            foodcost_cook = 0
+            quantity_cook = 0
             # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
+            #Si le produit est acheté alors le foodcost est calculé sur la base des données d'achats
             if record.purchase_ok:
-                record.foodcost = record.purchase_price/record.purchase_quantity/record.conversion_purchase_reference(1)
+                record.foodcost = record.purchase_price/record.conversion_purchase_reference(record.purchase_quantity)
+
                 return record.foodcost
+            #sinon une recette doit être associée et le foodcost est égale à la somme des foodcost de la recette réexprimé en unité de référence
+            
             else:
                 for receipe_line in record.receipe_id.receipe_line_ids:
-                    foodcost_local += receipe_line.product_ingredient.foodcost_calculation()*receipe_line.ingredient_quantity/((100-receipe_line.ingredient_lost_rate)/100)
+                    quantity_cook = receipe_line.ingredient_quantity/((100-receipe_line.ingredient_lost_rate)/100)
+                    receipe_line.product_ingredient.foodcost_calculation()
+                    foodcost_cook += receipe_line.product_ingredient.foodcost_cook_unit() * quantity_cook
+                    record.debug += receipe_line.product_ingredient.name +": " +str(receipe_line.product_ingredient.foodcost_cook_unit())+" * "+ str(quantity_cook)+" / "
+                #UIne fois le calcul du foodcost en unité de mesure de preparation a été réalisé on le transforme pour 1 unité de préparation puis pour une unité de référence
                 if record.receipe_id.receipe_quantity >0:
                     if record.conversion_cook_reference(record.receipe_id.receipe_quantity)>0:
-                        record.foodcost = foodcost_local / record.conversion_cook_reference(record.receipe_id.receipe_quantity)
-                        return foodcost_local/record.receipe_id.receipe_quantity
-            return 0
+                        record.foodcost = record.foodcost_cook_reference(foodcost_cook,record.receipe_id.receipe_quantity)
+                        return record.foodcost
+                return 0
+    
 
 
     def requirement_calculation(self, quantity, requirement_father):
