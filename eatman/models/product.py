@@ -174,6 +174,7 @@ class product(models.Model):
             #Si le produit est acheté alors le foodcost est calculé sur la base des données d'achats
             if record.purchase_ok:
                 record.foodcost = record.purchase_price/record.conversion_purchase_reference(record.purchase_quantity)
+
                 return record.foodcost
             #sinon une recette doit être associée et le foodcost est égale à la somme des foodcost de la recette réexprimé en unité de référence
             
