@@ -33,6 +33,7 @@
                     <field name="unit_of_inventory_3"/>
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_1"/>
+                    <field name="debug"/>
  
                     
                 </xpath>
