@@ -27,6 +27,13 @@ class product(models.Model):
     unit_of_sale = fields.Many2one('uom.uom', 'Unité de vente')
     unit_of_purchase = fields.Many2one('uom.uom', "Unité d'achat")
     
+    reference_eq_cooking = fields.Boolean()
+    reference_eq_sale = fields.Boolean()
+    reference_eq_purchase = fields.Boolean()
+    reference_eq_inv1 = fields.Boolean()
+    reference_eq_inv2 = fields.Boolean()
+    reference_eq_inv3 = fields.Boolean()
+
     #####Gestion des stocks#####################################################
     
     #Stock quantity are expressed in refernce UoM
@@ -85,6 +92,40 @@ class product(models.Model):
     gross_requirement = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin Total")
     gross_requirement_cooking_unit = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin unité de préparation")
     
+    
+    #Contrôle d'équivalence des unités
+    @api.onchange('unit_of_reference', 'unit_of_cooking', 'unit_of_sale','unit_of_purchase','unit_of_inventory_1','unit_of_inventory_2','unit_of_inventory_3')
+    def unit_control(self):
+        for record in self:
+            if record.unit_of_reference.id == record.unit_of_cooking.id:
+                record.reference_eq_cooking = True
+            else: 
+                record.reference_eq_cooking = False
+
+            if record.unit_of_reference == record.unit_of_sale:
+                record.reference_eq_sale = True
+            else: record.reference_eq_sale = False
+
+            if record.unit_of_reference == record.unit_of_purchase:
+                record.reference_eq_purchase = True
+            else: record.reference_eq_purchase = False
+
+            if record.unit_of_reference == record.unit_of_inventory_1:
+                record.reference_eq_inv1 = True
+            else: 
+                record.reference_eq_inv1 = False
+
+            if record.unit_of_reference == record.unit_of_inventory_2:
+                record.reference_eq_inv2 = True
+            else: 
+                record.reference_eq_inv2 = False
+
+            if record.unit_of_reference == record.unit_of_inventory_3:
+                record.reference_eq_inv3 = True
+            else: record.reference_eq_inv3 = False
+
+        
+    
     @api.depends('requirement_ids')
     def requirement_aggregation(self):
         for record in self:
@@ -95,6 +136,7 @@ class product(models.Model):
                 record.gross_requirement_cooking_unit += requirement.quantity_required
                 
     net_requirement = fields.Float(compute="requirement_net_calculation", store=True, digits=(3,3), string="Besoin net")
+    
     @api.depends('gross_requirement', 'stock_quantity')
     def requirement_net_calculation(self):
         for record in self:
@@ -102,6 +144,63 @@ class product(models.Model):
             if record.net_requirement <0:
                 record.net_requirement = 0
 
+    #Si l'unité de reference et l'unité de cookin sont égales alors on fait la conversion en auto         
+    @api.onchange('unit_of_cooking','unit_of_reference')
+    def ochange_unit_of_cooking(self):
+        if self.unit_of_cooking == self.unit_of_reference:
+            self.conversion_cook_cook_quantity = 1
+            self.conversion_cook_reference_quantity = 1
+        else :
+            self.conversion_cook_cook_quantity = 0
+            self.conversion_cook_reference_quantity = 0
+    
+    @api.onchange('unit_of_sale','unit_of_reference')
+    def ochange_unit_of_sale(self):
+
+        if self.unit_of_sale == self.unit_of_reference:
+            self.conversion_sale_sale_quantity = 1
+            self.conversion_sale_reference_quantity = 1
+        else:
+            self.conversion_sale_sale_quantity = 0
+            self.conversion_sale_reference_quantity = 0
+    
+    @api.onchange('unit_of_purchase','unit_of_reference')
+    def ochange_unit_of_purchase(self):
+
+        if self.unit_of_purchase == self.unit_of_reference:
+            self.conversion_purchase_purchase_quantity = 1
+            self.conversion_purchase_reference_quantity = 1
+        else:
+            self.conversion_purchase_purchase_quantity = 0
+            self.conversion_purchase_reference_quantity = 0
+    
+    @api.onchange('unit_of_inventory_1','unit_of_reference')
+    def ochange_unit_of_inv1(self):
+        if self.unit_of_inventory_1 == self.unit_of_reference:
+            self.conversion_inventory1_inventory1_quantity = 1
+            self.conversion_inventory1_reference_quantity = 1
+        else:
+            self.conversion_inventory1_inventory1_quantity = 0
+            self.conversion_inventory1_reference_quantity = 0
+
+            
+    @api.onchange('unit_of_inventory_2','unit_of_reference')
+    def ochange_unit_of_inv2g(self):
+        if self.unit_of_inventory_2 == self.unit_of_reference:
+            self.conversion_inventory2_inventory2_quantity = 1
+            self.conversion_inventory2_reference_quantity = 1
+        else:
+            self.conversion_inventory2_inventory2_quantity = 0
+            self.conversion_inventory2_reference_quantity = 0
+    
+    @api.onchange('unit_of_inventory_3','unit_of_reference')
+    def ochange_unit_of_inv3(self):
+        if self.unit_of_inventory_3 == self.unit_of_reference:
+            self.conversion_inventory3_inventory3_quantity = 1
+            self.conversion_inventory3_reference_quantity = 1
+        else:
+            self.conversion_inventory3_inventory3_quantity = 0
+            self.conversion_inventory3_reference_quantity = 0
     ######### Fonction de Conversion #########
     
     def conversion_inventory1_reference(self, quantity):
@@ -174,7 +273,6 @@ class product(models.Model):
             #Si le produit est acheté alors le foodcost est calculé sur la base des données d'achats
             if record.purchase_ok:
                 record.foodcost = record.purchase_price/record.conversion_purchase_reference(record.purchase_quantity)
-
                 return record.foodcost
             #sinon une recette doit être associée et le foodcost est égale à la somme des foodcost de la recette réexprimé en unité de référence
             
@@ -190,8 +288,6 @@ class product(models.Model):
                         record.foodcost = record.foodcost_cook_reference(foodcost_cook,record.receipe_id.receipe_quantity)
                         return record.foodcost
                 return 0
-    
-
 
     def requirement_calculation(self, quantity, requirement_father):
         for record in self:
