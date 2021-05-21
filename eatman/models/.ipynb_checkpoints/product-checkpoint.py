@@ -18,9 +18,9 @@ class product(models.Model):
 
 
     #####Gestion des unités de mesure###########################################
-    unit_of_inventory_1 = fields.Many2one('uom.uom', 'Unité d inventaire1')
-    unit_of_inventory_2 = fields.Many2one('uom.uom', 'Unité d inventaire2')
-    unit_of_inventory_3 = fields.Many2one('uom.uom', 'Unité d inventaire3')
+    unit_of_inventory_1 = fields.Many2one('uom.uom', "Unité d' inventaire 1")
+    unit_of_inventory_2 = fields.Many2one('uom.uom', "Unité d' inventaire 2")
+    unit_of_inventory_3 = fields.Many2one('uom.uom', "Unité d' inventaire 3")
     
     unit_of_reference = fields.Many2one('uom.uom', 'Unité de référence')
     unit_of_cooking = fields.Many2one('uom.uom', 'Unité de préparation')
