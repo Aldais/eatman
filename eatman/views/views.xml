@@ -34,6 +34,7 @@
                     <field name="unit_of_inventory_1"/>
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_3"/>
+
                     <field name="reference_eq_cooking" invisible="1"/>
                     <field name="reference_eq_sale" invisible="1"/>
                     <field name="reference_eq_purchase" invisible="1"/>
@@ -41,13 +42,16 @@
                     <field name="reference_eq_inv2" invisible="1"/>
                     <field name="reference_eq_inv3" invisible="1"/>
 
+
                 </xpath>
             </data>
 	
 
             <notebook position="inside">
                 <page string="Conversion de quantité">
+
                 <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase" attrs="{'invisible': [('reference_eq_purchase','=',True)]}">
+
                         <span>Conversion unité tarifaire d'achat : </span>
 
                         <field name="conversion_purchase_purchase_quantity" class="oe_inline" colspan="6"/>
