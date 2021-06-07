@@ -32,10 +32,9 @@
                     <field name="unit_of_purchase"/>
                     <field name="unit_of_cooking"/>
                     <field name="unit_of_inventory_1"/>
-
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_3"/>
-r
+
                     <field name="reference_eq_cooking" invisible="1"/>
                     <field name="reference_eq_sale" invisible="1"/>
                     <field name="reference_eq_purchase" invisible="1"/>
@@ -51,7 +50,7 @@ r
             <notebook position="inside">
                 <page string="Conversion de quantité">
 
-                <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase" attrs="{'invisible': [('reference_eq_purchase','=',True)]}">
+                <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase" attrs="{'invisible': ['|',('reference_eq_purchase','=',True),('unit_of_purchase','=',False)]}">
 
                         <span>Conversion unité tarifaire d'achat : </span>
 
@@ -63,7 +62,7 @@ r
 
                     </div>
                     <newline/>
-                    <div id="conversion_sale" class="o_row d-flex" name="conversion sale" attrs="{'invisible': [('reference_eq_sale','=',True)]}">
+                    <div id="conversion_sale" class="o_row d-flex" name="conversion sale" attrs="{'invisible': ['|',('reference_eq_sale','=',True),('unit_of_sale','=',False)]}">
                         <span>Conversion unité de vente : </span>
 
                         <field name="conversion_sale_sale_quantity" class="oe_inline" colspan="6"/>
@@ -74,7 +73,7 @@ r
 
                     </div>
                     <newline/>
-                    <div id="conversion_cook" class="o_row d-flex" name="conversion cook" attrs="{'invisible': [('reference_eq_cooking','=',True)]}">
+                    <div id="conversion_cook" class="o_row d-flex" name="conversion cook" attrs="{'invisible': ['|',('reference_eq_cooking','=',True),('unit_of_cooking','=',False)]}">
                         <span>Conversion unité de préparation : </span>
                         <field name="conversion_cook_cook_quantity" class="oe_inline" colspan="6" 
                                attrs="{'readonly': [('unit_of_cooking', '==', 'unit_of_reference')]}" />
@@ -84,7 +83,7 @@ r
                         <field name="conversion_cook_reference_unit" readonly="1"/>
                     </div>
                     <newline/>
-                    <div id="conversion_inventory1" class="o_row d-flex" name="conversion inventory1" attrs="{'invisible': [('reference_eq_inv1','=',True)]}">
+                    <div id="conversion_inventory1" class="o_row d-flex" name="conversion inventory1" attrs="{'invisible': ['|',('reference_eq_inv1','=',True),('unit_of_inventory_1','=',False)]}">
                         <span>Conversion unité d'inventaire 1 : </span>
                         <field name="conversion_inventory1_inventory1_quantity" class="oe_inline" colspan="6"/>
                         <field name="conversion_inventory1_inventory1_unit" class="oe_inline" colspan="6" readonly = "1"/>
@@ -93,7 +92,7 @@ r
                         <field name="conversion_inventory1_reference_unit" readonly="1"/>
                     </div>
                     <newline/>
-                    <div id="conversion_inventory2" class="o_row d-flex" name="conversion inventory2" attrs="{'invisible': [('reference_eq_inv2','=',True)]}">
+                    <div id="conversion_inventory2" class="o_row d-flex" name="conversion inventory2" attrs="{'invisible': ['|',('reference_eq_inv2','=',True),('unit_of_inventory_2','=',False)]}">
                         <span>Conversion unité d'inventaire 2  : </span>
                         <field name="conversion_inventory2_inventory2_quantity" class="oe_inline" colspan="6"/>
                         <field name="conversion_inventory2_inventory2_unit" class="oe_inline" colspan="6" readonly = "1"/>
@@ -102,7 +101,7 @@ r
                         <field name="conversion_inventory2_reference_unit" readonly="1"/>
                     </div>
                     <newline/>
-                    <div id="conversion_inventory3" class="o_row d-flex" name="conversion inventory3" attrs="{'invisible': [('reference_eq_inv3','=',True)]}">
+                    <div id="conversion_inventory3" class="o_row d-flex" name="conversion inventory3" attrs="{'invisible': ['|',('reference_eq_inv3','=',True),('unit_of_inventory_3','=',False)]}">
                         <span>Conversion unité d'inventaire 3  : </span>
                         <field name="conversion_inventory3_inventory3_quantity" class="oe_inline" colspan="6"/>
                         <field name="conversion_inventory3_inventory3_unit" class="oe_inline" colspan="6" readonly = "1"/>
