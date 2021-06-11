@@ -239,8 +239,10 @@ class product(models.Model):
         return 0
 
     def foodcost_cook_unit(self):
-         self.debug += "---foodcost_cook_unit:" + str(self.foodcost)+ " * " + str(self.conversion_cook_reference_quantity) + " / "+ str(self.conversion_cook_cook_quantity)+ " ---"
-         return self.foodcost * self.conversion_cook_reference_quantity /self.conversion_cook_cook_quantity
+        self.debug += "---foodcost_cook_unit:" + str(self.foodcost)+ " * " + str(self.conversion_cook_reference_quantity) + " / "+ str(self.conversion_cook_cook_quantity)+ " ---"
+        if self.conversion_cook_cook_quantity >0:       
+             return self.foodcost * self.conversion_cook_reference_quantity /self.conversion_cook_cook_quantity
+        return 0
 
     def foodcost_cook_reference(self, foodcost_cook,quantity_receipe):
         return foodcost_cook / quantity_receipe / self.conversion_cook_reference(quantity_receipe)

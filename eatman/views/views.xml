@@ -34,6 +34,7 @@
                     <field name="unit_of_inventory_1"/>
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_3"/>
+                    <field name="debug"/>
 
                     <field name="reference_eq_cooking" invisible="1"/>
                     <field name="reference_eq_sale" invisible="1"/>
