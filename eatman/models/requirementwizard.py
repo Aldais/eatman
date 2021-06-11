@@ -42,8 +42,6 @@ class requirementwizard(models.TransientModel):
 
     def requirement_total(self):
         self.requirement_delete()
-        self.env['ir.config_parameter'].sudo().set_param('turnover',self.turnover)
-        self.test =  self.env['ir.config_parameter'].sudo().get_param('turnover')
         
         product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True),('company_id','=', self.env.user.company_id.id)])
         for product in product_ids:
@@ -53,5 +51,6 @@ class requirementwizard(models.TransientModel):
             product.requirement_calculation(cook_quantity,"Prévision de vente")
         self.status = '2';
         preparation_slip_ids = self.env['eatman.preparationslip'].sudo().search([('id', '!=', False),('company_id','=', self.env.user.company_id.id)])
+        
         for preparation_slip in preparation_slip_ids:
-            preparation_slip.turnover = self.env['ir.config_parameter'].sudo().get_param('turnover')
+            preparation_slip.turnover = self.turnover
