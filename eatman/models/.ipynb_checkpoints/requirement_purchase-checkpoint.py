@@ -29,8 +29,8 @@ class purchase(models.Model):
         product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True),('company_id','=', self.env.user.company_id.id)])
         for product in product_ids:
             sold_quantity = product.sale_ratio*self.turnover
-            reference_quantity = product.conversion_sale_reference(sold_quantity)
-            cook_quantity = product.conversion_reference_cook(reference_quantity)
+            reference_quantity = product.conversion_sale_to_reference(sold_quantity)
+            cook_quantity = product.conversion_reference_to_cook(reference_quantity)
             product.requirement_calculation_purchase(cook_quantity,"Prévision de vente")
         self.purchaseorderline_completion()
     
@@ -39,17 +39,19 @@ class purchase(models.Model):
     def purchaseorderline_completion(self):
         product_ids = self.env['product.template'].sudo().search([('supplier','=', self.partner_id.id)])
         for product in product_ids:
-            self.env['purchase.order.line'].create(
-                {
-                    'name': product.name,
-                    'order_id': self.id,
-                    'date_planned': self.date_order,
-                    'product_qty': product.purchase_net_requirement,
-                    'price_unit': 0.0,
-                    'product_id': product.id,
-                    'product_uom': product.unit_purchase_order.id,
+            
+            if product.purchase_net_requirement >0:
+                self.env['purchase.order.line'].create(
+                    {
+                        'name': product.name,
+                        'order_id': self.id,
+                        'date_planned': self.date_order,
+                        'product_qty': product.purchase_net_requirement,
+                        'price_unit': 0.0,
+                        'product_id': product.id,
+                        'product_uom': product.uom_po_id.id,
 
-                })
+                    })
     
     
 #class purchase 

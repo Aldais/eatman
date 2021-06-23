@@ -34,6 +34,7 @@
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_3"/>
                     <field name="debug"/>
+                    
 
                     <field name="reference_eq_cooking" invisible="1"/>
                     <field name="reference_eq_sale" invisible="1"/>
@@ -164,7 +165,7 @@
                 <page string="Calcul de besoin">
                     <group>        
                         <field name="gross_requirement" readonly = "1"/>
-                        <field name="stock_quantity" />
+                        <field name="stock_quantity" readonly = "1"/>
                          <field name="net_requirement" readonly = "1"/>                
                         <field name="requirement_ids"/>
                     </group>
@@ -173,8 +174,8 @@
             <notebook position="inside">
                 <page string="Calcul de besoin achat">
                     <group>        
-                        <field name="purchase_gross_requirement" readonly = "1"/>
-                        <field name="stock_quantity" />
+                        <field name="purchase_gross_requirement"/>
+                        <field name="stock_quantity" readonly = "1"/>
                          <field name="purchase_net_requirement" readonly = "1"/>                
                         <field name="purchase_requirement_ids"/>
                     </group>
