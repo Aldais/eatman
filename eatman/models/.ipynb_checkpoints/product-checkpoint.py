@@ -83,7 +83,6 @@ class product(models.Model):
     foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="foodcost unité reference", store=True)
     foodcost = fields.Float(digits=(3,3), string="foodcost")
     
-    #!!!!Requirement for feuille prepa
 
 #!!!!!!Requirement for preparation slip##################################################################################
     requirement_ids= fields.One2many('eatman.requirement', "product_required", string="Liste des besoins")
@@ -91,16 +90,14 @@ class product(models.Model):
     
         #Gross requirement are expressed in reference UoM
     gross_requirement = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin Total")
-    gross_requirement_cooking_unit = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin unité de préparation")
     
     @api.depends('requirement_ids')
     def requirement_aggregation(self):
         for record in self:
             record.gross_requirement = 0
-            record.gross_requirement_cooking_unit = 0
             for requirement in record.requirement_ids:
                 record.gross_requirement += record.conversion_cook_reference(requirement.quantity_required)
-                record.gross_requirement_cooking_unit += requirement.quantity_required
+
                 
   
     
@@ -117,7 +114,7 @@ class product(models.Model):
     purchase_net_requirement = fields.Float(compute="requirement_net_calculation_purchase", store=True, digits=(3,3), string="Besoin net achat")
     
         #Gross requirement are expressed in reference UoM
-    purchase_gross_requirement = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin total d'achat")
+    purchase_gross_requirement = fields.Float(compute="requirement_aggregation_purchase", store=True, digits=(3,3), string="Besoin total d'achat")
     purchase_gross_requirement_purchase_unit = fields.Float(compute="requirement_aggregation_purchase", store=True, digits=(3,3), string="Besoin unité de préparation pour achat")
     
     @api.depends('requirement_ids')
@@ -131,12 +128,12 @@ class product(models.Model):
                 
   
     
-    @api.depends('gross_requirement', 'stock_quantity')
+    @api.depends('purchase_gross_requirement', 'stock_quantity')
     def requirement_net_calculation_purchase(self):
         for record in self:
-            record.net_requirement = record.gross_requirement - record.stock_quantity
-            if record.net_requirement <0:
-                record.net_requirement = 0
+            record.purchase_net_requirement = record.purchase_gross_requirement - record.stock_quantity
+            if record.purchase_net_requirement <0:
+                record.purchase_net_requirement = 0
     
     #!!!!!!!!!!!!Purchase information ######################################################################################################################
     purchase_ok = fields.Boolean(default=False,string="Produit acheté")
@@ -147,6 +144,7 @@ class product(models.Model):
     
         #Information for purchase order
     unit_purchase_order = fields.Many2one('uom.uom', "Unité de commande d'achat")
+    
     purchase_order_quantity = fields.Float(digits=(3,3), string="Quantité de commande")
     unit_purchase_pack = fields.Many2one('uom.uom', "Unité de colisage d'achat")
     purchase_order_quantity = fields.Float(digits=(3,3), string="Quantité de colisage")
@@ -177,6 +175,10 @@ class product(models.Model):
     purch_price_eq_order = fields.Boolean()
     purch_order_eq_pack = fields.Boolean()
 
+    @api.onchange('unit_purchase_order')
+    def purchase_uom_copy(self):
+        self.uom_po_id = self.unit_purchase_order
+    
     @api.onchange('unit_of_purchase','unit_purchase_order','unit_purchase_pack')
     def unit_control_purchase(self):
         for record in self:
@@ -310,12 +312,13 @@ class product(models.Model):
                 for receipe_line in record.receipe_id.receipe_line_ids:
                     quantity_cook = receipe_line.ingredient_quantity/((100-receipe_line.ingredient_lost_rate)/100)
                     receipe_line.product_ingredient.foodcost_calculation()
+                    #on calcul le foodcost en unité de préparation:
                     foodcost_cook += receipe_line.product_ingredient.foodcost_cook_unit() * quantity_cook
                     record.debug += receipe_line.product_ingredient.name +": " +str(receipe_line.product_ingredient.foodcost_cook_unit())+" * "+ str(quantity_cook)+" = "+str(foodcost_cook)
                 #UIne fois le calcul du foodcost en unité de mesure de preparation a été réalisé on le transforme pour 1 unité de préparation puis pour une unité de référence
                 if record.receipe_id.receipe_quantity >0:
-                    if record.conversion_cook_reference(record.receipe_id.receipe_quantity)>0:
-                        record.foodcost = record.foodcost_cook_reference(foodcost_cook,record.receipe_id.receipe_quantity)
+                    if record.conversion_cook_to_reference(record.receipe_id.receipe_quantity)>0:
+                        record.foodcost = record.conversion_cook_to_reference(foodcost_cook/record.receipe_id.receipe_quantity)
                         return record.foodcost
                 return 0
 
@@ -331,7 +334,11 @@ class product(models.Model):
     
     def requirement_calculation_purchase(self, quantity, requirement_father):
         for record in self:
-            self.env['eatman.requirement_purchase'].create({'product_required': record.id, 'quantity_required': quantity, 'requirement_father': requirement_father, 'company_id':record.company_id.id})
+            self.env['eatman.requirement_purchase'].create(
+                {'product_required': record.id, 
+                 'quantity_required': quantity, 
+                 'requirement_father': requirement_father, 
+                 'company_id':record.company_id.id})
             if record.receipe_id != False:
                 for line in record.receipe_id.receipe_line_ids:
                     quantity_ingredient = quantity/record.receipe_id.receipe_quantity*line.ingredient_quantity/((100-line.ingredient_lost_rate)/100)
@@ -350,13 +357,15 @@ class product(models.Model):
             return quantity*self.conversion_sale_reference_quantity/self.conversion_sale_sale_quantity
         return 0
     
-    def conversion_cook_reference(self, quantity):
+    def conversion_cook_to_reference(self, quantity):
         if self.conversion_cook_cook_quantity >0:
-            return quantity*self.conversion_cook_reference_quantity/self.conversion_cook_cook_quantity
+            self.debug += "---conversion_cook_to_reference:" + str(quantity)+ " * " + str(self.conversion_cook_cook_quantity) + " / "+ str(self.conversion_cook_reference_quantity)+ " ---"
+            return quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
         return 0
     
-    def conversion_reference_cook(self,quantity):
-        if self.conversion_cook_reference_quantity >0:
+    def conversion_reference_to_cook(self,quantity):
+        if self.conversion_cook_cook_quantity >0:
+
             return quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
         return 0
 
@@ -365,9 +374,6 @@ class product(models.Model):
         if self.conversion_cook_cook_quantity >0:       
              return self.foodcost * self.conversion_cook_reference_quantity /self.conversion_cook_cook_quantity
         return 0
-
-    def foodcost_cook_reference(self, foodcost_cook,quantity_receipe):
-        return foodcost_cook / quantity_receipe / self.conversion_cook_reference(quantity_receipe)
     
     def conversion_inventory1_reference(self, quantity):
         if self.conversion_inventory1_inventory1_quantity >0:
