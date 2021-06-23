@@ -30,6 +30,7 @@
         'views/templates.xml',
         'views/inventory.xml',
         'views/prevision.xml',
+        'views/purchase.xml',
         'report/eatman_report.xml',
         'views/requirement_wizard.xml',
         'views/preparationslip.xml',

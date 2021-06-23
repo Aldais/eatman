@@ -29,7 +29,6 @@
                     position="after">
                     <field name="unit_of_reference"/>
                     <field name="unit_of_sale"/>
-                    <field name="unit_of_purchase"/>
                     <field name="unit_of_cooking"/>
                     <field name="unit_of_inventory_1"/>
                     <field name="unit_of_inventory_2"/>
@@ -51,7 +50,7 @@
             <notebook position="inside">
                 <page string="Conversion de quantité">
 
-                <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase" attrs="{'invisible': ['|',('reference_eq_purchase','=',True),('unit_of_purchase','=',False)]}">
+                <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase" attrs="{'invisible': ['|',('reference_eq_purchase','=',True),('unit_of_purchase','=',False),('purchase_ok','=',False)]}">
 
                         <span>Conversion unité tarifaire d'achat : </span>
 
@@ -63,7 +62,7 @@
 
                     </div>
                     <newline/>
-                    <div id="conversion_sale" class="o_row d-flex" name="conversion sale" attrs="{'invisible': ['|',('reference_eq_sale','=',True),('unit_of_sale','=',False)]}">
+                    <div id="conversion_sale" class="o_row d-flex" name="conversion sale" attrs="{'invisible': ['|',('reference_eq_sale','=',True),('unit_of_sale','=',False),('sale_ok','=',False)]}">
                         <span>Conversion unité de vente : </span>
 
                         <field name="conversion_sale_sale_quantity" class="oe_inline" colspan="6"/>
@@ -74,7 +73,7 @@
 
                     </div>
                     <newline/>
-                    <div id="conversion_cook" class="o_row d-flex" name="conversion cook" attrs="{'invisible': ['|',('reference_eq_cooking','=',True),('unit_of_cooking','=',False)]}">
+                    <div id="conversion_cook" class="o_row d-flex" name="conversion cook" attrs="{'invisible': ['|',('reference_eq_cooking','=',True),('unit_of_cooking','=',False),('product_cook','=',False)]}">
                         <span>Conversion unité de préparation : </span>
                         <field name="conversion_cook_cook_quantity" class="oe_inline" colspan="6" 
                                attrs="{'readonly': [('unit_of_cooking', '==', 'unit_of_reference')]}" />
@@ -116,9 +115,40 @@
              <notebook position="inside">
                 <page string="Achat">
                     <group>
-                        <field name="purchase_price"/>
-                        <field name="purchase_quantity"/>
+                        <field name="supplier"/>
+                        <field name="unit_purchase_order"/>
+                        <field name="unit_purchase_pack"/>
+                        <field name="purch_price_eq_order" invisible="1"/>
+                        <field name="purch_order_eq_pack"  invisible="1"/>
                     </group>
+                    
+                    <div id="purchase price" class="o_row d-flex" name="purchase price" attrs="{'invisible': ['|',('purchase_ok','=',False)]}">
+                     <span>Prix d'achat : </span>
+                        <field name="purchase_price" class="oe_inline" colspan="6"/>
+                        <span> € pour </span>
+                        <field name="purchase_quantity" class="oe_inline" colspan="6" />
+                        <field name="unit_of_purchase"/>
+                    </div>
+                    <newline/>
+
+                    <div id="conversion_purchase_purchase" class="o_row d-flex" name="conversion purchase purchase" attrs="{'invisible': ['|',('purch_price_eq_order','=',True)]}">
+                    <span>Conversion unité d'achat prix et unité de commande d'achat : </span>
+                        <field name="conv_purchase_price_purchase_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conv_purchase_price_purchase_unit" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conv_purchase_purchase_price_quantity"  class="oe_inline"/>
+                        <field name="conv_purchase_purchase_price_unit" readonly="1"/>
+                    </div>
+                    <newline/>
+                    <div id="conversion_purchase_pack" class="o_row d-flex" name="conversion purchase purchase" attrs="{'invisible': ['|',('purch_order_eq_pack','=',True)]}">
+                    <span>Conversion unité pour colisage : </span>
+                        <field name="conv_purchase_purchase_pack_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conv_purchase_purchase_pack_unit" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conv_purchase_pack_purchase_quantity"  class="oe_inline"/>
+                        <field name="conv_purchase_pack_purchase_unit" readonly="1"/>
+                    </div>
+                    <newline/>
                 </page>
             </notebook>
              <notebook position="inside">
@@ -140,6 +170,18 @@
                     </group>
                 </page>
             </notebook>
+            <notebook position="inside">
+                <page string="Calcul de besoin achat">
+                    <group>        
+                        <field name="purchase_gross_requirement" readonly = "1"/>
+                        <field name="stock_quantity" />
+                         <field name="purchase_net_requirement" readonly = "1"/>                
+                        <field name="purchase_requirement_ids"/>
+                    </group>
+                </page>
+            </notebook>
+
+            
             
         </field>
     </record>
