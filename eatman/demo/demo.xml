@@ -15,7 +15,6 @@
             <field name="unit_of_purchase"></field>
             <field name="purchase_price">0.0</field>
             <field name="purchase_quantity">0.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">1.0</field>
             <field name="conversion_sale_reference_quantity">1.0</field>
             <field name="conversion_purchase_purchase_quantity">0.0</field>
@@ -40,7 +39,6 @@
             <field name="unit_of_purchase">3</field>
             <field name="purchase_price">10.05</field>
             <field name="purchase_quantity">1</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">1.0</field>
@@ -55,14 +53,12 @@
             <field name="purchase_ok">true</field>
             <field name="product_cook">false</field>
             <field name="type">consu</field>
- 
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
             <field name="unit_of_purchase">3</field>
             <field name="purchase_price">3.93</field>
             <field name="purchase_quantity">1.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">1.0</field>
@@ -80,14 +76,12 @@
             <field name="purchase_ok">true</field>
             <field name="product_cook">false</field>
             <field name="type">consu</field>
-  
             <field name="unit_of_reference">3</field>
             <field name="unit_of_cooking">3</field>
             <field name="unit_of_sale"></field>
             <field name="unit_of_purchase">3</field>
             <field name="purchase_price">3.87</field>
             <field name="purchase_quantity">1.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">1.0</field>
@@ -111,7 +105,6 @@
             <field name="unit_of_purchase">1</field>
             <field name="purchase_price">1.55</field>
             <field name="purchase_quantity">1.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">1.0</field>
@@ -136,7 +129,6 @@
             <field name="unit_of_purchase"></field>
             <field name="purchase_price">0.0</field>
             <field name="purchase_quantity">0.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">0.0</field>
@@ -160,7 +152,6 @@
             <field name="unit_of_purchase"></field>
             <field name="purchase_price">0.0</field>
             <field name="purchase_quantity">0.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">0.0</field>
@@ -184,7 +175,6 @@
             <field name="unit_of_purchase"></field>
             <field name="purchase_price">0.0</field>
             <field name="purchase_quantity">0.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">0.0</field>
@@ -208,7 +198,6 @@
             <field name="unit_of_purchase"></field>
             <field name="purchase_price">0.0</field>
             <field name="purchase_quantity">0.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">0.0</field>
@@ -232,7 +221,6 @@
             <field name="unit_of_purchase"></field>
             <field name="purchase_price">0.0</field>
             <field name="purchase_quantity">0.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">0.0</field>
@@ -256,7 +244,6 @@
             <field name="unit_of_purchase"></field>
             <field name="purchase_price">0.0</field>
             <field name="purchase_quantity">0.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">0.0</field>
@@ -280,7 +267,6 @@
             <field name="unit_of_purchase">3</field>
             <field name="purchase_price">37.53</field>
             <field name="purchase_quantity">1.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">1.0</field>
@@ -304,7 +290,6 @@
             <field name="unit_of_purchase">3</field>
             <field name="purchase_price">2.2</field>
             <field name="purchase_quantity">1.0</field>
-            <field name="purchase_rounding">0.0</field>
             <field name="conversion_sale_sale_quantity">0.0</field>
             <field name="conversion_sale_reference_quantity">0.0</field>
             <field name="conversion_purchase_purchase_quantity">1</field>
