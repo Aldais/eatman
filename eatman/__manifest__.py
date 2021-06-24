@@ -31,7 +31,9 @@
         'views/inventory.xml',
         'views/prevision.xml',
         'views/purchase.xml',
+
         'views/purchase_order.xml',
+
         'report/eatman_report.xml',
         'views/requirement_wizard.xml',
         'views/preparationslip.xml',

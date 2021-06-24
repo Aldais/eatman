@@ -1,5 +1,7 @@
 from odoo import models, fields, api
+
 import math
+
 
 
 class requirementPurchase(models.Model):
@@ -10,6 +12,7 @@ class requirementPurchase(models.Model):
     quantity_required = fields.Float(digits=(3,3), string="Quantité demandée")
     requirement_father = fields.Char(string = "Besoin amont")
     receipe_uom = fields.Many2one('uom.uom','Unité de préparation', related='product_required.unit_of_cooking',readonly=True)
+
 
     
     company_id = fields.Many2one(
@@ -99,4 +102,5 @@ class purchaseLine(models.Model):
     
     
     
+
 

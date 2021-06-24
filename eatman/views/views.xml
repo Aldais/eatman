@@ -125,7 +125,9 @@
                         <field name="purch_order_eq_pack"  invisible="1"/>
                     </group>
                     
+
                     <div id="purchase price" class="o_row d-flex" name="purchase price">
+
                      <span>Prix d'achat : </span>
                         <field name="purchase_price" class="oe_inline" colspan="6"/>
                         <span> € pour </span>
@@ -134,7 +136,9 @@
                     </div>
                     <newline/>
 
+
                     <div id="conversion_purchase_purchase" class="o_row d-flex" name="conversion purchase purchase">
+
                     <span>Conversion unité d'achat prix et unité de commande d'achat : </span>
                         <field name="conv_purchase_price_purchase_quantity" class="oe_inline" colspan="6"/>
                         <field name="conv_purchase_price_purchase_unit" class="oe_inline" colspan="6" readonly = "1"/>
@@ -143,7 +147,9 @@
                         <field name="conv_purchase_purchase_price_unit" readonly="1"/>
                     </div>
                     <newline/>
+
                     <div id="conversion_purchase_pack" class="o_row d-flex" name="conversion purchase purchase">
+
                     <span>Conversion unité pour colisage : </span>
                         <field name="conv_purchase_purchase_pack_quantity" class="oe_inline" colspan="6"/>
                         <field name="conv_purchase_purchase_pack_unit" class="oe_inline" colspan="6" readonly = "1"/>
@@ -176,8 +182,10 @@
             <notebook position="inside">
                 <page string="Calcul de besoin achat">
                     <group>        
+
                         <field name="purchase_gross_requirement" string="Besoin total d'achat (unité de référence)" readonly="1"/>
                         <field name="stock_quantity" readonly = "1"/>
+
                          <field name="purchase_net_requirement" readonly = "1"/>                
                         <field name="purchase_requirement_ids"/>
                     </group>
