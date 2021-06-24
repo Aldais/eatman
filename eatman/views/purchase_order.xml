@@ -1,0 +1,35 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="purchase_order_form_view_inherited">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath
+                    expr="//form//sheet" 
+                    position="before">
+                        <button type="object" name="requirement_total" string="Proposition d'achat"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']"
+                    position="after">
+                    <field name="turnover" string="Chiffre d'affaire potentiel" required="1"/>
+                    
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_qty']"
+                     position="after">
+                    <!-- <field name="price_quantity"/>
+                    <field name="po_quantity"/>
+                    <field name="pack_quantity"/>
+                    !-->
+                    <field name="price_uom"/>
+                    <field name="po_quantity_roundup"/>
+                    <field name="po_unit"/>
+                    <field name="pack_quantity_roundup"/>
+                    <field name="pack_unit"/>
+                </xpath>
+            </data>
+        </field>
+     </record>
+    </data>
+</odoo> 

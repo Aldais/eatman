@@ -20,7 +20,7 @@
 
     # any module necessary for this one to work correctly
 
-    'depends': ['base', 'product', 'uom'],
+    'depends': ['base', 'product', 'uom','purchase'],
 
     # always loaded
     'data': [
@@ -31,6 +31,10 @@
         'views/inventory.xml',
         'views/prevision.xml',
         'views/purchase.xml',
+
+        'views/purchase_order.xml',
+
+      
         'report/eatman_report.xml',
         'views/requirement_wizard.xml',
         'views/preparationslip.xml',

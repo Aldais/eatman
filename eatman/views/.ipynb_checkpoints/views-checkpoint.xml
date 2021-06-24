@@ -34,6 +34,9 @@
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_3"/>
                     <field name="debug"/>
+                    <field name="uom_po_id"/>
+                    <field name="uom_id"/>
+                    
 
                     <field name="reference_eq_cooking" invisible="1"/>
                     <field name="reference_eq_sale" invisible="1"/>
@@ -122,7 +125,9 @@
                         <field name="purch_order_eq_pack"  invisible="1"/>
                     </group>
                     
-                    <div id="purchase price" class="o_row d-flex" name="purchase price" attrs="{'invisible': ['|',('purchase_ok','=',False)]}">
+
+                    <div id="purchase price" class="o_row d-flex" name="purchase price">
+
                      <span>Prix d'achat : </span>
                         <field name="purchase_price" class="oe_inline" colspan="6"/>
                         <span> € pour </span>
@@ -131,7 +136,9 @@
                     </div>
                     <newline/>
 
-                    <div id="conversion_purchase_purchase" class="o_row d-flex" name="conversion purchase purchase" attrs="{'invisible': ['|',('purch_price_eq_order','=',True)]}">
+
+                    <div id="conversion_purchase_purchase" class="o_row d-flex" name="conversion purchase purchase">
+
                     <span>Conversion unité d'achat prix et unité de commande d'achat : </span>
                         <field name="conv_purchase_price_purchase_quantity" class="oe_inline" colspan="6"/>
                         <field name="conv_purchase_price_purchase_unit" class="oe_inline" colspan="6" readonly = "1"/>
@@ -140,7 +147,9 @@
                         <field name="conv_purchase_purchase_price_unit" readonly="1"/>
                     </div>
                     <newline/>
-                    <div id="conversion_purchase_pack" class="o_row d-flex" name="conversion purchase purchase" attrs="{'invisible': ['|',('purch_order_eq_pack','=',True)]}">
+
+                    <div id="conversion_purchase_pack" class="o_row d-flex" name="conversion purchase purchase">
+
                     <span>Conversion unité pour colisage : </span>
                         <field name="conv_purchase_purchase_pack_quantity" class="oe_inline" colspan="6"/>
                         <field name="conv_purchase_purchase_pack_unit" class="oe_inline" colspan="6" readonly = "1"/>
@@ -163,8 +172,8 @@
             <notebook position="inside">
                 <page string="Calcul de besoin">
                     <group>        
-                        <field name="gross_requirement" readonly = "1"/>
-                        <field name="stock_quantity" />
+                        <field name="gross_requirement" string="Besoin total (unité de référence)" readonly = "1"/>
+                        <field name="stock_quantity" readonly = "1"/>
                          <field name="net_requirement" readonly = "1"/>                
                         <field name="requirement_ids"/>
                     </group>
@@ -173,8 +182,10 @@
             <notebook position="inside">
                 <page string="Calcul de besoin achat">
                     <group>        
-                        <field name="purchase_gross_requirement" readonly = "1"/>
-                        <field name="stock_quantity" />
+
+                        <field name="purchase_gross_requirement" string="Besoin total d'achat (unité de référence)" readonly="1"/>
+                        <field name="stock_quantity" readonly = "1"/>
+
                          <field name="purchase_net_requirement" readonly = "1"/>                
                         <field name="purchase_requirement_ids"/>
                     </group>
@@ -238,7 +249,7 @@
                         <field name ="receipe_line_ids" string="Ligne de recette" >
                             <tree string="Ligne de recette"  editable="bottom">
                                 <field name ="product_ingredient"/>
-                                <field name ="ingredient_quantity"/>
+                                <field name ="ingredient_quantity" string = "Quantité (unité de préparation)"/>
                                 <field name ="ingredient_uom"/>
                                 <field name ="ingredient_lost_rate"/>
                             </tree>

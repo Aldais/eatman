@@ -48,8 +48,9 @@ class requirementwizard(models.TransientModel):
         product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True),('company_id','=', self.env.user.company_id.id)])
         for product in product_ids:
             sold_quantity = product.sale_ratio*self.turnover
-            reference_quantity = product.conversion_sale_reference(sold_quantity)
-            cook_quantity = product.conversion_reference_cook(reference_quantity)
+            reference_quantity = product.conversion_sale_to_reference(sold_quantity)
+            product.debug = "quantité vendu:"+str(sold_quantity)
+            cook_quantity = product.conversion_reference_to_cook(reference_quantity)
             product.requirement_calculation(cook_quantity,"Prévision de vente")
         self.status = '2';
         preparation_slip_ids = self.env['eatman.preparationslip'].sudo().search([('id', '!=', False),('company_id','=', self.env.user.company_id.id)])
