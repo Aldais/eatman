@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+import math
 
 
 class requirementPurchase(models.Model):
@@ -9,6 +10,8 @@ class requirementPurchase(models.Model):
     quantity_required = fields.Float(digits=(3,3), string="Quantité demandée")
     requirement_father = fields.Char(string = "Besoin amont")
     receipe_uom = fields.Many2one('uom.uom','Unité de préparation', related='product_required.unit_of_cooking',readonly=True)
+
+    
     company_id = fields.Many2one(
         'res.company', 'Company', index=1)
     
@@ -17,6 +20,7 @@ class purchase(models.Model):
     _inherit = "purchase.order"
     
     turnover = fields.Float(digits=(3,3), string="Chiffre d'affaire potentiel")
+    
     
     def requirement_delete(self):
         self.env['eatman.requirement_purchase'].sudo().search([('company_id','=', self.company_id.id)]).unlink()
@@ -41,21 +45,58 @@ class purchase(models.Model):
         for product in product_ids:
             
             if product.purchase_net_requirement >0:
+                #le pruchase_net_requirement est exprimé en unité de référence afin de permettre la soustraction des stocks
+                #il est donc nécessaire de transformé cette valeur en unité d'achat
+                #La ligne de commande d'achat va utilisé 3 unité: 
+                #L'unité de uom_po_id qui est nécessaire dans odoo
+                #L'unité d'achat qui provient de la fiche article
+                #L'unité de colisage qui provient de la fiche article
+                #L'unité de prix d'achat qui provient de l'unité d'achat
+                quantity_price_unit =  product.purchase_net_requirement * product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
+                
+                quantity_po_unit = quantity_price_unit * product.conv_purchase_purchase_price_quantity / product.conv_purchase_price_purchase_quantity
+                quantity_pack_unit = quantity_po_unit*product.conv_purchase_pack_purchase_quantity/product.conv_purchase_purchase_pack_quantity
+                quantity_pack_unit_round = math.ceil(quantity_pack_unit)
+                quantity_po_unit_round = quantity_pack_unit_round*product.conv_purchase_purchase_pack_quantity/product.conv_purchase_pack_purchase_quantity
+                
+                price_po_unit = product.purchase_price / product.purchase_quantity * product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
+                
                 self.env['purchase.order.line'].create(
                     {
-                        'name': product.name,
+                        'name': str(quantity_po_unit_round)+" x "+product.unit_purchase_order.name+" du produit: "+product.name+" soit "+str(quantity_pack_unit_round)+" x "+product.unit_purchase_pack.name,
                         'order_id': self.id,
                         'date_planned': self.date_order,
+                        #product_qty est exprimé en unité de référence
                         'product_qty': product.purchase_net_requirement,
-                        'price_unit': 0.0,
-                        'product_id': product.id,
+                        #NOus avons surcharger la fiche article pour que uom_po_id soit égal à unit_of_reference
                         'product_uom': product.uom_po_id.id,
-
+                        'price_unit': price_po_unit,
+                        'product_id': product.id,
+                        'pack_quantity':quantity_pack_unit,
+                        'pack_quantity_roundup':quantity_pack_unit_round,
+                        'pack_unit':product.unit_purchase_pack.id,
+                        'price_quantity':quantity_price_unit,
+                        'price_uom':product.unit_of_purchase.id,
+                        'po_quantity':quantity_po_unit,
+                        'po_unit':product.unit_purchase_order.id,
+                        'po_quantity_roundup': quantity_po_unit_round
                     })
     
     
-#class purchase 
-    #ajouter les informations de colisage
+class purchaseLine(models.Model):
+    _inherit = "purchase.order.line"
+    price_uom = fields.Many2one('uom.uom', "Unité de prix d'achat")
+    price_quantity = fields.Float(digits=(3,3), string="Quantité unité de prix")
     
-
+    po_unit = fields.Many2one('uom.uom', "Unité de commande d'achat")
+    po_quantity_roundup = fields.Float(digits=(3,3), string="Quantité unité de commande(arrondi)")
+    po_quantity = fields.Float(digits=(3,3), string="Quantité unité de commande")
+    
+    pack_quantity = fields.Float(digits=(3,3), string="Quantité en unité de colisage")
+    pack_quantity_roundup= fields.Float(digits=(3,3), string="Quantité en unité de colisage(arrondi)")
+    pack_unit = fields.Many2one('uom.uom', "Unité de colisage d'achat")
+    
+    
+    
+    
 
