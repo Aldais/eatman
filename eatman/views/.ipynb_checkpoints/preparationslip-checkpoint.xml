@@ -6,9 +6,12 @@
             view_mode="tree,form"
             limit="80" />
 
+          <menuitem id="preparationslip_top"
+        name="Feuille de préparation" 
+        web_icon="eatman,static/description/feuille_prepa.png"/>
       
         <menuitem id="menu_all_preparation_slip"
-          parent="eatman_prevision_top"
+          parent="preparationslip_top"
           action="action_all_preparation_slip"
           sequence="20"
           groups="" />

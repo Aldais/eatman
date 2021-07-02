@@ -8,7 +8,8 @@
 
 
         <menuitem id="eatman_prevision_top"
-            name="Prévision" />
+            name="Prévision" 
+            web_icon="eatman,static/description/prevision.png"/>
 
         <menuitem id="menu_sumup"
             parent="eatman_prevision_top"
