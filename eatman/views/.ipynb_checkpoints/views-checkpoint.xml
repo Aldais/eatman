@@ -27,15 +27,16 @@
                 <xpath
                     expr="//field[@name='uom_po_id']"
                     position="after">
-                    <field name="unit_of_reference"/>
-                    <field name="unit_of_sale"/>
-                    <field name="unit_of_cooking"/>
+                    <field name="unit_of_reference" required="1"/>
+                    <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}"/>
+                    <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}"/>
                     <field name="unit_of_inventory_1"/>
                     <field name="unit_of_inventory_2"/>
                     <field name="unit_of_inventory_3"/>
                     <field name="debug"/>
                     <field name="uom_po_id"/>
                     <field name="uom_id"/>
+   
                     
 
                     <field name="reference_eq_cooking" invisible="1"/>
@@ -48,7 +49,7 @@
 
                 </xpath>
             </data>
-	
+                
 
             <notebook position="inside">
                 <page string="Conversion de quantité">
@@ -119,8 +120,8 @@
                 <page string="Achat">
                     <group>
                         <field name="supplier"/>
-                        <field name="unit_purchase_order"/>
-                        <field name="unit_purchase_pack"/>
+                        <field name="unit_purchase_order" attrs="{'required': [('purchase_ok','=',True)]}"/>
+                        <field name="unit_purchase_pack" attrs="{'required': [('purchase_ok','=',True)]}"/>
                         <field name="purch_price_eq_order" invisible="1"/>
                         <field name="purch_order_eq_pack"  invisible="1"/>
                     </group>
@@ -132,7 +133,7 @@
                         <field name="purchase_price" class="oe_inline" colspan="6"/>
                         <span> € pour </span>
                         <field name="purchase_quantity" class="oe_inline" colspan="6" />
-                        <field name="unit_of_purchase"/>
+                        <field name="unit_of_purchase" attrs="{'required': [('purchase_ok','=',True)]}"/>
                     </div>
                     <newline/>
 
@@ -198,45 +199,62 @@
     </record>
  
     <act_window id="action_all_receipe"
-            name="Mes recettes"
+            name="Recettes"
             res_model="eatman.receipe"
             view_mode="tree,form"
             limit="80" />
-
+    <!--
     <act_window id="action_all_receipe_line"
             name="Ligne de recettes"
             res_model="eatman.receipe.line"
             view_mode="tree,form"
             limit="80" />
+    -->
+      
     <act_window id="action_all_product"
-            name="Mes produits"
+            name="Produits"
             res_model="product.template"
             view_mode="tree,form"
             limit="80" />
 
-      
     <menuitem id="eatman_top"
-        name="Foodcost" />
-        <menuitem id="menu_all_receipe"
-
+        name="Foodcost" 
+        web_icon="eatman,static/description/lunch.png"
+                />
+    <menuitem id="menu_all_product"
           parent="eatman_top"
-          action="action_all_receipe"
+          action="action_all_product"
           sequence="10"
           groups="" />
+    <menuitem id="menu_all_receipe"
+          parent="eatman_top"
+          action="action_all_receipe"
+          sequence="20"
+          groups="" 
+        />
 
+       <!--  
         <menuitem id="menu_all_receipe_line"
           parent="eatman_top"
           action="action_all_receipe_line"
           sequence="20"
           groups="" />
-        <menuitem id="menu_all_product"
-          parent="eatman_top"
-          action="action_all_product"
-          sequence="20"
-          groups="" />
+      -->
 
+        <record id="form_all_product" model="ir.ui.view">
+            <field name="name">Produits</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name ="name"/>
+                    <field name ="foodcost_text"/>
+                    
+                </tree>
+            </field>
+        </record>
+      
         <record id="form_all_receipe" model="ir.ui.view">
-            <field name="name">Mes recettes</field>
+            <field name="name">Recettes</field>
             <field name="model">eatman.receipe</field>
             <field name="arch" type="xml">
                 <form>
@@ -258,5 +276,9 @@
                 </form>
             </field>
         </record>
+      
+        
+      
+      
     </data>
 </odoo>

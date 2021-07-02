@@ -79,7 +79,12 @@ class product(models.Model):
 #!!!!!Foodcost Information ##############################################################################################
     foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="foodcost unité reference", store=True)
     foodcost = fields.Float(digits=(3,3), string="foodcost")
+    foodcost_text = fields.Char(compute="foodcost_text_compute", string="Foodcost")
     
+    @api.depends('foodcost')
+    def foodcost_text_compute(self):
+        for record in self:
+            record.foodcost_text = str(record.foodcost)+" € pour 1"+str(record.foodcost_unit_reference)
 
 
 #!!!!!!Requirement for preparation slip##################################################################################

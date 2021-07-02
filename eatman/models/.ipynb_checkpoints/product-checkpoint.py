@@ -7,8 +7,11 @@ class product(models.Model):
     
     _inherit = "product.template"    
     debug = fields.Char()
-
     unit_of_reference = fields.Many2one('uom.uom', 'Unité de référence')
+    
+    
+
+    
 
 #!!!!!!!!!!Cooked product - information related##################################################################################################
     product_cook = fields.Boolean(default=False,string="Produit cuisiné")
@@ -76,7 +79,12 @@ class product(models.Model):
 #!!!!!Foodcost Information ##############################################################################################
     foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="foodcost unité reference", store=True)
     foodcost = fields.Float(digits=(3,3), string="foodcost")
+    foodcost_text = fields.Char(compute="foodcost_text_compute", string="Foodcost")
     
+    @api.depends('foodcost')
+    def foodcost_text_compute(self):
+        for record in self:
+            record.foodcost_text = str(record.foodcost)+" € pour 1"+str(record.foodcost_unit_reference)
 
 
 #!!!!!!Requirement for preparation slip##################################################################################
@@ -86,6 +94,7 @@ class product(models.Model):
         #Gross requirement are expressed in reference UoM
     gross_requirement = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin Total")
 
+    
     @api.depends('requirement_ids','conversion_cook_cook_quantity','conversion_cook_reference_quantity')
     def requirement_aggregation(self):
         for record in self:
@@ -159,7 +168,6 @@ class product(models.Model):
     conv_purchase_purchase_price_unit = fields.Char(related='unit_purchase_order.name', string="Conversion unité de commande/ unité de prix", store=True)
     conv_purchase_price_purchase_quantity = fields.Float(digits=(3,3))
     conv_purchase_purchase_price_quantity = fields.Float(digits=(3,3))
-    
 
     conv_purchase_purchase_pack_unit = fields.Char(related='unit_purchase_order.name', string="Conversion unité de commande/ unité de colisage", store=True)
     conv_purchase_pack_purchase_unit = fields.Char(related='unit_purchase_pack.name', string="Conversion unité de colisage/ unité de commande", store=True)
@@ -173,7 +181,6 @@ class product(models.Model):
     reference_eq_purchase = fields.Boolean()
     purch_price_eq_order = fields.Boolean()
     purch_order_eq_pack = fields.Boolean()
-
 
     #Nous surcharcheons la gestion des unités. Par défaut l'unité de uom_id et uom_po_id sera égale à l'unité de référence
     @api.onchange('unit_of_reference')
