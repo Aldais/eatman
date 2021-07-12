@@ -58,20 +58,32 @@ class purchase(models.Model):
                 quantity_price_unit =  product.purchase_net_requirement * product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
                 
                 quantity_po_unit = quantity_price_unit * product.conv_purchase_purchase_price_quantity / product.conv_purchase_price_purchase_quantity
+                price_po_unit = product.purchase_price / product.purchase_quantity * product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
+                
                 quantity_pack_unit = quantity_po_unit*product.conv_purchase_pack_purchase_quantity/product.conv_purchase_purchase_pack_quantity
                 quantity_pack_unit_round = math.ceil(quantity_pack_unit)
-                quantity_po_unit_round = quantity_pack_unit_round*product.conv_purchase_purchase_pack_quantity/product.conv_purchase_pack_purchase_quantity
                 
-                price_po_unit = product.purchase_price / product.purchase_quantity * product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
+                quantity_po_unit_round = quantity_pack_unit_round / product.conv_purchase_pack_purchase_quantity * product.conv_purchase_purchase_pack_quantity
+                
+                quantity_price_unit_round = quantity_po_unit_round / product.conv_purchase_purchase_price_quantity * product.conv_purchase_price_purchase_quantity
+                
+                quantity_reference_unit_round = quantity_price_unit_round  * product.conversion_purchase_reference_quantity / product.conversion_purchase_purchase_quantity
+                
+
+                
+                quantity_price_unit_round
                 
                 self.env['purchase.order.line'].create(
                     {
                         'name': str(quantity_po_unit_round)+" x "+product.unit_purchase_order.name+" du produit: "+product.name+" soit "+str(quantity_pack_unit_round)+" x "+product.unit_purchase_pack.name,
                         'order_id': self.id,
                         'date_planned': self.date_order,
-                        #product_qty est exprimé en unité de référence
-                        'product_qty': product.purchase_net_requirement,
-                        #NOus avons surcharger la fiche article pour que uom_po_id soit égal à unit_of_reference
+                        #product_qty est exprimé en unité de référence car limitation de Odoo. 
+                        #L'unité d'achat doit être identique dans la commande. 
+                        #Nous avons surcharger la fiche article pour que uom_po_id soit égal à unit_of_reference
+                        #Le montant de la commande étant calculé sur product_qty * price_unit. Nous devons définir l'arrondi
+                        #de commande en unité d'achat en fonction de l'unité de packing
+                        'product_qty': quantity_reference_unit_round,
                         'product_uom': product.uom_po_id.id,
                         'price_unit': price_po_unit,
                         'product_id': product.id,
