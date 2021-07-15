@@ -20,6 +20,11 @@ class foodcostwizard(models.TransientModel):
     #    help="Ingrédient de la recette")
    
     def foodcost_total(self):
+        produit_ids = self.env['product.template'].sudo().search([('purchase_ok', '=', True)])
+        for produit in produit_ids:
+            produit.foodcost_calculation()
+        self.status = '2';
+        
         produit_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True)])
         for produit in produit_ids:
             produit.foodcost_calculation()
