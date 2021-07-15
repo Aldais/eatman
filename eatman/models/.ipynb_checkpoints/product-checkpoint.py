@@ -442,48 +442,33 @@ class product(models.Model):
             if product.unit_of_sale == product.unit_of_reference:
                 product.conversion_sale_sale_quantity = 1
                 product.conversion_sale_reference_quantity = 1
-            else:
-                product.conversion_sale_sale_quantity = 0
-                product.conversion_sale_reference_quantity = 0
+
 
             if product.unit_of_purchase == product.unit_of_reference:
                 product.conversion_purchase_purchase_quantity = 1
                 product.conversion_purchase_reference_quantity = 1
-            else:
-                product.conversion_purchase_purchase_quantity = 0
-                product.conversion_purchase_reference_quantity = 0
+
 
             if product.unit_of_inventory_1 == product.unit_of_reference:
                 product.conversion_inventory1_inventory1_quantity = 1
                 product.conversion_inventory1_reference_quantity = 1
-            else:
-                product.conversion_inventory1_inventory1_quantity = 0
-                product.conversion_inventory1_reference_quantity = 0
+
 
             if product.unit_of_inventory_2 == product.unit_of_reference:
                 product.conversion_inventory2_inventory2_quantity = 1
                 product.conversion_inventory2_reference_quantity = 1
-            else:
-                product.conversion_inventory2_inventory2_quantity = 0
-                product.conversion_inventory2_reference_quantity = 0
+
 
             if product.unit_of_inventory_3 == product.unit_of_reference:
                 product.conversion_inventory3_inventory3_quantity = 1
                 product.conversion_inventory3_reference_quantity = 1
-            else:
-                product.conversion_inventory3_inventory3_quantity = 0
-                product.conversion_inventory3_reference_quantity = 0
+
 
             if product.unit_purchase_order == product.unit_purchase_pack:
                 product.conv_purchase_purchase_pack_quantity = 1
                 product.conv_purchase_pack_purchase_quantity = 1
-            else:
-                product.conv_purchase_purchase_pack_quantity = 0
-                product.conv_purchase_pack_purchase_quantity = 0
+
 
             if product.unit_purchase_order == product.unit_of_purchase:
                 product.conv_purchase_price_purchase_quantity = 1
                 product.conv_purchase_purchase_price_quantity = 1
-            else:
-                product.conv_purchase_price_purchase_quantity = 0
-                product.conv_purchase_purchase_price_quantity = 0
