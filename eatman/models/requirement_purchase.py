@@ -28,6 +28,8 @@ class purchase(models.Model):
     def requirement_delete(self):
         self.env['eatman.requirement_purchase'].sudo().search([('company_id','=', self.company_id.id)]).unlink()
 
+
+    
     #ajouter action qui calcul les besoin pour les produits et pour un CA défini
     
     def requirement_total(self):
@@ -111,8 +113,10 @@ class purchaseLine(models.Model):
     pack_quantity_roundup= fields.Float(digits=(3,3), string="Quantité en unité de colisage(arrondi)")
     pack_unit = fields.Many2one('uom.uom', "Unité de colisage d'achat")
     
-    
-    
-    
-
+        #fonction qui recalcul les unités et le prix lorsque le produit est renseigné
+    @api.onchange('product_id')
+    def ochange_product_id(self):
+        self.price_uom = self.product_id.unit_of_purchase.id
+        self.pack_unit = self.product_id.unit_purchase_pack.id
+        self.po_unit = self.product_id.unit_purchase_order.id
 

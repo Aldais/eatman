@@ -10,6 +10,8 @@
                     expr="//form//sheet" 
                     position="before">
                         <button type="object" name="foodcost_calculation" string="Calcul coût de revient"/>
+                        <button type="object" name="conversion_initial" string="MaJ conversion"/>
+                    
                 </xpath>
                 <xpath
                     expr="//div[@name='options']"
