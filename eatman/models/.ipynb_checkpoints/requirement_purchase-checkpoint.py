@@ -73,8 +73,6 @@ class purchase(models.Model):
                 
 
                 
-                quantity_price_unit_round
-                
                 self.env['purchase.order.line'].create(
                     {
                         'name': str(quantity_po_unit_round)+" x "+product.unit_purchase_order.name+" du produit: "+product.name+" soit "+str(quantity_pack_unit_round)+" x "+product.unit_purchase_pack.name,
@@ -119,4 +117,31 @@ class purchaseLine(models.Model):
         self.price_uom = self.product_id.unit_of_purchase.id
         self.pack_unit = self.product_id.unit_purchase_pack.id
         self.po_unit = self.product_id.unit_purchase_order.id
+    
+        #fonction qui converti les quantités dépendantes de la quantité saisie
+    @api.onchange('product_qty')
+    def ochange_product_qty(self):
+        if self.product_qty >0:
+            product = self.product_id
+            
+            quantity_price_unit =  self.product_qty* product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
+
+            quantity_po_unit = self.product_qty * product.conv_purchase_purchase_price_quantity / product.conv_purchase_price_purchase_quantity
+            price_po_unit = product.purchase_price / product.purchase_quantity * product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
+
+            quantity_pack_unit = quantity_po_unit*product.conv_purchase_pack_purchase_quantity/product.conv_purchase_purchase_pack_quantity
+            quantity_pack_unit_round = math.ceil(quantity_pack_unit)
+
+            quantity_po_unit_round = quantity_pack_unit_round / product.conv_purchase_pack_purchase_quantity * product.conv_purchase_purchase_pack_quantity
+
+            quantity_price_unit_round = quantity_po_unit_round / product.conv_purchase_purchase_price_quantity * product.conv_purchase_price_purchase_quantity
+
+            quantity_reference_unit_round = quantity_price_unit_round  * product.conversion_purchase_reference_quantity / product.conversion_purchase_purchase_quantity
+
+            self.pack_quantity = quantity_pack_unit
+            self.pack_quantity_roundup = quantity_pack_unit_round
+            self.price_quantity = quantity_price_unit
+            self.po_quantity = quantity_po_unit
+            self.po_quantity_roundup = quantity_po_unit_round
+            self. product_qty = quantity_reference_unit_round
 
