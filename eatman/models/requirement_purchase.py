@@ -72,7 +72,7 @@ class purchase(models.Model):
                 quantity_reference_unit_round = quantity_price_unit_round  * product.conversion_purchase_reference_quantity / product.conversion_purchase_purchase_quantity
                 
 
-                
+
                 self.env['purchase.order.line'].create(
                     {
                         'name': str(quantity_po_unit_round)+" x "+product.unit_purchase_order.name+" du produit: "+product.name+" soit "+str(quantity_pack_unit_round)+" x "+product.unit_purchase_pack.name,

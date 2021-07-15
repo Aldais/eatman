@@ -72,6 +72,7 @@ class purchase(models.Model):
                 quantity_reference_unit_round = quantity_price_unit_round  * product.conversion_purchase_reference_quantity / product.conversion_purchase_purchase_quantity
                 
 
+
                 
                 self.env['purchase.order.line'].create(
                     {
@@ -111,6 +112,7 @@ class purchaseLine(models.Model):
     pack_quantity_roundup= fields.Float(digits=(3,3), string="Quantité en unité de colisage(arrondi)")
     pack_unit = fields.Many2one('uom.uom', "Unité de colisage d'achat")
     
+
         #fonction qui recalcul les unités et le prix lorsque le produit est renseigné
     @api.onchange('product_id')
     def ochange_product_id(self):
@@ -137,6 +139,7 @@ class purchaseLine(models.Model):
             quantity_price_unit_round = quantity_po_unit_round / product.conv_purchase_purchase_price_quantity * product.conv_purchase_price_purchase_quantity
 
             quantity_reference_unit_round = quantity_price_unit_round  * product.conversion_purchase_reference_quantity / product.conversion_purchase_purchase_quantity
+
 
             self.pack_quantity = quantity_pack_unit
             self.pack_quantity_roundup = quantity_pack_unit_round
