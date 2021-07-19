@@ -205,13 +205,13 @@
             res_model="eatman.receipe"
             view_mode="tree,form"
             limit="80" />
-    <!--
+    
     <act_window id="action_all_receipe_line"
             name="Ligne de recettes"
             res_model="eatman.receipe.line"
             view_mode="tree,form"
             limit="80" />
-    -->
+    
       
     <act_window id="action_all_product"
             name="Produits"
@@ -235,14 +235,12 @@
           groups="" 
         />
 
-       <!--  
         <menuitem id="menu_all_receipe_line"
           parent="eatman_top"
           action="action_all_receipe_line"
           sequence="20"
           groups="" />
-      -->
-
+    
         <record id="form_all_product" model="ir.ui.view">
             <field name="name">Produits</field>
             <field name="model">product.template</field>
@@ -261,8 +259,8 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
-                        <field name ="name"/>   
-                        <field name ="product_cooked"/>   
+                        <field name ="product_cooked"/> 
+                        <field name ="product_foodcost"/>
                         <field name ="receipe_quantity"/>
                         <field name ="receipe_uom"/>
                         <field name ="company_id"/>
@@ -276,6 +274,18 @@
                         </field>
                     </group>
                 </form>
+            </field>
+        </record>
+        <record id="form_all_receipe_tree" model="ir.ui.view">
+            <field name="name">Recettes</field>
+            <field name="model">eatman.receipe</field>
+            <field name="arch" type="xml">
+                <tree>
+                        <field name ="product_cooked"/> 
+                        <field name ="product_foodcost"/>
+                        <field name ="receipe_quantity"/>
+                        <field name ="receipe_uom"/>
+                </tree>
             </field>
         </record>
       

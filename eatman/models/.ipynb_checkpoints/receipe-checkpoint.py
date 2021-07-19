@@ -7,6 +7,7 @@ class receipe(models.Model):
 
     name = fields.Char()
     product_cooked = fields.Many2one('product.template', 'Produit cuisiné', help="Produit cuisiné")
+    product_foodcost = fields.Char(related= 'product_cooked.foodcost_text')
 
     receipe_quantity = fields.Float(digits=(3,3), string="quantité de la recette")
 
