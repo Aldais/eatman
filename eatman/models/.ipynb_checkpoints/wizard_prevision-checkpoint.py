@@ -34,7 +34,7 @@ class previsionwizard(models.TransientModel):
     #    help="Ingrédient de la recette")
    
     def foodcost_total(self):
-        produit_ids = self.env['product.template'].sudo().search([('product_cook', '=', True),('company_id','=', self.env.user.company_id)])
+        produit_ids = self.env['product.template'].sudo().search([('product_cook', '=', True)])
         for produit in produit_ids:
             produit.foodcost_calculation()
         self.status = '2';

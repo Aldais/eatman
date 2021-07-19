@@ -442,6 +442,10 @@ class product(models.Model):
             if product.unit_of_sale == product.unit_of_reference:
                 product.conversion_sale_sale_quantity = 1
                 product.conversion_sale_reference_quantity = 1
+                
+            if product.unit_of_cooking == product.unit_of_reference:
+                product.conversion_cook_cook_quantity = 1
+                product.conversion_cook_reference_quantity = 1
 
 
             if product.unit_of_purchase == product.unit_of_reference:
