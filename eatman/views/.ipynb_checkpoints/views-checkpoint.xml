@@ -23,31 +23,38 @@
                             <label for="product_cook"/>
                         </div>
                 </xpath>
-                <xpath expr="//field[@name='standard_price']"
-                position="replace">
-                <field name="foodcost" string="Foodcost"/>
+
                 
+                <xpath expr="//group[@name='group_general']" position="attributes">
+                     <attribute name="invisible">True</attribute>
                 </xpath>
+                <xpath expr="//group[@name='group_standard_price']" position="attributes">
+                     <attribute name="invisible">True</attribute>
+                </xpath>
+
                 <xpath
-                    expr="//field[@name='uom_po_id']"
+                    expr="//group[@name='group_standard_price']"
                     position="after">
-                    <field name="unit_of_reference" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <field name="unit_of_inventory_1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <field name="unit_of_inventory_2" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <field name="unit_of_inventory_3" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <field name="debug"/>
+                    <group name="unit_of_measure">
+                        <field name="foodcost" string="Foodcost" readonly="1"/>
+                        <field name="unit_of_reference" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="unit_of_inventory_1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="unit_of_inventory_2" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="unit_of_inventory_3" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="debug"/>
 
-   
-                    
 
-                    <field name="reference_eq_cooking" invisible="1"/>
-                    <field name="reference_eq_sale" invisible="1"/>
-                    <field name="reference_eq_purchase" invisible="1"/>
-                    <field name="reference_eq_inv1" invisible="1"/>
-                    <field name="reference_eq_inv2" invisible="1"/>
-                    <field name="reference_eq_inv3" invisible="1"/>
+
+
+                        <field name="reference_eq_cooking" invisible="1"/>
+                        <field name="reference_eq_sale" invisible="1"/>
+                        <field name="reference_eq_purchase" invisible="1"/>
+                        <field name="reference_eq_inv1" invisible="1"/>
+                        <field name="reference_eq_inv2" invisible="1"/>
+                        <field name="reference_eq_inv3" invisible="1"/>
+                    </group>
                 </xpath>
                 
                  
@@ -160,7 +167,7 @@
         <field name="inherit_id" ref="purchase.view_product_supplier_inherit"/>
         <field name="arch" type="xml">
             <data>
-                
+
                 <xpath
                     expr="//notebook/page[@name='purchase']"
                     position="replace">
