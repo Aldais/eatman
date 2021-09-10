@@ -36,8 +36,8 @@
 
         'report/eatman_report.xml',
         'views/requirement_wizard.xml',
-        'views/preparationslip.xml',
-        'demo/demo.xml'
+        'views/preparationslip.xml'
+        #,'demo/demo.xml'
 
     ],
     # only loaded in demonstration mode
