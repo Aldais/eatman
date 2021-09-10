@@ -1,5 +1,6 @@
 <odoo>
   <data>
+    <!-- Update de la vue pour ne faire apparaitre que les info achat achats eatman-->    
     <record model="ir.ui.view" id="product_template_form_view_inherited">
         <field name="name">product.template.common.form.inherit</field>
         <field name="model">product.template</field>
@@ -13,6 +14,7 @@
                         <button type="object" name="conversion_initial" string="MaJ conversion"/>
                     
                 </xpath>
+
                 <xpath
                     expr="//div[@name='options']"
                     position="inside">
@@ -29,15 +31,14 @@
                 <xpath
                     expr="//field[@name='uom_po_id']"
                     position="after">
-                    <field name="unit_of_reference" required="1"/>
-                    <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}"/>
-                    <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}"/>
-                    <field name="unit_of_inventory_1"/>
-                    <field name="unit_of_inventory_2"/>
-                    <field name="unit_of_inventory_3"/>
+                    <field name="unit_of_reference" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="unit_of_inventory_1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="unit_of_inventory_2" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="unit_of_inventory_3" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                     <field name="debug"/>
-                    <field name="uom_po_id"/>
-                    <field name="uom_id"/>
+
    
                     
 
@@ -47,11 +48,10 @@
                     <field name="reference_eq_inv1" invisible="1"/>
                     <field name="reference_eq_inv2" invisible="1"/>
                     <field name="reference_eq_inv3" invisible="1"/>
-
-
                 </xpath>
-            </data>
                 
+                 
+            </data>
 
             <notebook position="inside">
                 <page string="Conversion de quantité">
@@ -118,51 +118,7 @@
 
                 </page>
             </notebook>
-             <notebook position="inside">
-                <page string="Achat">
-                    <group>
-                        <field name="supplier"/>
-                        <field name="unit_purchase_order" attrs="{'required': [('purchase_ok','=',True)]}"/>
-                        <field name="unit_purchase_pack" attrs="{'required': [('purchase_ok','=',True)]}"/>
-                        <field name="purch_price_eq_order" invisible="1"/>
-                        <field name="purch_order_eq_pack"  invisible="1"/>
-                    </group>
-                    
 
-                    <div id="purchase price" class="o_row d-flex" name="purchase price">
-
-                     <span>Prix d'achat : </span>
-                        <field name="purchase_price" class="oe_inline" colspan="6"/>
-                        <span> € pour </span>
-                        <field name="purchase_quantity" class="oe_inline" colspan="6" />
-                        <field name="unit_of_purchase" attrs="{'required': [('purchase_ok','=',True)]}"/>
-                    </div>
-                    <newline/>
-
-
-                    <div id="conversion_purchase_purchase" class="o_row d-flex" name="conversion purchase purchase">
-
-                    <span>Conversion unité d'achat prix et unité de commande d'achat : </span>
-                        <field name="conv_purchase_price_purchase_quantity" class="oe_inline" colspan="6"/>
-                        <field name="conv_purchase_price_purchase_unit" class="oe_inline" colspan="6" readonly = "1"/>
-                        <span>est égal à</span>
-                        <field name="conv_purchase_purchase_price_quantity"  class="oe_inline"/>
-                        <field name="conv_purchase_purchase_price_unit" readonly="1"/>
-                    </div>
-                    <newline/>
-
-                    <div id="conversion_purchase_pack" class="o_row d-flex" name="conversion purchase purchase">
-
-                    <span>Conversion unité pour colisage : </span>
-                        <field name="conv_purchase_purchase_pack_quantity" class="oe_inline" colspan="6"/>
-                        <field name="conv_purchase_purchase_pack_unit" class="oe_inline" colspan="6" readonly = "1"/>
-                        <span>est égal à</span>
-                        <field name="conv_purchase_pack_purchase_quantity"  class="oe_inline"/>
-                        <field name="conv_purchase_pack_purchase_unit" readonly="1"/>
-                    </div>
-                    <newline/>
-                </page>
-            </notebook>
              <notebook position="inside">
                 <page string="Prix de revient">
                     <div id="foodcost" class="o_row d-flex" name="foodcost explication">
@@ -194,25 +150,83 @@
                     </group>
                 </page>
             </notebook>
-
-            
-            
+           
         </field>
     </record>
  
+        <record model="ir.ui.view" id="eatman_template_supplier_form_inherit">
+        <field name="name">product.template.common.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="purchase.view_product_supplier_inherit"/>
+        <field name="arch" type="xml">
+            <data>
+                
+                <xpath
+                    expr="//notebook/page[@name='purchase']"
+                    position="replace">
+                    <page string="Achats" attrs="{'invisible': [('purchase_ok','=',False)]}">
+                    <group>
+                        <field name="supplier"/>
+                        <field name="unit_purchase_order" attrs="{'required': [('purchase_ok','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="unit_purchase_pack" attrs="{'required': [('purchase_ok','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="purch_price_eq_order" invisible="1"/>
+                        <field name="purch_order_eq_pack"  invisible="1"/>
+                    </group>
+                    
+
+                    <div id="purchase price" class="o_row d-flex" name="purchase price">
+
+                     <span>Prix d'achat : </span>
+                        <field name="purchase_price" class="oe_inline" colspan="6"/>
+                        <span> € pour </span>
+                        <field name="purchase_quantity" class="oe_inline" colspan="6" />
+                        <field name="unit_of_purchase" attrs="{'required': [('purchase_ok','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    </div>
+                    <newline/>
+
+
+                    <div id="conversion_purchase_purchase" class="o_row d-flex" name="conversion purchase purchase">
+
+                    <span>Conversion unité d'achat prix et unité de commande d'achat : </span>
+                        <field name="conv_purchase_price_purchase_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conv_purchase_price_purchase_unit" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conv_purchase_purchase_price_quantity"  class="oe_inline"/>
+                        <field name="conv_purchase_purchase_price_unit" readonly="1"/>
+                    </div>
+                    <newline/>
+
+                    <div id="conversion_purchase_pack" class="o_row d-flex" name="conversion purchase purchase">
+
+                    <span>Conversion unité pour colisage : </span>
+                        <field name="conv_purchase_purchase_pack_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conv_purchase_purchase_pack_unit" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conv_purchase_pack_purchase_quantity"  class="oe_inline"/>
+                        <field name="conv_purchase_pack_purchase_unit" readonly="1"/>
+                    </div>
+                    <newline/>
+                </page>
+                </xpath>
+
+            </data>
+        </field>
+      </record>
+  
+
+      
     <act_window id="action_all_receipe"
             name="Recettes"
             res_model="eatman.receipe"
             view_mode="tree,form"
             limit="80" />
-
 <!-- 
-    
     <act_window id="action_all_receipe_line"
             name="Ligne de recettes"
             res_model="eatman.receipe.line"
             view_mode="tree,form"
             limit="80" />
+-->
       
     <act_window id="action_all_product"
             name="Produits"
@@ -242,7 +256,6 @@
           sequence="20"
           groups="" />
 -->
-    
         <record id="form_all_product" model="ir.ui.view">
             <field name="name">Produits</field>
             <field name="model">product.template</field>
@@ -290,9 +303,5 @@
                 </tree>
             </field>
         </record>
-      
-        
-      
-      
     </data>
 </odoo>
