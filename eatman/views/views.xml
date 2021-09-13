@@ -36,10 +36,11 @@
                     expr="//group[@name='group_standard_price']"
                     position="after">
                     <group name="unit_of_measure">
+                        <field name="active" string="Statut actif"/>
                         <field name="foodcost" string="Foodcost" readonly="1"/>
                         <field name="unit_of_reference" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                        <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                        <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="unit_of_sale" attrs="{'required': [('sale_ok','=',True)], 'invisible': [('sale_ok','=',False)]}" options="{'no_quick_create': True, 'no_create_edit' : True}" />
+                        <field name="unit_of_cooking" attrs="{'required': [('product_cook','=',True)], 'invisible': [('product_cook','=',False)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"  />
                         <field name="unit_of_inventory_1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                         <field name="unit_of_inventory_2" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                         <field name="unit_of_inventory_3" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
@@ -63,18 +64,7 @@
             <notebook position="inside">
                 <page string="Conversion de quantité">
 
-                <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase" attrs="{'invisible': ['|',('reference_eq_purchase','=',True),('unit_of_purchase','=',False),('purchase_ok','=',False)]}">
 
-                        <span>Conversion unité tarifaire d'achat : </span>
-
-                        <field name="conversion_purchase_purchase_quantity" class="oe_inline" colspan="6"/>
-                        <field name="conversion_purchase_purchase_unit" class="oe_inline" colspan="6" readonly = "1"/>
-                        <span>est égal à</span>
-                        <field name="conversion_purchase_reference_quantity"  class="oe_inline"/>
-                        <field name="conversion_purchase_reference_unit" readonly="1"/>
-
-                    </div>
-                    <newline/>
                     <div id="conversion_sale" class="o_row d-flex" name="conversion sale" attrs="{'invisible': ['|',('reference_eq_sale','=',True),('unit_of_sale','=',False),('sale_ok','=',False)]}">
                         <span>Conversion unité de vente : </span>
 
@@ -188,6 +178,19 @@
                         <span> € pour </span>
                         <field name="purchase_quantity" class="oe_inline" colspan="6" />
                         <field name="unit_of_purchase" attrs="{'required': [('purchase_ok','=',True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    </div>
+                    <newline/>
+                        
+                    <div id="conversion_purchase" class="o_row d-flex" name="conversion purchase" attrs="{'invisible': ['|',('reference_eq_purchase','=',True),('unit_of_purchase','=',False),('purchase_ok','=',False)]}">
+
+                        <span>Conversion unité tarifaire d'achat et unité de référence: </span>
+
+                        <field name="conversion_purchase_purchase_quantity" class="oe_inline" colspan="6"/>
+                        <field name="conversion_purchase_purchase_unit" class="oe_inline" colspan="6" readonly = "1"/>
+                        <span>est égal à</span>
+                        <field name="conversion_purchase_reference_quantity"  class="oe_inline"/>
+                        <field name="conversion_purchase_reference_unit" readonly="1"/>
+
                     </div>
                     <newline/>
 
