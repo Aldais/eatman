@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
 
-class previsionwizard(models.TransientModel):
+class previsionwizard(models.Model):
     _name = 'eatman.previsionwizard'
     _description = 'Calcul des prévisions'
 
