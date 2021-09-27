@@ -1,6 +1,5 @@
 from odoo import models, fields, api
 
-
 class receipe(models.Model):
     _name = 'eatman.receipe'
     _description = 'Mes recettes'

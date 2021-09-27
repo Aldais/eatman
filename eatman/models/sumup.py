@@ -1,11 +1,16 @@
 from odoo import models, fields, api
 from datetime import datetime
+import xlrd
+from io import StringIO
+import base64
 
 class sumup(models.Model):
     _name = 'eatman.sumup'
     _description = 'Intégration des ventes'
 
     name = fields.Char()
+    debug = fields.Char(string = "debug")
+    sales_file = fields.Binary(string = "fichier des ventes")
     date = fields.Date( default=datetime.today(), string = "Date")
     turnover = fields.Float(digits=(3,3), string="Chiffre d'affaire")
     state = fields.Selection(string='Status', selection=[
@@ -47,6 +52,33 @@ class sumup(models.Model):
             for line in record.sumup_line_ids:
                 line.product_sold.sale_ratio = line.quantity_sold/self.turnover
         return {'type': 'ir.actions.act_window_close'}
+    
+    def read_excel(self):
+        for record in self:
+            if record.state != "terminer":
+                inputx = StringIO()
+                excel_file = base64.decodestring(record.sales_file)
+                #inputx.write(base64.decodestring(record.sales_file))
+                #wb = open_workbook(file_contents=excel_file.getvalue())
+                wb = xlrd.open_workbook(file_contents=excel_file)
+                sheet = wb.sheet_by_index(0)
+                num_rows = sheet.nrows - 1
+                curr_row = 1
+                total_ht = 0.0
+                product_ids=[]
+                while curr_row < num_rows:
+                    if self.env['product.template'].search([('default_code', '=', sheet.cell(curr_row, 1).value)]) :
+                        product_ids.append((self.env['product.template'].search([('default_code', '=', sheet.cell(curr_row, 1).value)]),sheet.cell(curr_row, 3).value))
+                   # product_ids.append(sheet.cell(curr_row, 1).value)
+                    total_ht += sheet.cell(curr_row, 5).value
+                    curr_row += 1
+                record.turnover = total_ht
+                self.debug = product_ids
+                for product in product_ids:
+                        self.env['eatman.sumup.line'].create({'product_sold': product[0].id, 'quantity_sold':product[1], 'sumup': self.id})
+                self.validate_sumup()
+
+        
 #
 #     @api.depends('value')
 #     def _value_pc(self):

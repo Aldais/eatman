@@ -38,6 +38,7 @@
                     <group name="unit_of_measure">
                         <field name="active" string="Statut actif"/>
                         <field name="categ_id" string="Famille de produit"/>
+                        <field name="default_code" string="Référence logiciel de caisse" attrs="{'required': [('sale_ok','=',True)], 'invisible': [('sale_ok','=',False)]}"/>
 
                         <field name="foodcost" string="Foodcost" readonly="1"/>
                         <field name="unit_of_reference" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>

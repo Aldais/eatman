@@ -34,12 +34,15 @@
             <field name="arch" type="xml">
                 <form>
                 <header>
-                    <button type="object" name="sumup_line_assignement" string="Démarrer"/>
-                    <button type="object" name="validate_sumup" string="Valider"/>
+                    <button type="object" name="read_excel" string="Charger"  attrs="{'invisible': [('state','=','terminer')]}"/>/>
                 </header>
                     <group>
+                        <field name = "sales_file"/>
                         <field name ="date"/>
                         <field name ="turnover"/>
+                        <field name ="state"/>
+                        <field name ="debug"/>
+
                         <field name ="sumup_line_ids" string="Ligne de vente">
                             <tree string="Ligne de vente" editable="bottom">
                                 <field name ="product_sold"/>   
