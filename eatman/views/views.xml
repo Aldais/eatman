@@ -36,6 +36,8 @@
                     expr="//group[@name='group_standard_price']"
                     position="after">
                     <group name="unit_of_measure">
+                        <field name="create_date" string="Date de création"/>
+                        <field name="__last_update" string="Dernière mise à jours"/>
                         <field name="active" string="Statut actif"/>
                         <field name="categ_id" string="Famille de produit"/>
                         <field name="default_code" string="Référence logiciel de caisse" attrs="{'required': [('sale_ok','=',True)], 'invisible': [('sale_ok','=',False)]}"/>
@@ -287,6 +289,8 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
+                        <field name="create_date" string="Date de création"/>
+                        <field name="__last_update" string="Dernière mise à jours"/>
                         <field name ="product_cooked"/> 
                         <field name ="product_foodcost"/>
                         <field name ="receipe_quantity"/>
