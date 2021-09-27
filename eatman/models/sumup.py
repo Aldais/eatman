@@ -72,12 +72,10 @@ class sumup(models.Model):
                 while curr_row < num_rows:
                     if self.env['product.template'].search([('default_code', '=', sheet.cell(curr_row, 1).value)]) :
                         product_ids.append((self.env['product.template'].search([('default_code', '=', sheet.cell(curr_row, 1).value)]),sheet.cell(curr_row, 3).value))
-
-                        total_ht += sheet.cell(curr_row, 5).value
-                   # product_ids.append(sheet.cell(curr_row, 1).value)
                     else:
                         self.debug += " "+sheet.cell(curr_row, 1).value
                     curr_row += 1
+                    total_ht += sheet.cell(curr_row, 5).value
                      
                 record.turnover = total_ht
                 
