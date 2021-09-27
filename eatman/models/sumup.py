@@ -64,16 +64,24 @@ class sumup(models.Model):
                 sheet = wb.sheet_by_index(0)
                 num_rows = sheet.nrows - 1
                 curr_row = 1
+
+                self.debug = "Liste des ID produit de caisse n'ayant pas de correspondance dans Odoo: "
+
                 total_ht = 0.0
                 product_ids=[]
                 while curr_row < num_rows:
                     if self.env['product.template'].search([('default_code', '=', sheet.cell(curr_row, 1).value)]) :
                         product_ids.append((self.env['product.template'].search([('default_code', '=', sheet.cell(curr_row, 1).value)]),sheet.cell(curr_row, 3).value))
+
+                        total_ht += sheet.cell(curr_row, 5).value
                    # product_ids.append(sheet.cell(curr_row, 1).value)
-                    total_ht += sheet.cell(curr_row, 5).value
+                    else:
+                        self.debug += " "+sheet.cell(curr_row, 1).value
                     curr_row += 1
+                     
                 record.turnover = total_ht
-                self.debug = product_ids
+                
+
                 for product in product_ids:
                         self.env['eatman.sumup.line'].create({'product_sold': product[0].id, 'quantity_sold':product[1], 'sumup': self.id})
                 self.validate_sumup()
