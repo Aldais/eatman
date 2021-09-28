@@ -15,66 +15,124 @@
             <field name="binding_model_id" ref="model_eatman_preparationslip"/>
             <field name="binding_type">report</field>
         </record>
+        <record id="action_report_receipe_slip" model="ir.actions.report">
+            <field name="name">Fiche technique</field>
+            <field name="model">eatman.receipe</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">eatman.report_receipe_slip</field>
+            <field name="report_file">eatman.report_receipe_slip</field>
+            <!-- <field name="attachment_use" eval="True"/>
+            <field name="attachment">(object.state in ('open','paid')) and
+                ('INV'+(object.number or '').replace('/','')+'.pdf')</field>
+            -->
+            <field name="binding_model_id" ref="model_eatman_receipe"/>
+            <field name="binding_type">report</field>
+        </record>
         
         <!--Custom report.-->
 
         <template id="report_preparation_slip_document">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                <h2 name="title"><strong><t t-esc="doc.name"/></strong></h2>
-                <h2 name="Turnover"><strong><t t-esc="doc.turnover"/> €</strong></h2>
-                <div class="row mt42 mb42">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 name="title"><strong><t t-esc="doc.name"/></strong></h2>
+                    <h2 name="Turnover"><strong><t t-esc="doc.turnover"/> €</strong></h2>
+                    <div class="row mt42 mb42">
                         <div name="Produit" class="col-3"><strong>Produits</strong></div>
-                         <div name="Quantite" class="col-3"><strong>Quantité à produire</strong></div>
-                         <div name="Stock" class="col-3"><strong>Stock</strong></div>
-                   </div>
-          <t t-foreach="doc.product_ids" t-as="product">
-          <div class="row mt42 mb42">
-  	         <div name="Produit" class="col-3"><p><t t-esc="product.name"/></p></div>
-  	         <div name="Quantite" class="col-3"><p><t t-esc="product.net_requirement" t-options='{"widget": "float", "precision": 3}'/> <t t-esc="product.unit_of_cooking.name"/></p></div>
-  	         <div name="Stock" class="col-3"><p><t t-esc="product.stock_quantity"/>  <t t-esc="product.unit_of_reference.name"/></p></div>
-  	       </div>
-  	        <div class="col-6">
-  	          <style type="text/css">
-                table, th, td {
-                  border: 1px solid;
-                }
-              </style>
-  	         <t t-foreach="product.receipe_id" t-as="receipe">
-  	          <table border="0" style="width:99%">
-  	            <thead>
-                  <tr>
-                   <th class="text-center" style="font-size: 14px">Ingrédient</th>
-                   <th class="text-center" style="font-size: 14px">Quantité à utiliser</th>
-                  </tr>
-  	            </thead>
-  	            <tbody>
-  	               <tr t-foreach="receipe.receipe_line_ids" t-as="receipe_line">
-  	                 <t t-set="valeur" t-value="receipe_line.ingredient_quantity * product.gross_requirement_cooking_unit / receipe.receipe_quantity"/>
-  	                 <td style="width: 200px;"><t t-esc="receipe_line.product_ingredient.name"/></td>
-  	                 <td>
-                         <t t-esc="valeur" t-options='{"widget": "float", "precision": 3}'/>
-                         <t t-esc="receipe_line.ingredient_uom.name"/>
-                    </td>
-  	               </tr>
-  	            </tbody>
-  	          </table>
-  	         </t>
-            </div>
-          </t>
-        </div>
-                </t>
+                        <div name="Quantite" class="col-3"><strong>Quantité à produire</strong></div>
+                        <div name="Stock" class="col-3"><strong>Stock</strong></div>
+                    </div>
+                    <t t-foreach="doc.product_ids" t-as="product">
+                        <div class="row mt42 mb42">
+                            <div name="Produit" class="col-3"><p><t t-esc="product.name"/></p></div>
+                            <div name="Quantite" class="col-3"><p><t t-esc="product.net_requirement" t-options='{"widget": "float", "precision": 3}'/> 
+                            <t t-esc="product.unit_of_cooking.name"/></p></div>
+                            <div name="Stock" class="col-3"><p><t t-esc="product.stock_quantity"/>  <t t-esc="product.unit_of_reference.name"/></p></div>
+                        </div>
+                        <div class="col-6">
+                            <style type="text/css">
+                                table, th, td {
+                                border: 1px solid;
+                                }
+                            </style>
+                            <t t-foreach="product.receipe_id" t-as="receipe">
+                                <table border="0" style="width:99%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="font-size: 14px">Ingrédient</th>
+                                            <th class="text-center" style="font-size: 14px">Quantité à utiliser</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="receipe.receipe_line_ids" t-as="receipe_line">
+                                            <t t-set="valeur" t-value="receipe_line.ingredient_quantity * product.gross_requirement_cooking_unit / receipe.receipe_quantity"/>
+                                            <td style="width: 200px;"><t t-esc="receipe_line.product_ingredient.name"/></td>
+                                            <td>
+                                                <t t-esc="valeur" t-options='{"widget": "float", "precision": 3}'/>
+                                                <t t-esc="receipe_line.ingredient_uom.name"/>
+                                            </td>
+                                       </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        
+        </template>
+        
+        <template id="report_receipe_slip_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 name="Titre"><strong>Recette: </strong> <t t-esc="doc.name"/></h2>
+                    <h2 name="Quantité de la recette "><strong>Quantité  de la recette: </strong><t t-esc="doc.receipe_quantity"/> <t t-esc="doc.receipe_uom.name"/></h2>
+                </div>
+                <div class="col-6">
+                    <style type="text/css">
+                        table, th, td {
+                        border: 1px solid;
+                        }
+                    </style>
+                    <table border="0" style="width:99%">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="font-size: 14px">Ingrédient</th>
+                                <th class="text-center" style="font-size: 14px">Quantité à utiliser</th>
+                                <th class="text-center" style="font-size: 14px">Taux de perte</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.receipe_line_ids" t-as="receipe_line">
+                                <td style="width: 200px;"><t t-esc="receipe_line.product_ingredient.name"/></td>
+                                <td>
+                                    <t t-esc="receipe_line.ingredient_quantity" t-options='{"widget": "float", "precision": 3}'/>
+                                    <t t-esc="receipe_line.ingredient_uom.name"/>
+                                </td>
+                                <td><t t-esc="receipe_line.ingredient_lost_rate"/> %</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
         </template>
                         
     
-<template id="report_preparation_slip">
-    <t t-call="web.html_container">
-        <t t-foreach="docs" t-as="doc">
-            <t t-call="eatman.report_preparation_slip_document"/>
-                
-      </t>
-    </t>
-    </template>
+        <template id="report_preparation_slip">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="eatman.report_preparation_slip_document"/>
+                </t>
+            </t>
+        </template>
+        
+        <template id="report_receipe_slip">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="eatman.report_receipe_slip_document"/>
+                </t>
+            </t>
+        </template>
+        
     </data>
 </odoo>
         
