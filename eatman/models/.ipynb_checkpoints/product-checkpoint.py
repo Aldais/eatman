@@ -12,6 +12,8 @@ class product(models.Model):
     
 
     
+#!!!!!!!!!!Gestion des allergènes###############################################################################################################
+    allergene_ids= fields.Many2many('eatman.allergene', string="Liste des allergènes")
 
 #!!!!!!!!!!Cooked product - information related##################################################################################################
     product_cook = fields.Boolean(default=False,string="Produit cuisiné")
@@ -163,7 +165,7 @@ class product(models.Model):
     
 
     
-        #Conversion entre unité prix et unité purchase / unité purchase et unité colisage
+    #Conversion entre unité prix et unité purchase / unité purchase et unité colisage
     conv_purchase_price_purchase_unit = fields.Char(related='unit_of_purchase.name', string="Conversion unité prix achat/ unité de commande", store=True)
     conv_purchase_purchase_price_unit = fields.Char(related='unit_purchase_order.name', string="Conversion unité de commande/ unité de prix", store=True)
     conv_purchase_price_purchase_quantity = fields.Float(digits=(3,3))
