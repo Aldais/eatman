@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+        <record id="ALLERGENE_01" model="eatman.allergene">
+            <field name="name">Lait</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_02" model="eatman.allergene">
+            <field name="name">Céréales</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_03" model="eatman.allergene">
+            <field name="name">Œuf</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_04" model="eatman.allergene">
+            <field name="name">Poisson</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_05" model="eatman.allergene">
+            <field name="name">Mollusque</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_06" model="eatman.allergene">
+            <field name="name">Crustacé</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_07" model="eatman.allergene">
+            <field name="name">Sésame</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_08" model="eatman.allergene">
+            <field name="name">Soja</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_09" model="eatman.allergene">
+            <field name="name">Arachide</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_10" model="eatman.allergene">
+            <field name="name">Lupin</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_11" model="eatman.allergene">
+            <field name="name">Fruit à coque</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_12" model="eatman.allergene">
+            <field name="name">Moutarde</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_13" model="eatman.allergene">
+            <field name="name">Anhydride sulfureux et sulfites.</field>
+            <field name="decret">2015-447</field>
+        </record>
+        <record id="ALLERGENE_14" model="eatman.allergene">
+            <field name="name">Céleri</field>
+            <field name="decret">2015-447</field>
+        </record>
+        
+        
+    </data>
+</odoo>
