@@ -153,7 +153,9 @@
             <notebook position="inside">
                 <page string="Gestion des allergènes">
                     <group>        
+
                         <field name="allergene_ids" widget='many2many_default' options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create' : True} "/>
+
                     </group>
                 </page>
             </notebook>
