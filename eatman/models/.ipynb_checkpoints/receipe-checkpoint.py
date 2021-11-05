@@ -1,25 +1,22 @@
 from odoo import models, fields, api
-
+from odoo.exceptions import ValidationError
 
 class receipe(models.Model):
     _name = 'eatman.receipe'
     _description = 'Mes recettes'
 
-    name = fields.Char()
+    name = fields.Char(related= 'product_cooked.name')
     product_cooked = fields.Many2one('product.template', 'Produit cuisiné', help="Produit cuisiné")
     product_foodcost = fields.Char(related= 'product_cooked.foodcost_text')
-
     receipe_quantity = fields.Float(digits=(3,3), string="quantité de la recette")
-
     receipe_uom = fields.Many2one('uom.uom',
     'Unité de préparation', related='product_cooked.unit_of_cooking',
      readonly=True) 
-
     receipe_line_ids= fields.One2many('eatman.receipe.line', 'receipe')
-
-    
     company_id = fields.Many2one(
         'res.company', 'Company', index=1)
+    test_quantity_receipe = fields.Boolean(default=False)
+    
     
     @api.model
     def automatic_company_assignement(self):
@@ -30,14 +27,14 @@ class receipe(models.Model):
     def create(self, vals):
         record = super(receipe, self).create(vals)
         record.automatic_company_assignement()
-        record.name = record.product_cooked.name
+        
         return record
-
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    
+    @api.constrains('test_quantity_receipe')
+    def _check_date_end(self):
+        for record in self:
+            if record.receipe_quantity.float_is_zero():
+                raise ValidationError("Mais... Mais la quantité de la recette est vide")
 
 class receipeLine(models.Model):
     _name = 'eatman.receipe.line'
