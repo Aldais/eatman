@@ -1,3 +1,4 @@
+
 <odoo>
   <data>
     <!-- Update de la vue pour ne faire apparaitre que les info achat achats eatman-->    
@@ -264,6 +265,7 @@
           action="action_all_product"
           sequence="10"
           groups="" />
+      
     <menuitem id="menu_all_receipe"
           parent="eatman_top"
           action="action_all_receipe"
@@ -302,6 +304,7 @@
                         <field name ="receipe_quantity"/>
                         <field name ="receipe_uom"/>
                         <field name ="company_id"/>
+                        <field name ="test_quantity_receipe"/>
                         <field name ="receipe_line_ids" string="Ligne de recette" >
                             <tree string="Ligne de recette"  editable="bottom">
                                 <field name ="product_ingredient"/>
