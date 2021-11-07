@@ -30,11 +30,7 @@ class receipe(models.Model):
         
         return record
     
-    @api.constrains('test_quantity_receipe')
-    def _check_date_end(self):
-        for record in self:
-            if record.receipe_quantity.float_is_zero():
-                raise ValidationError("Mais... Mais la quantité de la recette est vide")
+
 
 class receipeLine(models.Model):
     _name = 'eatman.receipe.line'
