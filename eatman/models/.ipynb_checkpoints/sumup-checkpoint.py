@@ -73,17 +73,21 @@ class sumup(models.Model):
                     if self.env['product.template'].search([('default_code', '=', sheet.cell(curr_row, 1).value)]) :
                         product_ids.append((self.env['product.template'].search([('default_code', '=', sheet.cell(curr_row, 1).value)]),sheet.cell(curr_row, 3).value))
                     else:
-                        self.debug += " "+sheet.cell(curr_row, 1).value
+                        self.debug += " "+str(sheet.cell(curr_row, 1).value)
                     curr_row += 1
                     total_ht += sheet.cell(curr_row, 5).value
                      
                 record.turnover = total_ht
                 
-
-                for product in product_ids:
+                try:
+                    for product in product_ids:
                         self.env['eatman.sumup.line'].create({'product_sold': product[0].id, 'quantity_sold':product[1], 'sumup': self.id})
-                self.validate_sumup()
+                    self.validate_sumup()
 
+                except (RuntimeError, TypeError, NameError, ValueError) as inst:
+                    self.debug += 'Erreur à la création de la ligne:'+inst.args[0]
+                    pass
+                
         
 #
 #     @api.depends('value')

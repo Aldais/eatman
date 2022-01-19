@@ -153,9 +153,7 @@
             <notebook position="inside">
                 <page string="Gestion des allergènes">
                     <group>        
-
                         <field name="allergene_ids" widget='many2many_default' options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create' : True} "/>
-
                     </group>
                 </page>
             </notebook>
@@ -267,6 +265,7 @@
           action="action_all_product"
           sequence="10"
           groups="" />
+      
     <menuitem id="menu_all_receipe"
           parent="eatman_top"
           action="action_all_receipe"
@@ -286,6 +285,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name ="name"/>
+                    <field name ="default_code"/>
                     <field name ="foodcost_text"/>
                     
                 </tree>
