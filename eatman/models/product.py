@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api
 import logging
-
+from datetime import datetime
 class product(models.Model):
     
     _inherit = "product.template"    
@@ -82,7 +82,7 @@ class product(models.Model):
     foodcost_unit_reference =fields.Char(related='unit_of_reference.name', string="foodcost unité reference", store=True)
     foodcost = fields.Float(digits=(3,3), string="foodcost")
     foodcost_text = fields.Char(compute="foodcost_text_compute", string="Foodcost")
-    
+    foodcost_date = fields.Date("Date du dernier calcul de foodcost")
     @api.depends('foodcost')
     def foodcost_text_compute(self):
         for record in self:
@@ -331,43 +331,57 @@ class product(models.Model):
     #For a given product calculate his food cost based on purchase price and receipe
     def foodcost_calculation(self):
         self.debug = 1
-        for record in self:
-            foodcost_cook = 0
-            quantity_cook = 0
-            # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
-            #Si le produit est acheté alors le foodcost est calculé sur la base des données d'achats
-            if record.purchase_ok:
-                if record.conversion_purchase_reference(record.purchase_quantity) >0:
-                    record.foodcost = record.purchase_price/record.conversion_purchase_reference(record.purchase_quantity)
-                    return record.foodcost
-            #sinon une recette doit être associée et le foodcost est égale à la somme des foodcost de la recette réexprimé en unité de référence
-            
-            else:
-                for receipe_line in record.receipe_id.receipe_line_ids:
-                    quantity_cook = receipe_line.ingredient_quantity/((100-receipe_line.ingredient_lost_rate)/100)
-                    receipe_line.product_ingredient.foodcost_calculation()
-                    #on calcul le foodcost en unité de préparation:
-                    foodcost_cook += receipe_line.product_ingredient.foodcost_cook_unit() * quantity_cook
-
-                    record.debug += "Foodcost_calculation: "+receipe_line.product_ingredient.name +": " +str(receipe_line.product_ingredient.foodcost_cook_unit())+" * "+ str(quantity_cook)+" = "+str(foodcost_cook)
-
-                #UIne fois le calcul du foodcost en unité de mesure de preparation a été réalisé on le transforme pour 1 unité de préparation puis pour une unité de référence
-                if record.receipe_id.receipe_quantity >0:
-                    if self.conversion_cook_reference_quantity>0:
-                        record.foodcost = foodcost_cook/record.receipe_id.receipe_quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
+        self.foodcost_date = datetime.today()
+        try:
+            for record in self:
+                foodcost_cook = 0
+                quantity_cook = 0
+                # dette technique: ajouter un contrôle sur le niveau pour s'assurer que l'on ne boucle pas
+                #Si le produit est acheté alors le foodcost est calculé sur la base des données d'achats
+                if record.purchase_ok:
+                    if record.conversion_purchase_reference(record.purchase_quantity) >0:
+                        record.foodcost = record.purchase_price/record.conversion_purchase_reference(record.purchase_quantity)
                         return record.foodcost
-                return 0
+                #sinon une recette doit être associée et le foodcost est égale à la somme des foodcost de la recette réexprimé en unité de référence
+
+                else:
+                    for receipe_line in record.receipe_id.receipe_line_ids:
+                        if receipe_line.product_ingredient.name != False:
+                            quantity_cook = receipe_line.ingredient_quantity/((100-receipe_line.ingredient_lost_rate)/100)
+                            receipe_line.product_ingredient.foodcost_calculation()
+                            #on calcul le foodcost en unité de préparation:
+                            foodcost_cook += receipe_line.product_ingredient.foodcost_cook_unit() * quantity_cook
+                            record.debug += "Foodcost_calculation: "+receipe_line.product_ingredient.name 
+                            record.debug +=": " +str(receipe_line.product_ingredient.foodcost_cook_unit())
+                            record.debug +=" * "+ str(quantity_cook)
+                            record.debug +=" = "+str(foodcost_cook)
+                        else:
+                            record.debug += "Foodcost_calculation: "+receipe_line.receipe.name +"Pas de produit dans une des lignes de recette"
+
+                    #UIne fois le calcul du foodcost en unité de mesure de preparation a été réalisé on le transforme pour 1 unité de préparation puis pour une unité de référence
+                    if record.receipe_id.receipe_quantity >0:
+                        if self.conversion_cook_reference_quantity>0:
+                            record.foodcost = foodcost_cook/record.receipe_id.receipe_quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
+                            return record.foodcost
+        except (RuntimeError, TypeError, NameError, ValueError) as inst:
+            self.debug = 'Erreur lors du foodcost'+inst.args[0]
+        pass
+        return 0
 
     def requirement_calculation(self, quantity, requirement_father):
-        for record in self:
-            self.env['eatman.requirement'].create({'product_required': record.id, 'quantity_required': quantity, 'requirement_father': requirement_father, 'company_id':record.company_id.id})
+        try:
+            for record in self:
+                self.env['eatman.requirement'].create({'product_required': record.id, 'quantity_required': quantity, 'requirement_father': requirement_father, 'company_id':record.company_id.id})
 
-            if record.receipe_id != False:
-                for line in record.receipe_id.receipe_line_ids:
-                    quantity_ingredient = quantity/record.receipe_id.receipe_quantity*line.ingredient_quantity/((100-line.ingredient_lost_rate)/100)
-                    line.product_ingredient.requirement_calculation(quantity_ingredient, record.name)
+                if record.receipe_id != False:
+                    for line in record.receipe_id.receipe_line_ids:
+                        quantity_ingredient = quantity/record.receipe_id.receipe_quantity*line.ingredient_quantity/((100-line.ingredient_lost_rate)/100)
+                        line.product_ingredient.requirement_calculation(quantity_ingredient, record.name)
+        except (RuntimeError, TypeError, NameError, ValueError, ZeroDivisionError) as inst:
+            self.debug = 'Erreur lors du requirement calculation'+inst.args[0]
+        pass
         return 0
-    
+        
     def requirement_calculation_purchase(self, quantity, requirement_father):
         for record in self:
 
@@ -399,25 +413,28 @@ class product(models.Model):
     
 
     def conversion_cook_to_reference(self, quantity):
-        if self.conversion_cook_reference_quantity >0:
+        if self.conversion_cook_cook_quantity >0:
             #self.debug += "---conversion_cook_to_reference:" + str(quantity)+ " * " + str(self.conversion_cook_cook_quantity) + " / "+ str(self.conversion_cook_reference_quantity)+ " ---"
             return quantity*self.conversion_cook_reference_quantity/self.conversion_cook_cook_quantity
         return 0
     
     def conversion_reference_to_cook(self,quantity):
-        if self.conversion_cook_cook_quantity >0:
+        if self.conversion_cook_reference_quantity >0:
 
 
             return quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
         return 0
 
     def foodcost_cook_unit(self):
-
         foodcost_cook_unit = 0
 
-        if self.conversion_cook_cook_quantity >0:       
-             foodcost_cook_unit=  self.foodcost * self.conversion_cook_reference_quantity /self.conversion_cook_cook_quantity
-        self.debug += "---foodcost_cook_unit:" +self.name+" "+str(self.foodcost)+ " * " + str(self.conversion_cook_reference_quantity) + " / "+ str(self.conversion_cook_cook_quantity)+ " = "+str(foodcost_cook_unit)+" ---"
+        try:
+            if self.conversion_cook_cook_quantity >0:
+                 foodcost_cook_unit=  self.foodcost * self.conversion_cook_reference_quantity /self.conversion_cook_cook_quantity
+            self.debug += "---foodcost_cook_unit:" +self.name+" "+str(self.foodcost)+ " * " + str(self.conversion_cook_reference_quantity) + " / "+ str(self.conversion_cook_cook_quantity)+ " = "+str(foodcost_cook_unit)+" ---"
+        except (RuntimeError, TypeError, NameError, ValueError) as inst:
+            self.debug = 'Erreur lors de la conversion de quantité'+inst.args[0]
+            pass
         return foodcost_cook_unit
 
     
