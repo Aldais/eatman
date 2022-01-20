@@ -64,7 +64,7 @@
                                     </thead>
                                     <tbody>
                                         <tr t-foreach="receipe.receipe_line_ids" t-as="receipe_line">
-                                            <t t-set="valeur" t-value="receipe_line.ingredient_quantity * product.gross_requirement_cooking_unit / receipe.receipe_quantity"/>
+                                            <t t-set="valeur" t-value="receipe_line.ingredient_quantity * product.gross_requirement / receipe.receipe_quantity"/>
                                             <td style="width: 200px;"><t t-esc="receipe_line.product_ingredient.name"/></td>
                                             <td>
                                                 <t t-esc="valeur" t-options='{"widget": "float", "precision": 3}'/>
