@@ -15,7 +15,7 @@
         -->
         
         <menuitem id="menu_all_requirement_calculation"
-          parent="eatman_prevision_top"
+          parent="preparationslip_top"
           action="action_all_requirementcalculation"
           sequence="20"
           groups="" />
@@ -33,14 +33,12 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
-                        <field name ="name"/>
                         <field name ="turnover"/>
-                        <field name ="test"/>
                         <field name ="status" readonly="1"/>
                     </group>
                     <footer>
-                        <button string="Lancer le calcul" type="object" name="requirement_total"/>
-                    <button string="Annuler" special="cancel" class ="btn_btn-secondary"/>
+                        <button string="Mise à jours des feuilles de préparation" 
+                        type="object" name="requirement_total" attrs="{'invisible': [('status','!=','1')]}"/>
                     </footer>
                 </form>
             </field>

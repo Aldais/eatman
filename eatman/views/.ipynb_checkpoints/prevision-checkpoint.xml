@@ -33,17 +33,16 @@
             <field name="model">eatman.sumup</field>
             <field name="arch" type="xml">
                 <form>
-                <header>
-                    <button type="object" name="read_excel" string="Charger"  attrs="{'invisible': [('state','=','terminer')]}"/>/>
-                </header>
+                    <header>
+                    </header>
                     <group>
                         <field name = "sales_file"/>
                         <field name ="date"/>
-                        <field name ="turnover"/>
-                        <field name ="state"/>
-                        <field name ="debug"/>
+                        <field name ="turnover" attrs="{'invisible': [('state','!=','terminer')]}"/>
+                        <field name ="state" attrs="{'invisible': [('state','!=','terminer')]}"/>
+                        <field name ="debug" attrs="{'invisible': [('state','!=','terminer')]}"/>
 
-                        <field name ="sumup_line_ids" string="Ligne de vente">
+                        <field name ="sumup_line_ids" string="Ligne de vente" attrs="{'invisible': [('state','!=','terminer')]}">
                             <tree string="Ligne de vente" editable="bottom">
                                 <field name ="product_sold"/>   
                                 <field name ="quantity_sold"/>
@@ -51,6 +50,7 @@
                             </tree>
                         </field>
                     </group>
+                    <button type="object" name="read_excel" string="Intégrer les données dans les fiches prépa"  attrs="{'invisible': ['|',('sales_file','=',False),('state','=','terminer')]}"/>
                 </form>
             </field>
         </record>

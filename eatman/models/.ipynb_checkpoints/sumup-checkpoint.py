@@ -34,17 +34,6 @@ class sumup(models.Model):
         record = super(sumup, self).create(vals)
         record.automatic_company_assignement()
         return record
-
-    
-    def sumup_line_assignement(self):
-        for record in self:
-            if (record.state == 'brouillon'):
-                product_ids = self.env['product.template'].search([('company_id', '=', self.env.user.company_id.id),('sale_ok','=',True)])
-                lines=[]
-                record.state = 'confirmer'
-                             
-                for product in product_ids:
-                    lines.append(self.env['eatman.sumup.line'].create({'product_sold': product.id, 'sumup': self.id}))
                     
     def validate_sumup(self):
         for record in self:
@@ -82,12 +71,12 @@ class sumup(models.Model):
                 try:
                     for product in product_ids:
                         self.env['eatman.sumup.line'].create({'product_sold': product[0].id, 'quantity_sold':product[1], 'sumup': self.id})
-                    self.validate_sumup()
+                    
 
                 except (RuntimeError, TypeError, NameError, ValueError) as inst:
                     self.debug += 'Erreur à la création de la ligne:'+inst.args[0]
                     pass
-                
+                self.validate_sumup()
         
 #
 #     @api.depends('value')

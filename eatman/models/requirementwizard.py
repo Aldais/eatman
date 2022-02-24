@@ -11,7 +11,7 @@ class requirementwizard(models.TransientModel):
         value = "Date: "+str(datetime.now())
         return value
 
-    name = fields.Char(default=lambda self: self._default_name())
+    name = fields.Char(default="Renseigner les information pour la mise à jours des feuilles de préparation")
     
     company_id = fields.Many2one(
         'res.company', 'Company', index=1)
