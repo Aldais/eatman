@@ -11,7 +11,7 @@ class requirementwizard(models.TransientModel):
         value = "Date: "+str(datetime.now())
         return value
 
-    name = fields.Char(default=lambda self: self._default_name())
+    name = fields.Char(default="Renseigner les information pour la mise à jours des feuilles de préparation")
     
     company_id = fields.Many2one(
         'res.company', 'Company', index=1)
@@ -49,7 +49,7 @@ class requirementwizard(models.TransientModel):
         for product in product_ids:
             sold_quantity = product.sale_ratio*self.turnover
             reference_quantity = product.conversion_sale_to_reference(sold_quantity)
-            product.debug = "quantité vendu:"+str(sold_quantity)
+            product.debug = "Requirement_total: quantité vendu:"+str(sold_quantity)
             cook_quantity = product.conversion_reference_to_cook(reference_quantity)
             product.requirement_calculation(cook_quantity,"Prévision de vente")
         self.status = '2';
