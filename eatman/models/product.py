@@ -368,6 +368,8 @@ class product(models.Model):
         pass
         return 0
 
+    
+    ######Calcu des besoisn de fabrication pour un niveau######
     def requirement_calculation(self, quantity, requirement_father):
         try:
             for record in self:
@@ -381,22 +383,29 @@ class product(models.Model):
             self.debug = 'Erreur lors du requirement calculation'+inst.args[0]
         pass
         return 0
-        
+    
+    ##### Calcul des besoin d'cahat pour un produit et répercution sur les autres produits de la recette ####
     def requirement_calculation_purchase(self, quantity, requirement_father):
-        for record in self:
+        try:
+            for record in self:
 
-            self.env['eatman.requirement_purchase'].create(
+                self.env['eatman.requirement_purchase'].create(
                 {'product_required': record.id, 
                  'quantity_required': quantity, 
                  'requirement_father': requirement_father, 
                  'company_id':record.company_id.id})
 
-            if record.receipe_id != False:
-                for line in record.receipe_id.receipe_line_ids:
-                    quantity_ingredient = quantity/record.receipe_id.receipe_quantity*line.ingredient_quantity/((100-line.ingredient_lost_rate)/100)
-                    line.product_ingredient.requirement_calculation_purchase(quantity_ingredient, record.name)
+                if record.receipe_id != False:
+                    for line in record.receipe_id.receipe_line_ids:
+                        quantity_ingredient = quantity/record.receipe_id.receipe_quantity*line.ingredient_quantity/((100-line.ingredient_lost_rate)/100)
+                        line.product_ingredient.requirement_calculation_purchase(quantity_ingredient, record.name)
+        except (RuntimeError, TypeError, NameError, ValueError, ZeroDivisionError) as inst:
+            self.debug = 'Erreur lors du requirement calculation'+inst.args[0]
+        pass
         return 0
-                       ######### Fonction de Conversion #########
+                       
+        
+        ######### Fonction de Conversion #########
     
     
     def conversion_purchase_reference(self, quantity):
