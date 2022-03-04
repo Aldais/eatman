@@ -41,6 +41,7 @@ class product(models.Model):
     
     #!!!!!!!!Sales management #########################################################################################################################
     sale_ok = fields.Boolean(default=False,string="Produit vendu")
+    price_ttc = fields.Float(digits=(3,2), string="Prix TTC")
     unit_of_sale = fields.Many2one('uom.uom', 'Unité de vente')
     reference_eq_sale = fields.Boolean()
     sale_ratio = fields.Float(digits=(10,10), string="Ratio de vente")
@@ -83,12 +84,20 @@ class product(models.Model):
     foodcost = fields.Float(digits=(3,3), string="foodcost")
     foodcost_text = fields.Char(compute="foodcost_text_compute", string="Foodcost")
     foodcost_date = fields.Date("Date du dernier calcul de foodcost")
+    foodcost_ratio = fields.Float(compute="foodcost_ratio_compute", digits=(2,2), string="Ratio foodcost / prix de vente en %")
     @api.depends('foodcost')
     def foodcost_text_compute(self):
         for record in self:
             record.foodcost_text = str(record.foodcost)+" € pour 1"+str(record.foodcost_unit_reference)
 
-
+    @api.depends('foodcost','price_ttc')
+    def foodcost_ratio_compute(self):
+        for record in self:
+            record.foodcost_ratio = 0
+            if record.price_ttc >0:
+                record.foodcost_ratio = record.foodcost / record.price_ttc * 100
+                
+    
 #!!!!!!Requirement for preparation slip##################################################################################
     requirement_ids= fields.One2many('eatman.requirement', "product_required", string="Liste des besoins")
     net_requirement = fields.Float(compute="requirement_net_calculation", store=True, digits=(3,3), string="Besoin net")

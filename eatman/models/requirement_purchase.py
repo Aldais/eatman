@@ -30,7 +30,13 @@ class purchase(models.Model):
 
 
     
-    #ajouter action qui calcul les besoin pour les produits et pour un CA défini
+    """
+    A faire plus tard, ajouter une fonction qui permet de ne faire le calcul des besoins d'achats que pour les produits nécessaire.
+    L'idée serait de partir des produit qui ont pour "supplier", le "supplier_id" de la commande d'achat, puis de sélectionné les lignes de recettes, remonté au produit fabriqué le typé "à inclure" le refaire de manière récursive jusqu'a tombé sur un produit vendu.
+    Puis ne faire le calcul de besoin que sur les produit vendu typé "à inclure". On limiterais le temps de calcul.
+    """
+    
+    #ajouter action qui calcul les besoins pour les produits et pour un CA défini
     
     def requirement_total(self):
         self.requirement_delete()

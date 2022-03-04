@@ -1,5 +1,6 @@
 <odoo>
     <data>
+        <!--
         <act_window id="action_all_requirementcalculation_purchase"
             name="Calcul des besoins d'achat"
             res_model="eatman.requirementwizard_purchase"
@@ -18,13 +19,12 @@
           sequence="20"
           groups="" />
         
-        <!--
+        
         <menuitem id="menu_all_requirement_purchase"
           parent="eatman_prevision_top"
           action="action_all_requirement_purchase"
           sequence="20"
           groups="" />
-          -->
         
         <record id="form_requirementWizard_purchase" model="ir.ui.view">
             <field name="name">Calcul des besoins d'achat</field>
@@ -69,5 +69,7 @@
                 </tree>
             </field>
         </record>
+  -->
+        
     </data>
 </odoo>
