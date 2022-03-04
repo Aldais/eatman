@@ -46,9 +46,10 @@ class purchase(models.Model):
     
     #Au clic "proposition d'achat" ajouter les lignes de produit corresponsant avec l'unité de commande d'achat et l'unité de colisage
     def purchaseorderline_completion(self):
-        product_ids = self.env['product.template'].sudo().search([('supplier','=', self.partner_id.id)])
-        for product in product_ids:
-            
+        product_ids = self.env['product.product'].sudo().search([('supplier','=', self.partner_id.id)])
+        #On doit travailler sur des product.product dans les commande d'cahat et pas des product_template
+        for productprod in product_ids:
+            product = productprod
             if product.purchase_net_requirement >0:
                 #le pruchase_net_requirement est exprimé en unité de référence afin de permettre la soustraction des stocks
                 #il est donc nécessaire de transformé cette valeur en unité d'achat
@@ -75,7 +76,9 @@ class purchase(models.Model):
 
                 self.env['purchase.order.line'].create(
                     {
-                        'name': str(quantity_po_unit_round)+" x "+product.unit_purchase_order.name+" du produit: "+product.name+" soit "+str(quantity_pack_unit_round)+" x "+product.unit_purchase_pack.name,
+                        'product_id' : productprod.id,
+                        'name': product.name,
+                        #'name': str(quantity_po_unit_round)+" x "+product.unit_purchase_order.name+" du produit: "+product.name+" soit "+str(quantity_pack_unit_round)+" x "+product.unit_purchase_pack.name,
                         'order_id': self.id,
                         'date_planned': self.date_order,
                         #product_qty est exprimé en unité de référence car limitation de Odoo. 
@@ -86,7 +89,6 @@ class purchase(models.Model):
                         'product_qty': quantity_reference_unit_round,
                         'product_uom': product.uom_po_id.id,
                         'price_unit': price_po_unit,
-                        'product_id': product.id,
                         'pack_quantity':quantity_pack_unit,
                         'pack_quantity_roundup':quantity_pack_unit_round,
                         'pack_unit':product.unit_purchase_pack.id,
@@ -96,7 +98,6 @@ class purchase(models.Model):
                         'po_unit':product.unit_purchase_order.id,
                         'po_quantity_roundup': quantity_po_unit_round
                     })
-    
     
 class purchaseLine(models.Model):
     _inherit = "purchase.order.line"
@@ -111,33 +112,25 @@ class purchaseLine(models.Model):
     pack_quantity_roundup= fields.Float(digits=(3,3), string="Quantité en unité de colisage(arrondi)")
     pack_unit = fields.Many2one('uom.uom', "Unité de colisage d'achat")
     
-        #fonction qui recalcul les unités et le prix lorsque le produit est renseigné
+    #fonction qui recalcul les unités et le prix lorsque le produit est renseigné
     @api.onchange('product_id')
     def ochange_product_id(self):
         self.price_uom = self.product_id.unit_of_purchase.id
         self.pack_unit = self.product_id.unit_purchase_pack.id
         self.po_unit = self.product_id.unit_purchase_order.id
     
-        #fonction qui converti les quantités dépendantes de la quantité saisie
+    #fonction qui converti les quantités dépendantes de la quantité saisie
     @api.onchange('product_qty')
     def ochange_product_qty(self):
         if self.product_qty >0:
-            product = self.product_id
-            
             quantity_price_unit =  self.product_qty* product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
-
             quantity_po_unit = self.product_qty * product.conv_purchase_purchase_price_quantity / product.conv_purchase_price_purchase_quantity
             price_po_unit = product.purchase_price / product.purchase_quantity * product.conversion_purchase_purchase_quantity / product.conversion_purchase_reference_quantity
-
             quantity_pack_unit = quantity_po_unit*product.conv_purchase_pack_purchase_quantity/product.conv_purchase_purchase_pack_quantity
             quantity_pack_unit_round = math.ceil(quantity_pack_unit)
-
             quantity_po_unit_round = quantity_pack_unit_round / product.conv_purchase_pack_purchase_quantity * product.conv_purchase_purchase_pack_quantity
-
             quantity_price_unit_round = quantity_po_unit_round / product.conv_purchase_purchase_price_quantity * product.conv_purchase_price_purchase_quantity
-
             quantity_reference_unit_round = quantity_price_unit_round  * product.conversion_purchase_reference_quantity / product.conversion_purchase_purchase_quantity
-
             self.pack_quantity = quantity_pack_unit
             self.pack_quantity_roundup = quantity_pack_unit_round
             self.price_quantity = quantity_price_unit

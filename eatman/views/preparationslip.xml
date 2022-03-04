@@ -17,7 +17,7 @@
           groups="" />
 
         <record id="form_allpreparation_slip" model="ir.ui.view">
-            <field name="name">Feuille de preparation</field>
+            <field name="name">Feuille de préparation</field>
             <field name="model">eatman.preparationslip</field>
             <field name="arch" type="xml">
                 <form>

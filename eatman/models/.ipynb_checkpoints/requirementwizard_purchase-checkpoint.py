@@ -12,7 +12,7 @@ class requirementwizardpurchase(models.TransientModel):
         return value
 
     name = fields.Char(default=lambda self: self._default_name())
-    
+    supplier = fields.Many2one('res.partner', string='Fournisseur')
     company_id = fields.Many2one(
         'res.company', 'Company', index=1)
     
@@ -48,7 +48,7 @@ class requirementwizardpurchase(models.TransientModel):
         product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True),('company_id','=', self.env.user.company_id.id)])
         for product in product_ids:
             sold_quantity = product.sale_ratio*self.turnover
-            reference_quantity = product.conversion_sale_reference(sold_quantity)
-            cook_quantity = product.conversion_reference_cook(reference_quantity)
+            reference_quantity = product.conversion_sale_to_reference(sold_quantity)
+            cook_quantity = product.conversion_reference_to_cook(reference_quantity)
             product.requirement_calculation_purchase(cook_quantity,"Prévision de vente")
         self.status = '2';

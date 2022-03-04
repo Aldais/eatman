@@ -44,6 +44,7 @@
 
                         <field name="foodcost" string="Foodcost" readonly="1"/>
                         <field name="foodcost_date" readonly="1"/>
+
                         <field name="sale_ratio" readonly="1"/>
 
                         <field name="unit_of_reference" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>

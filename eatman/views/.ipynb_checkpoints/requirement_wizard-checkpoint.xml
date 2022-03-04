@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <act_window id="action_all_requirementcalculation"
-            name="Calcul des besoins"
+            name="Màj des feuilles de préparation"
             res_model="eatman.requirementwizard"
             view_mode="form"
             limit="80" />
@@ -28,12 +28,12 @@
        -->
         
         <record id="form_requirementWizard" model="ir.ui.view">
-            <field name="name">Calcul des besoins</field>
+            <field name="name">Màj des feuilles de préparation</field>
             <field name="model">eatman.requirementwizard</field>
             <field name="arch" type="xml">
                 <form>
                     <group>
-                        <field name ="turnover"/>
+                        <field name ="turnover" attrs="{'readonly': [('status','!=','1')]}"/>
                         <field name ="status" readonly="1"/>
                     </group>
                     <footer>
@@ -45,7 +45,7 @@
         </record>
         
         <record id="tree_requirementWizard" model="ir.ui.view">
-            <field name="name">Calcul des besoins</field>
+            <field name="name">Màj des feuilles de préparation</field>
             <field name="model">eatman.requirementwizard</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
