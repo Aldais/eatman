@@ -95,7 +95,7 @@ class product(models.Model):
         for record in self:
             record.foodcost_ratio = 0
             if record.price_ttc >0:
-                record.foodcost_ratio = record.foodcost / record.price_ttc/(1.1) * 100
+                record.foodcost_ratio = record.foodcost / record.price_ttc*(1.1) * 100
                 
     
 #!!!!!!Requirement for preparation slip##################################################################################
