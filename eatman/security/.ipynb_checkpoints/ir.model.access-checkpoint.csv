@@ -9,5 +9,8 @@ access_eatman_requirement,eatman.requirement,model_eatman_requirement,base.group
 access_eatman_requirement_purchase,eatman.requirement_purchase,model_eatman_requirement_purchase,base.group_user,1,1,1,1
 access_eatman_preparationslip,eatman.preparationslip,model_eatman_preparationslip,base.group_user,1,1,1,1
 access_eatman_allergene,eatman.allergene,model_eatman_allergene,base.group_user,1,1,1,1
+access_eatman_foodcostwizard,eatman.foodcostwizard,model_eatman_foodcostwizard,base.group_user,1,1,1,1
+access_eatman_requirementwizard,eatman.requirementwizard,model_eatman_requirementwizard,base.group_user,1,1,1,1
+access_eatman_requirementwizard_purchase,eatman.requirementwizard_purchase,model_eatman_requirementwizard_purchase,base.group_user,1,1,1,1
 
 
