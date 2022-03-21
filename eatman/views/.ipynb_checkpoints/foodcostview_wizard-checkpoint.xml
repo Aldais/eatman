@@ -6,9 +6,21 @@
             view_mode="tree,form"
             limit="80" />
         
+        <act_window id="action_all_uom"
+            name="unité de mesure"
+            res_model="uom.uom"
+            view_mode="tree,form"
+            limit="80" />
+        
         <menuitem id="menu_all_foodcost_calculation"
           parent="eatman_top"
           action="action_all_foodcostcalculation"
+          sequence="20"
+          groups="" />
+        
+        <menuitem id="menu_all_uom"
+          parent="eatman_top"
+          action="action_all_uom"
           sequence="20"
           groups="" />
       
