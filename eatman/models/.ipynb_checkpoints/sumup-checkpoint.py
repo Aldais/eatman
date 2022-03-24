@@ -46,7 +46,7 @@ class sumup(models.Model):
         for record in self:
             if record.state != "terminer":
                 inputx = StringIO()
-                excel_file = base64.decodestring(record.sales_file)
+                excel_file = base64.decodebytes(record.sales_file)
                 #inputx.write(base64.decodestring(record.sales_file))
                 #wb = open_workbook(file_contents=excel_file.getvalue())
                 wb = xlrd.open_workbook(file_contents=excel_file)
