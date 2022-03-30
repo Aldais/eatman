@@ -431,16 +431,14 @@ class product(models.Model):
     
 
     def conversion_cook_to_reference(self, quantity):
-        if self.conversion_cook_cook_quantity >0:
+        if self.conversion_cook_reference_quantity >0:
             #self.debug += "---conversion_cook_to_reference:" + str(quantity)+ " * " + str(self.conversion_cook_cook_quantity) + " / "+ str(self.conversion_cook_reference_quantity)+ " ---"
-            return quantity*self.conversion_cook_reference_quantity/self.conversion_cook_cook_quantity
+            return quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
         return 0
     
     def conversion_reference_to_cook(self,quantity):
-        if self.conversion_cook_reference_quantity >0:
-
-
-            return quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
+        if self.conversion_cook_cook_quantity >0:
+            return quantity*self.conversion_cook_reference_quantity/self.conversion_cook_cook_quantity
         return 0
 
     def foodcost_cook_unit(self):
