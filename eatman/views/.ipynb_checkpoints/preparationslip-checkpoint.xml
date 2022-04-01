@@ -30,7 +30,9 @@
                             <tree string="Ligne de préparation">
                                 <field name ="name"/>
                                 <field name ="stock_quantity"/>
-                                <field name ="net_requirement"/>
+                                <field name ="net_requirement_cooking"/>
+                                <field name ="unit_of_cooking"/>
+                                
                             </tree>
                         </field>
                     </group>

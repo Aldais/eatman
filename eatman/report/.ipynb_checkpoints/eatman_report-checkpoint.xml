@@ -44,7 +44,7 @@
                     <t t-foreach="doc.product_ids" t-as="product">
                         <div class="row mt42 mb42">
                             <div name="Produit" class="col-3"><p><t t-esc="product.name"/></p></div>
-                            <div name="Quantite" class="col-3"><p><t t-esc="product.net_requirement" t-options='{"widget": "float", "precision": 3}'/> 
+                            <div name="Quantite" class="col-3"><p><t t-esc="product.net_requirement_cooking" t-options='{"widget": "float", "precision": 3}'/> 
                             <t t-esc="product.unit_of_cooking.name"/></p></div>
                             <div name="Stock" class="col-3"><p><t t-esc="product.stock_quantity"/>  <t t-esc="product.unit_of_reference.name"/></p></div>
                         </div>
