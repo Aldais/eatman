@@ -101,7 +101,7 @@ class product(models.Model):
 #!!!!!!Requirement for preparation slip##################################################################################
     requirement_ids= fields.One2many('eatman.requirement', "product_required", string="Liste des besoins")
     net_requirement = fields.Float(compute="requirement_net_calculation", store=True, digits=(3,3), string="Besoin net")
-    
+    net_requirement_cooking = fields.Float(compute="requirement_net_to_cook", store=True, digits=(3,3), string="Besoin net de préparation")
         #Gross requirement are expressed in reference UoM
     gross_requirement = fields.Float(compute="requirement_aggregation", store=True, digits=(3,3), string="Besoin Total")
 
@@ -112,8 +112,6 @@ class product(models.Model):
             record.gross_requirement = 0
             for requirement in record.requirement_ids:
                 record.gross_requirement += record.conversion_cook_to_reference(requirement.quantity_required)
-
-
                 
   
     
@@ -121,6 +119,13 @@ class product(models.Model):
     def requirement_net_calculation(self):
         for record in self:
             record.net_requirement = record.gross_requirement - record.stock_quantity
+            if record.net_requirement <0:
+                record.net_requirement = 0
+    
+    @api.depends('gross_requirement', 'stock_quantity')
+    def requirement_net_to_cook(self):
+        for record in self:
+            record.net_requirement_cooking = record.conversion_reference_to_cook(record.net_requirement)
             if record.net_requirement <0:
                 record.net_requirement = 0
 
@@ -419,7 +424,7 @@ class product(models.Model):
     
     def conversion_purchase_reference(self, quantity):
         if self.conversion_purchase_purchase_quantity >0:
-            return quantity*self.conversion_purchase_reference_quantity/self.conversion_purchase_purchase_quantity
+            return quantity*self.conversion_purchase_refecence_quantity/self.conversion_purchase_purchase_quantity
         return 0
      
 
@@ -429,18 +434,19 @@ class product(models.Model):
             return quantity*self.conversion_sale_reference_quantity/self.conversion_sale_sale_quantity
         return 0
     
-
     def conversion_cook_to_reference(self, quantity):
+        if self.conversion_cook_cook_quantity >0:
+            return quantity*self.conversion_cook_reference_quantity/self.conversion_cook_cook_quantity
+        return 0
+
+
+    def conversion_reference_to_cook(self,quantity):
         if self.conversion_cook_reference_quantity >0:
             #self.debug += "---conversion_cook_to_reference:" + str(quantity)+ " * " + str(self.conversion_cook_cook_quantity) + " / "+ str(self.conversion_cook_reference_quantity)+ " ---"
             return quantity*self.conversion_cook_cook_quantity/self.conversion_cook_reference_quantity
         return 0
     
-    def conversion_reference_to_cook(self,quantity):
-        if self.conversion_cook_cook_quantity >0:
-            return quantity*self.conversion_cook_reference_quantity/self.conversion_cook_cook_quantity
-        return 0
-
+    
     def foodcost_cook_unit(self):
         foodcost_cook_unit = 0
 
