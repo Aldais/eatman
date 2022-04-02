@@ -424,7 +424,7 @@ class product(models.Model):
     
     def conversion_purchase_reference(self, quantity):
         if self.conversion_purchase_purchase_quantity >0:
-            return quantity*self.conversion_purchase_refecence_quantity/self.conversion_purchase_purchase_quantity
+            return quantity*self.conversion_purchase_reference_quantity/self.conversion_purchase_purchase_quantity
         return 0
      
 
