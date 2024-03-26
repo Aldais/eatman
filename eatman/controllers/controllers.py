@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+from odoo import http
+from odoo.http import request
+import json
 
 
-# class Eatman(http.Controller):
-#     @http.route('/eatman/eatman/', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
+class ApiDevelopment(http.Controller):
+    @http.route('/get_fp', auth='none', type = "http", csrf=False, methods=['GET'])
+    def get_fp(self, **kw):
+        
+        fp_ids = http.request.env['eatman.preparationslip'].sudo().search([])
+        output = [{
+                    'NAME': fp.name,
+                    #'DATE': fp.date,
+                    #'TEXT':fp.text,
+        } for fp in fp_ids]
 
-#     @http.route('/eatman/eatman/objects/', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('eatman.listing', {
-#             'root': '/eatman/eatman',
-#             'objects': http.request.env['eatman.eatman'].search([]),
-#         })
-
-#     @http.route('/eatman/eatman/objects/<model("eatman.eatman"):obj>/', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('eatman.object', {
-#             'object': obj
-#         })
+        # Convert the list of dictionaries to JSON
+        response = http.Response(
+            json.dumps(output, default=str),
+            content_type='application/json;charset=utf-8')
+        #response.status = 200  # OK
+        return response
