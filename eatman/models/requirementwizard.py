@@ -1,5 +1,8 @@
 from datetime import datetime
 from odoo import models, fields, api
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class requirementwizard(models.TransientModel):
     _name = 'eatman.requirementwizard'
@@ -45,7 +48,7 @@ class requirementwizard(models.TransientModel):
         self.env['ir.config_parameter'].sudo().set_param('turnover',self.turnover)
         self.test =  self.env['ir.config_parameter'].sudo().get_param('turnover')
         
-        product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True),('company_id','=', self.env.user.company_id.id)])
+        product_ids = self.env['product.template'].sudo().search([('sale_ok', '=', True)])
         for product in product_ids:
             sold_quantity = product.sale_ratio*self.turnover
             reference_quantity = product.conversion_sale_to_reference(sold_quantity)
@@ -53,6 +56,8 @@ class requirementwizard(models.TransientModel):
             cook_quantity = product.conversion_reference_to_cook(reference_quantity)
             product.requirement_calculation(cook_quantity,"Prévision de vente")
         self.status = '2';
-        preparation_slip_ids = self.env['eatman.preparationslip'].sudo().search([('id', '!=', False),('company_id','=', self.env.user.company_id.id)])
+        
+        preparation_slip_ids = self.env['eatman.preparationslip'].sudo().search([('id', '!=', False)])
         for preparation_slip in preparation_slip_ids:
+            _logger.info("Requirement_total a été lancé.")
             preparation_slip.turnover = self.env['ir.config_parameter'].sudo().get_param('turnover')
